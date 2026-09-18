@@ -1,0 +1,22 @@
+{
+  "name": "qa-agent",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "agent": "tsx src/index.ts",
+    "test": "playwright test",
+    "test:generated": "playwright test tests/generated",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.126.0",
+    "dotenv": "^17.4.2"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.63.0",
+    "@types/node": "^22.20.3",
+    "tsx": "^4.23.13",
+    "typescript": "^7.0.2"
+  }
+}
