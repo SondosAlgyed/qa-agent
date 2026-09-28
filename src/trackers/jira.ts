@@ -10,7 +10,7 @@ export class JiraTicketSystem implements TicketSystem {
   private readonly baseUrl: string;
   private readonly authHeader: string;
 
-  // 1) The constructor: runs once when we create a new JiraTracker
+  // 1) The constructor: runs once when we create a new JiraTicketSystem
   constructor(config: JiraConfig) {
     this.baseUrl = config.baseUrl.replace(/\/$/, "");
     this.authHeader =
@@ -18,7 +18,7 @@ export class JiraTicketSystem implements TicketSystem {
       Buffer.from(`${config.email}:${config.apiToken}`).toString("base64");
   }
 
-  // 2) Public method: part of the IssueTracker contract
+  // 2) Public method: part of the TicketSystem contract
   async getStory(key: string): Promise<Story> {
     type JiraIssueResponse = {
       key: string;
@@ -37,7 +37,7 @@ export class JiraTicketSystem implements TicketSystem {
     };
   }
 
-  // 3) Public method: part of the IssueTracker contract
+  // 3) Public method: part of the TicketSystem contract
   async addComment(key: string, text: string): Promise<void> {
     const path = `/rest/api/2/issue/${encodeURIComponent(key)}/comment`;
     await this.request(path, { method: "POST", body: { body: text } });

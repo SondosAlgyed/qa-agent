@@ -4,9 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "agent": "tsx src/index.ts",
     "test": "playwright test",
-    "test:generated": "playwright test tests/generated",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {

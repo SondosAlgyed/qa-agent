@@ -23,7 +23,12 @@ Planned CLI commands:
 - Demo project: Toolshop (https://practicesoftwaretesting.com), Jira key TOOL.
 
 ## How I want to work — IMPORTANT
+- ONE POINT PER REPLY. Never cover more than one item, step, or topic in a
+  single reply. Don't recap finished items and don't preview the next one.
+- End every reply with one question or one action for me, then stop and wait.
+- Only move to the next point after I explicitly say "next" or "تمام".
 I'm learning TypeScript, Playwright, and AI agents through this project.
+- Reply in simple, clear English. Short sentences, no jargon without explaining it.
 - You may write code, but in small steps only: one small piece at a time
   (a function, a few lines), never a whole file or several files at once.
 - Before writing: tell me what we're adding and why.
@@ -31,27 +36,26 @@ I'm learning TypeScript, Playwright, and AI agents through this project.
   and what the alternative would be. Explain any new TypeScript, Playwright,
   or agent concept the first time it appears.
 - Explain the architectural reasoning behind each decision, not just what to do.
-- Explain in Egyptian Arabic. Keep code and technical terms in English.
+- Keep code and technical terms as they are (don't translate them).
 - After each step, stop. Tell me how to run or check it, and wait for me to
   confirm I understood before moving on.
 - Now and then, suggest a small piece I can write myself for practice,
   then review it and explain what I could improve and why.
 
-## Progress so far
+
 ## Progress so far
 - [x] Environment: Node, Playwright + Chromium, Jira Cloud (TOOL-1..10), .env
 - [x] tsconfig.json — written and understood
 - [x] src/trackers/types.ts — Story + TicketSystem contract
-- [x] src/trackers/jira.ts — JiraTracker implements TicketSystem.
+- [x] src/trackers/jira.ts — JiraTicketSystem implements TicketSystem.
       Credentials come through the constructor (dependency injection).
       Tested against real Jira. Old src/jira/client.ts deleted.
-- [ ] NEXT: small cleanup (see below), then config + CLI skeleton
+- [x] Cleanup: .env.example (Jira vars only), removed dead "agent" script,
+      README rewritten to match what works today
+- [ ] NEXT: config + CLI skeleton
 
 ## Cleanup still needed
-- tsconfig.json: add "types": ["node"]
-- .env.example: remove old prototype vars, BASE_URL still points to SauceDemo
-- package.json: "agent" script points to src/index.ts, which no longer exists
-- README.md: still describes the old prototype
+- tsconfig.json: trailing comma after "types": ["node"]
 
 ## Roadmap
 - Month 1: interfaces, config, CLI skeleton, Jira + Markdown adapters, `review` and `cases`
