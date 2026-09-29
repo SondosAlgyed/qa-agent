@@ -2,6 +2,8 @@ import "dotenv/config";
 import { Command } from "commander";
 import { loadConfig } from "./config/load.js";
 import { createTicketSystem } from "./trackers/factory.js";
+import { createLLMProvider } from "./llm/factory.js";
+import { reviewStory } from "./core/review.js";
 
 const program = new Command();
 
@@ -17,12 +19,17 @@ program
   .action(async (key: string) => {
     const config = await loadConfig();
     const tickets = createTicketSystem(config);
-    const story = await tickets.getStory(key);
+    const llm = createLLMProvider(config);
 
+    const story = await tickets.getStory(key);
     console.log(`${story.key}: ${story.summary}`);
     console.log(`Status: ${story.status}`);
     console.log("");
-    console.log(story.description);
+    console.log("Reviewing with AI...");
+    console.log("");
+
+    const review = await reviewStory(story, llm);
+    console.log(review);
   });
 
 await program.parseAsync();

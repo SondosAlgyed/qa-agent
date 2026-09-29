@@ -6,6 +6,9 @@ const config: QaConfig = {
     baseUrl: "https://sondosalgyed-qa.atlassian.net",
     projectKey: "TOOL",
   },
+  llm: {
+    type: "claude",
+  },
 };
 
 export default config;

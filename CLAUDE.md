@@ -19,6 +19,10 @@ Planned CLI commands:
 - Design for many adapters, implement one of each first:
   Jira, Claude, Playwright, Markdown.
 - Per-project config file (`qa.config.ts`) created by `qa init`.
+- Testers can plug in their own adapter through qa.config.ts, without
+  changing our code (the tracker is built-in settings OR a TicketSystem).
+- CLI first (it must run in CI). Keep the CLI thin: commands call plain
+  functions, so a GUI or MCP server can reuse them later.
 - The agent learns conventions by reading the target repo's existing tests.
 - Demo project: Toolshop (https://practicesoftwaretesting.com), Jira key TOOL.
 
@@ -52,7 +56,13 @@ I'm learning TypeScript, Playwright, and AI agents through this project.
       Tested against real Jira. Old src/jira/client.ts deleted.
 - [x] Cleanup: .env.example (Jira vars only), removed dead "agent" script,
       README rewritten to match what works today
-- [ ] NEXT: config + CLI skeleton
+- [x] Config + CLI skeleton: QaConfig (built-in Jira settings or a custom
+      TicketSystem adapter), requireEnv, loadConfig, createTicketSystem.
+      `qa review <key>` fetches and prints a story (no AI yet). Tested against real Jira.
+- [x] LLMProvider interface + Claude adapter (ClaudeProvider, API key via constructor),
+      createLLMProvider factory, `llm` in QaConfig. `qa review <key>` now asks Claude
+      for a verdict + up to 8 risk-ordered findings. Prompt tuned in 3 runs on TOOL-1.
+- [ ] NEXT: run `qa review` on other TOOL stories to check the prompt holds up
 
 ## Cleanup still needed
 - tsconfig.json: trailing comma after "types": ["node"]

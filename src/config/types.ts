@@ -1,4 +1,5 @@
 import type { TicketSystem } from "../trackers/types.js";
+import type { LLMProvider } from "../llm/types.js";
 
 export interface JiraTrackerConfig {
   type: "jira";
@@ -6,6 +7,12 @@ export interface JiraTrackerConfig {
   projectKey: string;
 }
 
+export interface ClaudeLLMConfig {
+  type: "claude";
+  model?: string;
+}
+
 export interface QaConfig {
   tracker: JiraTrackerConfig | TicketSystem;
+  llm: ClaudeLLMConfig | LLMProvider;
 }
