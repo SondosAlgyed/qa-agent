@@ -25,6 +25,8 @@ Planned CLI commands:
   functions, so a GUI or MCP server can reuse them later.
 - The agent learns conventions by reading the target repo's existing tests.
 - Demo project: Toolshop (https://practicesoftwaretesting.com), Jira key TOOL.
+- Any file-reading tools given to the agent must never have access to evals/,
+  docs/metrics.md, or docs/review-runs/. They contain the expected answers.
 
 ## Evaluation (evals/)
 - Evals live in evals/, written in Python with DeepEval. They test the CLI as a
@@ -41,6 +43,11 @@ Planned CLI commands:
   They are test data.
 - Every prompt version is a commit, and its eval results are recorded in
   docs/metrics.md.
+
+## Documentation
+- Keep docs/journal.md, docs/metrics.md, and README.md up to date:
+  a short journal entry after each session, and README reflects what works today, not what's planned.
+- Numbers in docs/metrics.md come only from real runs, never estimated.
 
 ## How I want to work — IMPORTANT
 - ONE POINT PER REPLY. Never cover more than one item, step, or topic in a
@@ -80,6 +87,7 @@ the same way as TypeScript (new concepts explained the first time they appear).
 - [x] LLMProvider interface + Claude adapter (ClaudeProvider, API key via constructor),
       createLLMProvider factory, `llm` in QaConfig. `qa review <key>` now asks Claude
       for a verdict + up to 8 risk-ordered findings. Prompt tuned in 3 runs on TOOL-1.
+      (replaced by prompt v2, see below)
 - [x] `qa review <key>` works end to end (Jira → Claude → verdict + findings).
 - [x] Review prompt v2 committed (5492c1e). Evaluated on 8 stories: 8/8 correct
       verdicts, 6 of 10 Blocking findings real. Details in docs/metrics.md.
@@ -92,6 +100,11 @@ the same way as TypeScript (new concepts explained the first time they appear).
 
 ## Cleanup still needed
 - tsconfig.json: trailing comma after "types": ["node"]
+- LLM adapter: show a clear message when the Anthropic API credit is exhausted,
+  instead of the raw 400 error.
+- All CLI errors (Jira 404, API credit, auth) should print one clear line instead
+  of a raw stack trace.
+- A failed run must not leave a normal-looking output file.
 
 ## Roadmap
 - Part 1: interfaces, config, CLI skeleton, Jira + Markdown adapters, `review`, then an
@@ -117,32 +130,6 @@ the same way as TypeScript (new concepts explained the first time they appear).
   bugs; compare classifications with plain assertions.
 - CI: run evals automatically in GitHub Actions when prompts change (Part 3).
 - Maybe later: multi-turn evals, only if we add an interactive mode.
-
-## Portfolio & job search — help me with this too
-I'm job hunting as a QA Automation engineer. Help me turn this project into
-visible proof of my skills.
-
-For docs, posts, and CV text, you may draft — but in my voice, simple and
-honest, and I edit before anything is published.
-
-Keep these files up to date with me:
-- docs/journal.md — short entry after each session: what I built, what I
-  learned, what was hard. Raw material for posts and interview stories.
-- docs/metrics.md — measurable results (gaps found, scripts that ran without
-  edits, time saved). Numbers only from real runs, never estimated.
-- README.md — reflects what actually works today, not what's planned.
-
-When I ask for the weekly wrap-up:
-1. Read docs/journal.md and the week's git log.
-2. Draft a short LinkedIn post (English, under 150 words): one concrete result
-   or lesson, no hype, no exaggeration.
-3. Suggest README updates.
-4. Suggest 1–2 CV bullets if something is CV-worthy, with numbers when we have them.
-
-When I ask for interview prep: turn journal entries into STAR stories
-(situation, task, action, result) and ask me likely interview questions
-about my design decisions.
-
 
 ## Review prompt — ideas for v3 (not now)
 - One finding per root cause: merge findings that describe the same missing information.
