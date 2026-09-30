@@ -6,21 +6,29 @@ Raw outputs: `docs/review-runs/<date>[-<version>]/<story>.txt`
 
 | Date | Prompt | Story | Verdict | Blocking | Questions | Out of scope | Actual type | My judgment |
 |------|--------|-------|---------|----------|-----------|--------------|-------------|-------------|
-| 2026-09-30 | v1 | TOOL-1 | Ready with questions | 0 | 5 | 3 | | |
-| 2026-09-30 | v1 | TOOL-2 | Not ready | 3 | 4 | 3 | | |
-| 2026-09-30 | v1 | TOOL-3 | Not ready | 1 | 4 | 3 | | |
-| 2026-09-30 | v1 | TOOL-4 | Not ready | 1 | 5 | 3 | | |
-| 2026-09-30 | v1 | TOOL-6 | Run failed (API credit balance too low) | – | – | – | | |
-| 2026-09-30 | v1 | TOOL-7 | Run failed (API credit balance too low) | – | – | – | | |
-| 2026-09-30 | v1 | TOOL-8 | Run failed (API credit balance too low) | – | – | – | | |
-| 2026-09-30 | v2 | TOOL-1 | Ready with questions | 0 | 4 | 3 | | |
-| 2026-09-30 | v2 | TOOL-2 | Ready with questions | 0 | 6 | 3 | | |
-| 2026-09-30 | v2 | TOOL-3 | Ready with questions | 0 | 5 | 3 | | |
-| 2026-09-30 | v2 | TOOL-4 | Ready with questions | 0 | 5 | 2 | | |
-| 2026-09-30 | v2 | TOOL-5 | Not ready | 4 | 3 | 2 | | |
-| 2026-09-30 | v2 | TOOL-6 | Not ready | 4 | 3 | 2 | | |
-| 2026-09-30 | v2 | TOOL-7 | Not ready | 2 | 4 | 2 | | |
-| 2026-09-30 | v2 | TOOL-8 | Ready with questions | 0 | 5 | 3 | | |
+| 2026-09-30 | v1 | TOOL-1 | Ready with questions | 0 | 5 | 3 | Clear | ✅ Correct |
+| 2026-09-30 | v1 | TOOL-2 | Not ready | 3 | 4 | 3 | Clear | ✅ Agent right — story had real gaps (min length, required fields, age check); fixed before v2 |
+| 2026-09-30 | v1 | TOOL-3 | Not ready | 1 | 4 | 3 | Clear | ⚠️ Too strict — "what counts as a match" should be a Question |
+| 2026-09-30 | v1 | TOOL-4 | Not ready | 1 | 5 | 3 | Clear | ❌ False positive — invented ambiguity |
+| 2026-09-30 | v1 | TOOL-6 | Run failed (API credit balance too low) | – | – | – | Vague | – |
+| 2026-09-30 | v1 | TOOL-7 | Run failed (API credit balance too low) | – | – | – | Vague | – |
+| 2026-09-30 | v1 | TOOL-8 | Run failed (API credit balance too low) | – | – | – | Clear | – |
+| 2026-09-30 | v2 | TOOL-1 | Ready with questions | 0 | 4 | 3 | Clear | ✅ Correct |
+| 2026-09-30 | v2 | TOOL-2 | Ready with questions | 0 | 6 | 3 | Clear | ✅ Correct (after story fix) |
+| 2026-09-30 | v2 | TOOL-3 | Ready with questions | 0 | 5 | 3 | Clear | ✅ Correct |
+| 2026-09-30 | v2 | TOOL-4 | Ready with questions | 0 | 5 | 2 | Clear | ✅ Correct |
+| 2026-09-30 | v2 | TOOL-5 | Not ready | 4 | 3 | 2 | Vague | ✅ Verdict correct — 2 of 4 Blocking real (1 duplicate, 2 should be Questions) |
+| 2026-09-30 | v2 | TOOL-6 | Not ready | 4 | 3 | 2 | Vague | ✅ Verdict correct — 2 of 4 Blocking real (1 duplicate, 2 should be Questions) |
+| 2026-09-30 | v2 | TOOL-7 | Not ready | 2 | 4 | 2 | Vague | ✅ Verdict correct — 2 of 2 Blocking real (overlapping) |
+| 2026-09-30 | v2 | TOOL-8 | Ready with questions | 0 | 5 | 3 | Clear | ✅ Correct — no Question should be Blocking |
+
+**Summary (v2):**
+- Verdict accuracy: 8 of 8 (5 clear → Ready with questions, 3 vague → Not ready).
+- Blocking precision on vague stories: 6 of 10 findings real; 3 of those 6 repeat a root cause.
+- Known weaknesses: duplicate findings, and inconsistent severity for unspecified message text
+  (Question in TOOL-1, Blocking in TOOL-6).
+
+Note: TOOL-2's improvement is partly from fixing the story, not only the prompt.
 
 Test set: 8 stories, TOOL-1 to TOOL-8. TOOL-9 and TOOL-10 were deleted from Jira on purpose
 (2026-09-30), so they are not part of the set.

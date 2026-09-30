@@ -68,9 +68,9 @@ I'm learning TypeScript, Playwright, and AI agents through this project.
 - tsconfig.json: trailing comma after "types": ["node"]
 
 ## Roadmap
-- Month 1: interfaces, config, CLI skeleton, Jira + Markdown adapters, `review` and `cases`
-- Month 2: `automate` (learns repo conventions, verifies locators with Playwright MCP), `run`
-- Month 3: `triage`, `report`, MCP server, npm publish, docs, demo video
+- Part 1: interfaces, config, CLI skeleton, Jira + Markdown adapters, `review` and `cases`
+- Part 2: `automate` (learns repo conventions, verifies locators with Playwright MCP), `run`
+- Part 3: `triage`, `report`, MCP server, npm publish, docs, demo video
 
 ## Portfolio & job search — help me with this too
 I'm job hunting as a QA Automation engineer. Help me turn this project into
@@ -96,3 +96,10 @@ When I ask for the weekly wrap-up:
 When I ask for interview prep: turn journal entries into STAR stories
 (situation, task, action, result) and ask me likely interview questions
 about my design decisions.
+
+
+## Review prompt — ideas for v3 (not now)
+- One finding per root cause: merge findings that describe the same missing information.
+- Unspecified message text, wording, or placement is always a Question, never Blocking.
+- Don't include findings with no realistic risk (e.g. sorting an empty list).
+- Out of scope still appears in every run with 2–3 items.
