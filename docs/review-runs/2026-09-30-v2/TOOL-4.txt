@@ -1,0 +1,16 @@
+TOOL-4: TOOL-4 Filter products by category and brand
+Status: To Do
+
+Reviewing with AI...
+
+Verdict: Ready with questions — the filtering rules that are written (OR within a facet, AND across facets, reset) are implementable and testable, but several expected results around brands and empty results are undefined.
+
+1. **Brand-only filtering not specified** (Question, Gap): Brand appears only in combination with a category — what should happen when one or more brands are selected with no category, and do multiple brands OR together like categories?
+2. **No empty-result behaviour** (Question, Gap): What should the customer see when a filter combination matches zero products (empty message, cleared list, suggestion to reset)?
+3. **Filter option source and unavailable values** (Question, Gap): Are the category/brand options a fixed list or derived from the catalogue, and should brands with no products in the selected category be hidden, disabled, or still selectable?
+4. **Interaction with pagination and sorting** (Question, Gap): When a filter is applied or removed, does the list reset to page 1 and keep the current sort order?
+5. **Filter state persistence** (Question, Gap): Must the selected filters survive page refresh, back navigation, or be shareable via URL, or is in-page state enough?
+
+Out of scope:
+- Price, rating or other facets beyond category and brand
+- Free-text search combined with filters

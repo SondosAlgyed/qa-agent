@@ -1,0 +1,17 @@
+TOOL-8: TOOL-8 Manage the shopping cart
+Status: To Do
+
+Reviewing with AI...
+
+Verdict: Ready with questions — the stated criteria are implementable and verifiable, but several expected results need pinning down before test design.
+
+1. **Decreasing quantity not covered** (Question, Gap): The story says "change my cart" but only increase is specified — should decreasing the quantity be in this story, and does setting quantity to 0 remove the line?
+2. **No quantity limits** (Question, Gap): Is there a maximum quantity per line (stock level or hard cap), and what should the user see when it is exceeded?
+3. **Scope and lifetime of persistence** (Question, Ambiguity): Does "persist after a page refresh" also mean persisting across browser sessions/devices, and does it apply to guest carts as well as logged-in users?
+4. **Empty cart message undefined** (Question, Testability): What exactly should the empty cart state show (text, hidden totals, call-to-action), and does it also apply when a user opens a cart that was never filled?
+5. **Cart total composition** (Question, Gap): Does the cart total include only line subtotals, or also tax, shipping and discounts that must recalculate on quantity change or removal?
+
+Out of scope:
+- Checkout and payment flow
+- Saving items for later / wishlist
+- Applying promo codes

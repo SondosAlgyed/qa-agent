@@ -1,0 +1,17 @@
+TOOL-3: TOOL-3  Search for products 
+Status: To Do
+
+Reviewing with AI...
+
+Verdict: Not ready — the core matching rule ("matching products") is undefined, so "only matching products are listed" cannot be implemented or verified as written.
+
+1. **What counts as a match** (Blocking, ambiguity): Which product fields are searched (name only, or also description/SKU/brand) and is it substring, whole-word, or exact matching?
+2. **How search is triggered** (Question, ambiguity): Does the list filter as the user types, or only on submit/Enter, and does "clearing the search" mean emptying the field or pressing a clear button?
+3. **Empty state wording** (Question, testability): What exact message is shown when nothing matches, and does the search term appear in it?
+4. **Empty or whitespace-only term** (Question, gap): If the customer searches with an empty or spaces-only term, is the full list shown, the empty state, or is the search blocked?
+5. **Result ordering** (Question, gap): In what order are matching products listed (relevance, name, existing default sort)?
+
+Out of scope:
+- Typo tolerance / fuzzy or synonym matching
+- Combining search with category filters or facets
+- Search term analytics or suggestions

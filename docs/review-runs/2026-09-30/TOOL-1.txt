@@ -1,0 +1,17 @@
+TOOL-1: TOOL-1 Login with valid and invalid credentials
+Status: To Do
+
+Reviewing with AI...
+
+Verdict: Ready with questions — the four stated criteria are implementable and verifiable, but several expected results need pinning down before test design.
+
+1. **Unknown email not covered** (Question, gap): Should a non-existent email produce the same generic error as a wrong password, or a distinct "account not found" message?
+2. **Error message content unspecified** (Question, ambiguity): What exact text should appear for a failed login, and where is it displayed (inline, banner, toast)?
+3. **Validation trigger for empty fields** (Question, ambiguity): Are required-field messages shown on submit, on blur, or as the user types — and is the submit button disabled while fields are empty?
+4. **"User's name" source undefined** (Question, testability): Which value is shown in the navigation (full name, first name, email prefix) and what displays if the profile has no name stored?
+5. **Malformed email handling** (Question, gap): Does an entry like "abc@" fail client-side format validation, or is it submitted and treated as invalid credentials?
+
+Out of scope:
+- Account lockout / rate limiting after repeated failures
+- "Remember me" and session expiry behaviour
+- Password reset and registration flows

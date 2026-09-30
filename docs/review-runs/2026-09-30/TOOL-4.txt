@@ -1,0 +1,18 @@
+TOOL-4: TOOL-4 Filter products by category and brand
+Status: To Do
+
+Reviewing with AI...
+
+Verdict: Not ready — the multi-select rule is worded ambiguously, so the main filtering logic cannot be implemented or verified consistently.
+
+1. **"Products from both" for two categories is ambiguous** (Blocking, Ambiguity): when two categories are selected, should the result be the union (products in either category) or the intersection (products in both), and is the same rule applied within the brand facet?
+2. **No empty state defined** (Question, Gap): what should the customer see when a category+brand combination matches zero products (message, cleared list, suggestion to reset)?
+3. **Multiple brands not covered** (Question, Gap): the story title includes brand filtering, but no criterion describes selecting two or more brands — is that in this story and does it follow the same within-facet rule?
+4. **When filters are applied is unspecified** (Question, Ambiguity): does the list refresh immediately on each checkbox change, or only after an explicit "Apply" action?
+5. **Interaction with pagination and sorting** (Question, Gap): after changing a filter, does the list return to page 1 and keep the current sort order?
+6. **Filter state persistence** (Question, Gap): must the selected filters survive page reload, back navigation, or being shared via URL?
+
+Out of scope:
+- Price, rating or other facets beyond category and brand
+- Free-text search combined with filters
+- Showing product counts next to each filter option

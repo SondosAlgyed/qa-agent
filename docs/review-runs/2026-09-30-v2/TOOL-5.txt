@@ -1,0 +1,18 @@
+TOOL-5: TOOL-5  Product sorting
+Status: To Do
+
+Reviewing with AI...
+
+Verdict: Not ready — the single criterion "sorting should work properly" defines no sort fields, no order and no observable result, so nothing can be implemented or verified.
+
+1. **No sort criteria defined** (Blocking, Gap): Which attributes must be sortable (price, name, rating, newest, relevance) and in which directions?
+2. **"Works properly" is not testable** (Blocking, Testability): What exact expected result confirms a correct sort — e.g. full result set ordered ascending by the chosen key, with a stated tie-break rule?
+3. **No default sort or persistence stated** (Blocking, Gap): Which order is applied when the customer has not chosen one, and does the selection survive page navigation, refresh or a new search?
+4. **Where sorting applies is undefined** (Blocking, Ambiguity): Does this cover the category listing, search results, or both — and does it sort the whole result set or only the items on the current page?
+5. **Interaction with pagination and filters** (Question, Gap): When a customer changes the sort while filtered or on page 3, do they return to page 1 with filters retained?
+6. **Empty or single-item results** (Question, Gap): What should the sort control show or do when the listing has no products?
+7. **Products with missing values** (Question, Gap): Where do items without a price or rating appear in the sorted list — first, last, or excluded?
+
+Out of scope:
+- Filtering or faceted search controls
+- Search relevance ranking algorithm

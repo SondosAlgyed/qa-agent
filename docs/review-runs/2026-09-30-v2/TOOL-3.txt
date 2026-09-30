@@ -1,0 +1,17 @@
+TOOL-3: TOOL-3  Search for products 
+Status: To Do
+
+Reviewing with AI...
+
+Verdict: Ready with questions — the core matching rules are implementable and verifiable, but the trigger and input-handling details need confirmation.
+
+1. **When search executes** (Question, Ambiguity): Do results update live as the customer types (and after how many characters), or only on Enter / a search button click?
+2. **Multi-word and whitespace terms** (Question, Gap): Should "cordless drill" match only names containing that exact phrase, or names containing all words in any order, and is leading/trailing whitespace trimmed?
+3. **Whitespace-only or single-character input** (Question, Gap): Does a term of only spaces behave like a cleared search (full list) or run a search returning the empty state?
+4. **Empty state message** (Question, Testability): What exact text should the "no matches" state show, so the tester can assert it?
+5. **Result ordering** (Question, Gap): In what order are matching products listed (relevance, name, existing catalogue order), and does the existing paging still apply to filtered results?
+
+Out of scope:
+- Matching on description, SKU, brand or category
+- Typo tolerance, synonyms, autocomplete or search suggestions
+- Filters/sorting of search results, persisting the search term across navigation

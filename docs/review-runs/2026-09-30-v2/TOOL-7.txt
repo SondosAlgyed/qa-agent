@@ -1,0 +1,17 @@
+TOOL-7: TOOL-7 Filter products
+Status: To Do
+
+Reviewing with AI...
+
+Verdict: Not ready — the story never says which attributes can be filtered or what "correctly" means, so it cannot be implemented or verified as written.
+
+1. **Filterable attributes undefined** (Blocking, Gap): Which product attributes must be filterable (category, price range, brand, availability, rating) and what are the possible values for each?
+2. **"Narrow down correctly" is unmeasurable** (Blocking, Testability): What is the exact expected result of applying a filter — which products must appear, in what order, and how is the result count shown?
+3. **Combining multiple filters** (Question, Ambiguity): When two or more filters are active, are they combined with AND across attributes and OR within one attribute's values?
+4. **No results state** (Question, Gap): What should the customer see when a filter combination matches zero products?
+5. **Clearing filters** (Question, Gap): Can the customer remove a single filter or reset all of them, and what is the default state on first load?
+6. **Persistence of the filter selection** (Question, Gap): Must active filters survive pagination, page refresh, or being shared via URL?
+
+Out of scope:
+- Sorting the product list
+- Free-text product search

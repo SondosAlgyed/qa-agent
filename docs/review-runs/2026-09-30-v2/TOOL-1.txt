@@ -1,0 +1,16 @@
+TOOL-1: TOOL-1 Login with valid and invalid credentials
+Status: To Do
+
+Reviewing with AI...
+
+Verdict: Ready with questions — the described flows are implementable and verifiable, but several expected results need pinning down before test design.
+
+1. **Unknown email address not covered** (Question, Gap): What should happen when the email does not match any account — the same error as a wrong password, or a distinct message?
+2. **Error message content unspecified** (Question, Testability): What exact text and placement should the wrong-password error use, so a tester can assert on it?
+3. **Validation trigger for empty fields** (Question, Ambiguity): Do the required-field messages appear on submit, on blur, or both, and does submit stay disabled until fields are filled?
+4. **Malformed email format** (Question, Gap): Should a non-empty but invalid email (e.g. "abc@") be rejected client-side with its own message, or treated as wrong credentials by the server?
+
+Out of scope:
+- Account lockout or throttling after repeated failed attempts
+- "Remember me", session duration, and logout
+- Password reset / forgot password flow

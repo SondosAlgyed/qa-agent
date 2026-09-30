@@ -1,0 +1,19 @@
+TOOL-2:  TOOL-2 Customer registration 
+Status: To Do
+
+Reviewing with AI...
+
+Verdict: Not ready — the required field set, password rule, and age check are not defined precisely enough to implement or verify.
+
+1. **Required fields undefined** (Blocking, Gap): Exactly which fields must the registration form contain (name, email, password, confirm password, date of birth, marketing consent?) and which are mandatory?
+2. **Minimum password length unspecified** (Blocking, Testability): What is the minimum length (and any other complexity rules) a tester should check the password against?
+3. **Age check has no defined input or outcome** (Blocking, Ambiguity): How is age determined (entered date of birth, self-declared checkbox?), is it evaluated at submit time, and what exactly does the user see when under 18?
+4. **"Clear error" for duplicate email is not specified** (Question, Testability): What message text and placement is expected, and must it avoid revealing that the email is already registered?
+5. **Sign-in immediately vs. email verification** (Question, Gap): Does "the user can sign in with it" mean the account is active right away, or is an email confirmation step required first?
+6. **Empty submit / missing required fields** (Question, Gap): What happens when the form is submitted with blank required fields — inline errors per field, and are all errors shown at once?
+7. **Email matching rules** (Question, Ambiguity): Is the duplicate check case-insensitive and whitespace-trimmed (e.g. "User@x.com" vs "user@x.com")?
+
+Out of scope:
+- Password reset / account recovery
+- Social or SSO sign-up
+- Bot protection (CAPTCHA, registration rate limiting)

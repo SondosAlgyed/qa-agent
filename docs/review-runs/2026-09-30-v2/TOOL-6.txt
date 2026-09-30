@@ -1,0 +1,18 @@
+TOOL-6: TOOL-6 Checkout
+Status: To Do
+
+Reviewing with AI...
+
+Verdict: Not ready — the single acceptance criterion describes no concrete behaviour, so checkout cannot be implemented or verified as written.
+
+1. **Checkout steps undefined** (Blocking, Gap): What exactly must the user provide and confirm to "finish checkout" (cart review, shipping address, delivery option, payment details)?
+2. **Payment handling unspecified** (Blocking, Gap): Which payment methods are supported, and is payment actually captured in this story or is checkout completion simulated?
+3. **"See a confirmation" is untestable** (Blocking, Testability): What must the confirmation show (order number, items, totals, delivery estimate) and where is it shown — a page, an email, or both?
+4. **No failure or validation behaviour** (Blocking, Gap): What should happen when payment is declined, required fields are invalid, or the order fails to save?
+5. **Order state after checkout** (Question, Gap): Should a persisted order be created and the cart emptied on successful checkout?
+6. **Out-of-stock or price change at checkout** (Question, Gap): What should happen if an item becomes unavailable or its price changes between cart and confirmation?
+7. **Guest vs. logged-in customer** (Question, Ambiguity): Must the user be authenticated to check out, or is guest checkout allowed?
+
+Out of scope:
+- Refunds, cancellations, and order editing after confirmation
+- Shipment tracking and delivery notifications

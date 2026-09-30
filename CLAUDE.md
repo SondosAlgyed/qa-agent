@@ -48,7 +48,7 @@ I'm learning TypeScript, Playwright, and AI agents through this project.
 
 
 ## Progress so far
-- [x] Environment: Node, Playwright + Chromium, Jira Cloud (TOOL-1..10), .env
+- [x] Environment: Node, Playwright + Chromium, Jira Cloud (TOOL-1..8), .env
 - [x] tsconfig.json — written and understood
 - [x] src/trackers/types.ts — Story + TicketSystem contract
 - [x] src/trackers/jira.ts — JiraTicketSystem implements TicketSystem.
