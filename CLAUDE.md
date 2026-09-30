@@ -26,12 +26,30 @@ Planned CLI commands:
 - The agent learns conventions by reading the target repo's existing tests.
 - Demo project: Toolshop (https://practicesoftwaretesting.com), Jira key TOOL.
 
+## Evaluation (evals/)
+- Evals live in evals/, written in Python with DeepEval. They test the CLI as a
+  black box through --json output. They never import code from src/.
+- Use plain code assertions for anything exact (e.g. the verdict matches the
+  expected verdict). Use G-Eval only for qualities that need judgment
+  (e.g. are Blocking findings grounded in the story).
+- Goldens (evals/goldens/<command>.json) hold, for each case: the input as a
+  snapshot, the expected result, and what a human judged as correct.
+- Before trusting any G-Eval metric, validate it against my manual judgments
+  in docs/metrics.md.
+- The qa agent (the tool's prompts and code in src/) must never read evals/ or
+  the goldens, and golden cases must never be used as examples in prompts.
+  They are test data.
+- Every prompt version is a commit, and its eval results are recorded in
+  docs/metrics.md.
+
 ## How I want to work — IMPORTANT
 - ONE POINT PER REPLY. Never cover more than one item, step, or topic in a
   single reply. Don't recap finished items and don't preview the next one.
 - End every reply with one question or one action for me, then stop and wait.
 - Only move to the next point after I explicitly say "next" or "تمام".
 I'm learning TypeScript, Playwright, and AI agents through this project.
+I'm also learning Python and DeepEval through this project — explain them
+the same way as TypeScript (new concepts explained the first time they appear).
 - Reply in simple, clear English. Short sentences, no jargon without explaining it.
 - You may write code, but in small steps only: one small piece at a time
   (a function, a few lines), never a whole file or several files at once.
@@ -62,15 +80,43 @@ I'm learning TypeScript, Playwright, and AI agents through this project.
 - [x] LLMProvider interface + Claude adapter (ClaudeProvider, API key via constructor),
       createLLMProvider factory, `llm` in QaConfig. `qa review <key>` now asks Claude
       for a verdict + up to 8 risk-ordered findings. Prompt tuned in 3 runs on TOOL-1.
-- [ ] NEXT: run `qa review` on other TOOL stories to check the prompt holds up
+- [x] `qa review <key>` works end to end (Jira → Claude → verdict + findings).
+- [x] Review prompt v2 committed (5492c1e). Evaluated on 8 stories: 8/8 correct
+      verdicts, 6 of 10 Blocking findings real. Details in docs/metrics.md.
+
+## Next steps (in order)
+1. Add --json output to `qa review`.
+2. Create evals/goldens/review.json with the 8 stories.
+3. First eval: verdict assertion + one G-Eval metric for grounded Blocking findings.
+4. Validate the G-Eval metric against docs/metrics.md.
 
 ## Cleanup still needed
 - tsconfig.json: trailing comma after "types": ["node"]
 
 ## Roadmap
-- Part 1: interfaces, config, CLI skeleton, Jira + Markdown adapters, `review` and `cases`
+- Part 1: interfaces, config, CLI skeleton, Jira + Markdown adapters, `review`, then an
+  evaluation step (review --json → golden dataset → DeepEval evals → validate the judge
+  → prompt v3), then `cases`
 - Part 2: `automate` (learns repo conventions, verifies locators with Playwright MCP), `run`
 - Part 3: `triage`, `report`, MCP server, npm publish, docs, demo video
+
+## Evaluation roadmap (later — don't implement now)
+- Synthetic goldens: use DeepEval's Synthesizer to generate more stories and balance
+  clear vs vague. A human sets the expected verdict for every generated story;
+  the model never labels its own data.
+- Safety evals: PII / secret leakage (the tool must never write tokens, keys, or
+  personal data into Jira comments or test scripts), and prompt injection (a story
+  containing instructions like "ignore previous instructions" must not change the
+  tool's behaviour).
+- cases evals: every acceptance criterion is covered by at least one test case;
+  no invented requirements; negative and edge cases present.
+- automate evals: treat reading the repo as retrieval — use contextual precision and
+  recall to check it found and reused existing page objects. Use tracing and
+  component-level tests to check tool usage and order.
+- triage evals: use Toolshop's intentionally buggy version as a golden set with known
+  bugs; compare classifications with plain assertions.
+- CI: run evals automatically in GitHub Actions when prompts change (Part 3).
+- Maybe later: multi-turn evals, only if we add an interactive mode.
 
 ## Portfolio & job search — help me with this too
 I'm job hunting as a QA Automation engineer. Help me turn this project into
