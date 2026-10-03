@@ -41,7 +41,9 @@ Format your answer exactly like this, with nothing else:
 - Then a numbered list of Blocking findings and Questions. Each is one line:
   **short title** (severity, type): one question for the product owner.
 - Then, only if a reader might reasonably assume something is part of this story when it isn't,
-  a line "Out of scope:" with those items as short bullets. Omitting this section is normal.
+  a line "Out of scope:" with those items as bullets: "- <item> — <the part of the story that could
+  make someone think it is included>". If you cannot point to such a part, leave the item out.
+  Omitting this section is normal.
 No headings, no explanations, no extra sections.
 If the story is clear and complete, write "Verdict: Ready" and stop.`;
 
