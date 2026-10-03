@@ -1,1 +1,2 @@
 deepeval==4.2.8
+python-dotenv==1.2.4
