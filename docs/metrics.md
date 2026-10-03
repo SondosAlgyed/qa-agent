@@ -42,3 +42,11 @@ Test set: 8 stories, TOOL-1 to TOOL-8. TOOL-9 and TOOL-10 were deleted from Jira
   part of the story ("omitting this section is normal") + rule "Before marking an Ambiguity as
   Blocking, ask: would a typical developer and tester read this the same way?"
   Raw outputs: `docs/review-runs/2026-09-30-v2/`
+
+## Automated evals (evals/)
+
+Run with: `evals/.venv/Scripts/python.exe -m pytest evals/test_review.py -v`
+
+| Date | Prompt | Eval code | Check | Result | Notes |
+|------|--------|-----------|-------|--------|-------|
+| 2026-10-03 | v2 (`5492c1e`) | `fd95f65` | Snapshot matches Jira + verdict assertion | 8 of 8 passed | One run only. Claude is non-deterministic, so a borderline story could change on a re-run. |
