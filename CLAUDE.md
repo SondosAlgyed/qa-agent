@@ -104,10 +104,14 @@ the same way as TypeScript (new concepts explained the first time they appear).
 - [x] Judge validated (evals/validate_judge.py) on the saved v2 reviews: agrees with
       me on 2 of 3. Duplicates count as real in this metric. Judge is non-deterministic;
       don't tune it further on these 3 stories. Details in docs/metrics.md.
+- [x] Review prompt v3 = v3-c (fb47af7), built one rule at a time (v3-a message content →
+      Question, v3-b one finding per root cause, v3-c Out of scope items need a reason).
+      v2 vs v3-c, 3 runs each: 24/24 verdicts both; fewer duplicate Blocking (TOOL-5 only);
+      Out of scope items 43 → 26. Evals save every review; QA_EVAL_RUNS repeats runs;
+      QA_TOOL_DIR runs an older version from a git worktree. Details in docs/metrics.md.
 
 ## Next steps (in order)
-1. Prompt v3 (ideas below), then run the evals and compare with v2 in docs/metrics.md.
-   Consider a separate metric for duplicate findings (one finding per root cause).
+1. `qa cases <key>` (Part 1 roadmap).
 
 ## Cleanup still needed
 - tsconfig.json: trailing comma after "types": ["node"]
@@ -142,8 +146,11 @@ the same way as TypeScript (new concepts explained the first time they appear).
 - CI: run evals automatically in GitHub Actions when prompts change (Part 3).
 - Maybe later: multi-turn evals, only if we add an interactive mode.
 
-## Review prompt — ideas for v3 (not now)
-- One finding per root cause: merge findings that describe the same missing information.
-- Unspecified message text, wording, or placement is always a Question, never Blocking.
-- Don't include findings with no realistic risk (e.g. sorting an empty list).
-- Out of scope still appears in every run with 2–3 items.
+## Review prompt — open issues after v3 (not now)
+Fix these only with new stories to test on (synthetic goldens), not by tuning on the same 8.
+- Findings with no realistic risk (e.g. sorting an empty list). Deferred on purpose: the
+  rule could make the tool drop real edge cases, and Questions don't change the verdict.
+- Harder duplicates still happen (TOOL-6/7: "X undefined" + "X unmeasurable" in other words).
+- The prompt's Out of scope example "lockout on a basic login story" is very close to TOOL-1,
+  and TOOL-1 lists lockout. Replace it with an example unrelated to any golden story.
+- Out of scope still appears in about half the reviews; some reasons are weak.

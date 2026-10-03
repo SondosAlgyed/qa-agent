@@ -53,6 +53,7 @@ Test set: 8 stories, TOOL-1 to TOOL-8. TOOL-9 and TOOL-10 were deleted from Jira
   story that could make someone think it is included>"; "If you cannot point to such a part, leave
   the item out."
   Raw outputs: `docs/review-runs/2026-10-03-fb47af7/`
+- **v3** = v3-c, adopted 2026-10-03 after the 3-run comparison with v2 (below).
 
 ## Automated evals (evals/)
 

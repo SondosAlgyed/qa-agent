@@ -25,6 +25,10 @@ evals/.venv/Scripts/python.exe -m pip install -r evals/requirements.txt   # on m
 evals/.venv/Scripts/python.exe -m pytest evals/test_review.py -v -s
 ```
 
+Every review is saved to `docs/review-runs/<date>-<prompt commit>/`. Optional settings:
+- `QA_EVAL_RUNS=3` runs each story 3 times (LLM output varies between runs).
+- `QA_TOOL_DIR=<folder>` runs the CLI from another folder, e.g. a `git worktree` of an older prompt, to compare versions.
+
 ## Setup
 
 Requires Node.js 18+.

@@ -45,3 +45,20 @@
   disagreed. Lesson: one metric should measure one thing.
 - The judge is non-deterministic too, and 3 stories is a tiny sample, so I
   stopped tuning it to avoid overfitting.
+
+## 2026-10-03 — Prompt v3
+- Changed the prompt one rule at a time (v3-a, v3-b, v3-c), with a commit and
+  an eval run for each, so every change in results has one known cause.
+- The eval now saves every review. Without that, I could see that a test
+  passed but not whether the new rule actually worked.
+- Rules that ask the model to judge ("only if relevant") are weak. Making the
+  rule part of the format ("each item needs a reason") worked better.
+- Skipped one idea on purpose: removing "no-risk" findings could also remove
+  real edge cases, and finding gaps is the tool's main job.
+- Hard part: one run said Out of scope dropped to 4 of 8 stories. With 3 runs
+  per version it was really about half, same as before. Single runs lie.
+- Compared v2 and v3-c with 3 runs each, using a git worktree for v2. v3 is
+  modestly better, with no verdict regressions. Stopped there: more rules
+  tuned on the same 8 stories would be overfitting.
+- My judgment has to stay mine: the evals are only trustworthy if the human
+  labels really come from a human.
