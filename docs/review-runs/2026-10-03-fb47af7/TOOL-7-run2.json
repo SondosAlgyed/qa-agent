@@ -1,0 +1,8 @@
+{
+  "key": "TOOL-7",
+  "summary": "TOOL-7 Filter products",
+  "description": "As a customer, I want to filter the products.\n\n* Filters should narrow down the list correctly.",
+  "status": "To Do",
+  "verdict": "Not ready",
+  "review": "Verdict: Not ready — the story names no filterable attributes and defines \"correctly\" in a way that cannot be verified.\n\n1. **Filterable attributes undefined** (Blocking, Gap): Which product attributes can be filtered (category, price, brand, size, availability) and what control does each use (checkbox, range, dropdown)?\n2. **\"Narrow down the list correctly\" is not verifiable** (Blocking, Testability): For a given filter value, what is the exact matching rule and expected result set a tester can assert against?\n3. **Combining filters undefined** (Blocking, Ambiguity): When several values or several filter groups are selected, are results combined with AND or OR (and does it differ within vs. across groups)?\n4. **No-match state** (Question, Gap): What should the customer see when no products match the selected filters?\n5. **Clearing filters** (Question, Gap): Can the customer remove individual filters or reset all, and what is the expected list afterwards?\n6. **Interaction with pagination and result count** (Question, Gap): After applying a filter, does the list reset to page 1 and is a result count displayed?\n7. **Filter state persistence** (Question, Gap): Should selected filters survive page reload, back navigation, or be shareable via URL?\n\nOut of scope:\n- Sorting the product list — \"filter the products\" could be read as including list ordering, but the story only mentions narrowing.\n- Free-text product search — often sits next to filters on the same page, but is not mentioned here."
+}

@@ -1,0 +1,8 @@
+{
+  "key": "TOOL-5",
+  "summary": "TOOL-5  Product sorting",
+  "description": "As a customer, I want to sort the products.\n\n* Sorting should work properly.",
+  "status": "To Do",
+  "verdict": "Not ready",
+  "review": "Verdict: Not ready — the only acceptance criterion (\"sorting should work properly\") defines no sort fields, order, or default, so nothing can be implemented or verified as stated.\n\n1. **No sort criteria defined** (Blocking, Gap): Which attributes can the customer sort by (price, name, rating, newest, relevance) and in which directions?\n2. **\"Works properly\" is untestable** (Blocking, Testability): What is the exact expected product order for each sort option, so a tester can assert pass/fail?\n3. **No default sort / no UI defined** (Blocking, Gap): What is the default order when the customer has not chosen a sort, and how is the sort control presented and labelled?\n4. **Interaction with paging and filters** (Question, Gap): Does changing the sort reset to page 1 and keep active filters, and is the sort applied across the whole result set or only the current page?\n5. **Sort persistence** (Question, Ambiguity): Should the selected sort be remembered when navigating away and back, or reset each visit?\n6. **Tie-breaking and missing values** (Question, Gap): How are products with equal values or missing values (no rating, no price) ordered?\n\nOut of scope:\n- Search relevance ranking\n- Filtering/faceted navigation"
+}

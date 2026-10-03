@@ -1,0 +1,8 @@
+{
+  "key": "TOOL-1",
+  "summary": "TOOL-1 Login with valid and invalid credentials",
+  "description": "As a customer, I want to sign in so I can access my account.\n\n* Valid email and password → redirected to the account page, and the user's name shows in the navigation.\n* Wrong password → an error message appears and the user stays on the login page.\n* Empty fields → each shows a required-field validation message.\n* Password field masks the input.",
+  "status": "To Do",
+  "verdict": "Ready with questions",
+  "review": "Verdict: Ready with questions — the stated criteria are implementable and verifiable, but several expected results need detail before test cases can be written.\n\n1. **Unknown email not covered** (Question, Gap): What should happen when the email is not registered — the same error as a wrong password, or a distinct message?\n2. **Validation trigger for empty fields** (Question, Ambiguity): Do required-field messages appear on submit only, or on blur/as-you-type, and is the submit request blocked entirely?\n3. **Error and validation message content** (Question, Gap): What is the exact wording and on-screen placement of the wrong-password error and the required-field messages?\n4. **\"User's name\" source** (Question, Ambiguity): Which value is shown in the navigation (full name, first name, or email) and what is displayed if the profile has no name set?\n\nOut of scope:\n- Account lockout / rate limiting after repeated failures — implied by the \"wrong password\" criterion but never stated.\n- Password reset and \"remember me\" — commonly expected on a login screen but not mentioned in the story."
+}

@@ -1,0 +1,8 @@
+{
+  "key": "TOOL-3",
+  "summary": "TOOL-3  Search for products ",
+  "description": "\nAs a customer, I want to search so I can find a tool quickly.\n\n* A search term matching existing products → only matching products are listed.\n* A term with no matches → an empty state message, no error.\n* Search is case-insensitive.\n* Clearing the search restores the full product list.\n\nSearch matches product names (partial, case-insensitive)",
+  "status": "To Do",
+  "verdict": "Ready with questions",
+  "review": "Verdict: Ready with questions — the core search behaviour is defined and verifiable, but trigger, empty-input handling and message content need confirmation.\n\n1. **Search trigger not defined** (Question, Ambiguity): Do results update as the user types (and after how many characters), or only on pressing Enter / a search button?\n2. **Empty state message unspecified** (Question, Testability): What exact text should the no-results message show, and where is it displayed relative to the product list area?\n3. **Blank or whitespace-only term** (Question, Gap): If the user submits only spaces (or an empty term), should this show the full list, the empty state, or be ignored? Are leading/trailing spaces trimmed?\n4. **Ordering of matching results** (Question, Gap): In what order are matching products listed (relevance, existing default order, alphabetical)?\n5. **\"Clearing the search\"** (Question, Ambiguity): Does clearing mean deleting the text in the field, or is a dedicated clear/reset control expected?\n\nOut of scope:\n- Matching on description, SKU, category or tags (story limits matching to product names)\n- Typo tolerance / fuzzy matching and search suggestions\n- Combining search with filters, sorting controls or pagination"
+}

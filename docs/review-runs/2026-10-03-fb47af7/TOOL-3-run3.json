@@ -1,0 +1,8 @@
+{
+  "key": "TOOL-3",
+  "summary": "TOOL-3  Search for products ",
+  "description": "\nAs a customer, I want to search so I can find a tool quickly.\n\n* A search term matching existing products → only matching products are listed.\n* A term with no matches → an empty state message, no error.\n* Search is case-insensitive.\n* Clearing the search restores the full product list.\n\nSearch matches product names (partial, case-insensitive)",
+  "status": "To Do",
+  "verdict": "Ready with questions",
+  "review": "Verdict: Ready with questions — the core search behaviour is defined and testable, but the trigger and some input edge cases need confirmation.\n\n1. **Search trigger not defined** (Question, Ambiguity): Is the list filtered live as the user types, or only on pressing Enter / a search button — and if live, is there a minimum character count or debounce?\n2. **Whitespace and empty input handling** (Question, Gap): What should happen for a search of only spaces, and are leading/trailing spaces trimmed before matching?\n3. **Empty state message content** (Question, Gap): What exact text should the no-results message show, and where on the page does it appear?\n4. **How the search is cleared** (Question, Ambiguity): Does \"clearing the search\" mean deleting all text in the field, or is there also a clear/reset control that must restore the full list?"
+}

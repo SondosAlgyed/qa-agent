@@ -67,6 +67,31 @@ Run with: `evals/.venv/Scripts/python.exe -m pytest evals/test_review.py -v`
 | 2026-10-03 | v3-b (`ddde6ae`) | `b763337` | Verdicts + G-Eval | 8 of 8 passed. Judge: TOOL-5 1.0, TOOL-6 1.0, TOOL-7 1.0 | Raw outputs: `docs/review-runs/2026-10-03-ddde6ae/`. Blocking count: TOOL-5 1, TOOL-6 3, TOOL-7 3. My judgment on duplicates: none in TOOL-5 and TOOL-6; TOOL-7 #1 (attributes undefined) and #2 ("narrow down correctly" unmeasurable) partly repeat the same root cause. Clearly better than v2 (duplicates in all 3 vague stories). |
 | 2026-10-03 | v3-c (`fb47af7`) | `b763337` | Verdicts + G-Eval | 8 of 8 passed. Judge: TOOL-5 0.5, TOOL-6 0.7, TOOL-7 1.0 | Raw outputs: `docs/review-runs/2026-10-03-fb47af7/`. Out of scope: in 4 of 8 stories, 9 items (v3-b: 7 of 8, 20 items). My judgment: 7 of 9 items justified; weak: TOOL-7 "Keyword search" (reason points to no part of the story) and TOOL-1 "Password reset" ("natural follow-on"). Lower judge scores come from Blocking findings, not this rule: TOOL-5 again had a Blocking about scope/pagination (the borderline finding). |
 
+### v2 vs v3-c, 3 runs each (2026-10-03)
+
+Single runs were too noisy to compare versions (v3-a gave TOOL-5 0.6 and 1.0 on two runs of the
+same prompt), so each version ran 3 times. Eval code `b0d902c`, judge gpt-5.5-2026-04-23.
+v2 ran from a git worktree at `8d371f2`; its prompt file's last commit is `98acefe`
+(prompt v2 text + `parseVerdict`). Counts below come from the saved reviews, by code.
+Raw outputs: `docs/review-runs/2026-10-03-98acefe/` (v2), `docs/review-runs/2026-10-03-fb47af7/*-run*.json` (v3-c).
+
+| Measure | v2 | v3-c |
+|---------|----|------|
+| Verdicts correct | 24 of 24 | 24 of 24 |
+| Judge, mean of 9 scores (TOOL-5/6/7 × 3) | 0.88 | 0.94 |
+| Judge, lowest score | 0.5 | 0.5 |
+| Blocking per run, TOOL-5 | 3, 4, 3 | 2, 2, 1 |
+| Blocking per run, TOOL-6 | 3, 4, 3 | 3, 3, 3 |
+| Blocking per run, TOOL-7 | 3, 3, 3 | 3, 3, 3 |
+| Reviews with Out of scope | 14 of 24 | 13 of 24 |
+| Out of scope items, total | 43 | 26 |
+
+**Conclusion:** v3-c is modestly but really better than v2, with no verdict regressions.
+The duplicate rule worked where the duplication was obvious (TOOL-5: gap + testability of the
+same thing) but not in TOOL-6/7. Out of scope items fell 40%, but the section still appears in
+about half the reviews; the single v3-c run's "4 of 8" was luck. The judge-score gain is close
+to the noise level and is not evidence on its own.
+
 ## Judge validation: "Grounded Blocking findings"
 
 The judge scores the saved v2 reviews (`docs/review-runs/2026-09-30-v2/`) that I judged by hand.

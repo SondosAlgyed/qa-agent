@@ -1,0 +1,8 @@
+{
+  "key": "TOOL-5",
+  "summary": "TOOL-5  Product sorting",
+  "description": "As a customer, I want to sort the products.\n\n* Sorting should work properly.",
+  "status": "To Do",
+  "verdict": "Not ready",
+  "review": "Verdict: Not ready — the only acceptance criterion (\"sorting should work properly\") defines no sort fields, order or default, so nothing can be implemented or verified as written.\n\n1. **No sort fields defined** (Blocking, Gap): Which attributes must be sortable (price, name, rating, newest, relevance) and exactly what data backs each one?\n2. **\"Should work properly\" is untestable** (Blocking, Testability): What observable result defines a correct sort — can you state expected ordering per field as a pass/fail rule?\n3. **Sort direction unspecified** (Blocking, Ambiguity): Is each field available in both ascending and descending order, and how does the customer switch direction?\n4. **No default sort state** (Blocking, Gap): What order is the product list in before the customer chooses a sort option?\n5. **Interaction with pagination/filters** (Question, Gap): Does sorting apply across the whole result set or only the current page, and is the sort preserved when a filter is changed?\n6. **Sort persistence** (Question, Gap): Should the chosen sort survive navigating to a product and back, or a page reload?\n7. **Tie-breaking and missing values** (Question, Gap): How are products with equal values or a missing value (e.g. no rating, no price) ordered?\n8. **Empty or single-result list** (Question, Gap): What should the sort control show when the result list is empty or has one item — hidden, disabled, or active?"
+}

@@ -1,0 +1,8 @@
+{
+  "key": "TOOL-1",
+  "summary": "TOOL-1 Login with valid and invalid credentials",
+  "description": "As a customer, I want to sign in so I can access my account.\n\n* Valid email and password → redirected to the account page, and the user's name shows in the navigation.\n* Wrong password → an error message appears and the user stays on the login page.\n* Empty fields → each shows a required-field validation message.\n* Password field masks the input.",
+  "status": "To Do",
+  "verdict": "Ready with questions",
+  "review": "Verdict: Ready with questions — the four criteria are implementable and verifiable as written, but several expected results need pinning down before test design.\n\n1. **Unknown email address** (Question, Gap): What should happen when the email does not match any account — the same generic error as a wrong password, or a distinct message?\n2. **Error message content not specified** (Question, Testability): What exact text and placement should the failed-login message have, so a tester can assert on it rather than \"an error appears\"?\n3. **When empty-field validation fires** (Question, Ambiguity): Should the required-field messages appear on submit, on blur, or both — and does submitting with both fields empty show both messages at once?\n4. **Name shown in navigation** (Question, Ambiguity): Which value is displayed (full name, first name, email) and what is shown if the profile has no name stored?\n\nOut of scope:\n- Account lockout or rate limiting after repeated failed attempts\n- Password reset / forgot-password flow\n- \"Remember me\" and session expiry behaviour"
+}

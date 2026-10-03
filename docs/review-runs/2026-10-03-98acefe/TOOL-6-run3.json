@@ -1,0 +1,8 @@
+{
+  "key": "TOOL-6",
+  "summary": "TOOL-6 Checkout",
+  "description": "As a customer, I want to complete my order.\n\n* The user can finish checkout and see a confirmation.",
+  "status": "To Do",
+  "verdict": "Not ready",
+  "review": "Verdict: Not ready — the single acceptance criterion does not define what \"finish checkout\" involves or what the confirmation must contain, so it cannot be implemented or verified as written.\n\n1. **Checkout steps undefined** (Blocking, Gap): What exactly must the user provide and confirm to \"finish checkout\" (cart review, delivery address, shipping option, payment method), and which of these are in scope for TOOL-6?\n2. **Confirmation content unspecified** (Blocking, Testability): What must the confirmation show (order number, items, totals, delivery estimate) and where does it appear — a page, an email, or both — so a tester can assert a pass or fail?\n3. **Payment handling unclear** (Blocking, Ambiguity): Does checkout include taking and authorising a payment, or does it only capture order details and defer payment elsewhere?\n4. **Failure paths missing** (Question, Gap): What should happen when payment is declined, an item goes out of stock during checkout, or the submit request times out — does the order fail, retry, or hold?\n5. **Empty or invalid cart** (Question, Gap): What happens if the user reaches checkout with an empty cart or an item whose price has changed since it was added?\n6. **Authentication requirement** (Question, Ambiguity): Must the user be logged in to check out, or is guest checkout supported?\n7. **Duplicate submission** (Question, Gap): If the user double-clicks submit or refreshes after confirmation, should a second order be created or the same confirmation re-shown?"
+}

@@ -1,0 +1,8 @@
+{
+  "key": "TOOL-4",
+  "summary": "TOOL-4 Filter products by category and brand",
+  "description": "As a customer, I want to filter so I can narrow down the catalogue.\n\n* Selecting one category → only products from that category appear.\n* Selecting two categories → products from both appear.\n* Combining a category and a brand → only products matching both appear.\n* Unchecking all filters → the full list returns.",
+  "status": "To Do",
+  "verdict": "Ready with questions",
+  "review": "Verdict: Ready with questions — the stated criteria are implementable and verifiable, but several expected results need pinning down before test design.\n\n1. **Multiple brands** (Question, Gap): If a customer selects two brands, should the results be the union (like two categories) or something else, and how does that combine with selected categories?\n2. **No matching products** (Question, Gap): What should the customer see when a category/brand combination returns zero products — an empty list, a message, or a suggestion to clear filters?\n3. **\"Products from both appear\"** (Question, Ambiguity): Does selecting two categories mean *only* products from those two categories are shown (nothing else), so a tester can assert exclusion as well as inclusion?\n4. **Source of the filter options** (Question, Testability): Are the category and brand lists fixed, or derived from the current catalogue (and do unavailable options get hidden/disabled)? Without this, \"the full list returns\" and the available checkboxes can't be verified against a known expected set.\n\nOut of scope:\n- Persisting filter selections in the URL or across page reloads\n- Interaction with search, sorting, or pagination\n- Filters other than category and brand (price, rating, availability)"
+}

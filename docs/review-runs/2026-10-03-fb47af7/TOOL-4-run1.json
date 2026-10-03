@@ -1,0 +1,8 @@
+{
+  "key": "TOOL-4",
+  "summary": "TOOL-4 Filter products by category and brand",
+  "description": "As a customer, I want to filter so I can narrow down the catalogue.\n\n* Selecting one category → only products from that category appear.\n* Selecting two categories → products from both appear.\n* Combining a category and a brand → only products matching both appear.\n* Unchecking all filters → the full list returns.",
+  "status": "To Do",
+  "verdict": "Ready with questions",
+  "review": "Verdict: Ready with questions — the filter logic itself is stated clearly and testably, but several expected results (empty result, multi-brand, apply timing) need confirmation.\n\n1. **No empty-result behaviour** (Question, Gap): What should the customer see when a category+brand combination matches no products — an empty list, a message, or a suggestion to clear filters?\n2. **Multiple brands not covered** (Question, Gap): If two brands are selected, should products from either brand appear (OR, mirroring categories) or only products matching both?\n3. **When filtering takes effect** (Question, Ambiguity): Does the list update immediately on each checkbox change, or only after an explicit \"Apply\" action?\n4. **Interaction with paging/sorting/search** (Question, Gap): When filters change, should the result list reset to page 1 and should filters combine with an active search term or sort order?\n5. **Filter state persistence** (Question, Gap): Must the selected filters survive navigation to a product and back, or a page reload (e.g. reflected in the URL)?"
+}

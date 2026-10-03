@@ -1,0 +1,8 @@
+{
+  "key": "TOOL-8",
+  "summary": "TOOL-8 Manage the shopping cart",
+  "description": "As a customer, I want to change my cart before checking out.\n\n* Increasing the quantity of an item updates that line's total and the cart total.\n* Removing an item removes it from the list and updates the total.\n* Removing the last item shows an empty cart message.\n* Cart contents persist after a page refresh.",
+  "status": "To Do",
+  "verdict": "Ready with questions",
+  "review": "Verdict: Ready with questions — the four criteria are implementable and verifiable as written, but several expected results need pinning down before test design.\n\n1. **Decreasing quantity not covered** (Question, Gap): \"Manage/change my cart\" implies lowering quantity too — should decrease be in this story, and does reaching quantity 0 remove the line or is 1 the minimum?\n2. **No upper bound on quantity** (Question, Gap): Is there a maximum or stock limit when increasing, and what does the user see when it is exceeded?\n3. **Scope of persistence** (Question, Ambiguity): Does \"persists after a page refresh\" mean browser-local storage for guests only, or server-side persistence that survives closing the browser, logging out, or a new session — and for how long?\n4. **Empty cart message undefined** (Question, Testability): What exactly should the empty cart state show (text, any call to action), so a tester can pass or fail it?\n5. **Remove interaction details** (Question, Gap): Is there a confirmation step or undo on removal, and does removing one line of a multi-line cart need any other feedback?\n\nOut of scope:\n- Checkout / payment flow\n- Promo codes, shipping or tax recalculation\n- Save for later / wishlist"
+}

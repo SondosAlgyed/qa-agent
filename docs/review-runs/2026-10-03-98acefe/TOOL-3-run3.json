@@ -1,0 +1,8 @@
+{
+  "key": "TOOL-3",
+  "summary": "TOOL-3  Search for products ",
+  "description": "\nAs a customer, I want to search so I can find a tool quickly.\n\n* A search term matching existing products → only matching products are listed.\n* A term with no matches → an empty state message, no error.\n* Search is case-insensitive.\n* Clearing the search restores the full product list.\n\nSearch matches product names (partial, case-insensitive)",
+  "status": "To Do",
+  "verdict": "Ready with questions",
+  "review": "Verdict: Ready with questions — the core matching behaviour is clearly defined and testable, but several details are needed for precise expected results.\n\n1. **Search trigger not specified** (Question, Ambiguity): Does the list filter as the user types, or only on pressing Enter / a search button — and does \"clearing the search\" mean emptying the field or a dedicated clear control?\n2. **Empty state message undefined** (Question, Testability): What exact text (and any suggested next action) should the no-results state show, so a tester can verify it?\n3. **Whitespace and trimming** (Question, Gap): How should a term that is only spaces, or has leading/trailing spaces, be treated — full list, empty state, or trimmed match?\n4. **Result ordering** (Question, Gap): In what order are matching products listed (relevance, name, default catalogue order)?\n\nOut of scope:\n- Matching on description, SKU, brand or category\n- Typo tolerance, synonyms or search suggestions/autocomplete\n- Filters, sorting controls and pagination of results"
+}

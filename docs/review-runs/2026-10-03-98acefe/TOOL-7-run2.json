@@ -1,0 +1,8 @@
+{
+  "key": "TOOL-7",
+  "summary": "TOOL-7 Filter products",
+  "description": "As a customer, I want to filter the products.\n\n* Filters should narrow down the list correctly.",
+  "status": "To Do",
+  "verdict": "Not ready",
+  "review": "Verdict: Not ready — the story never says which attributes can be filtered or what \"correctly\" means, so nothing here can be implemented or verified as written.\n\n1. **No filter criteria defined** (Blocking, Gap): Which product attributes can the customer filter by (category, price range, brand, availability, rating), and what are the selectable values for each?\n2. **\"Narrow down the list correctly\" is untestable** (Blocking, Testability): What is the exact expected result set for a given filter selection — can you give a concrete example of input filters and the products that must appear?\n3. **Multiple filters behaviour undefined** (Blocking, Ambiguity): When more than one filter is applied, should they combine with AND or OR, and how do multiple values within the same filter behave?\n4. **No empty-result behaviour** (Question, Gap): What should the customer see when a filter combination matches zero products, and how do they recover (clear/reset filters)?\n5. **Filter application and persistence unspecified** (Question, Ambiguity): Do filters apply instantly on selection or after an \"Apply\" action, and do they survive pagination, sorting, page reload, or navigating back from a product page?\n6. **Interaction with existing list state** (Question, Gap): Should the result count be displayed, and how do filters interact with the current sort order and page number (e.g. reset to page 1)?"
+}

@@ -1,0 +1,8 @@
+{
+  "key": "TOOL-3",
+  "summary": "TOOL-3  Search for products ",
+  "description": "\nAs a customer, I want to search so I can find a tool quickly.\n\n* A search term matching existing products → only matching products are listed.\n* A term with no matches → an empty state message, no error.\n* Search is case-insensitive.\n* Clearing the search restores the full product list.\n\nSearch matches product names (partial, case-insensitive)",
+  "status": "To Do",
+  "verdict": "Ready with questions",
+  "review": "Verdict: Ready with questions — the filtering behaviour is implementable and testable as written, but several details are needed for precise expected results.\n\n1. **Search trigger not defined** (Question, Gap): Does the list filter as the user types (and from how many characters), or only on submit/Enter/button click?\n2. **Meaning of \"partial\" match** (Question, Ambiguity): Must the term match anywhere inside the product name (substring), or only the start of the name or of a word?\n3. **Empty state content** (Question, Gap): What exact message is shown when no products match, and does the search term remain in the input?\n4. **Clearing the search** (Question, Ambiguity): What counts as \"clearing\" — emptying the input, a dedicated clear button, or both — and does a whitespace-only or multi-word term behave as empty/trimmed?\n\nOut of scope:\n- Matching on description, category, SKU or brand — \"search for products\" could suggest broader matching, but the story limits it to product names.\n- Relevance ranking, sorting and pagination of results — implied by \"only matching products are listed\" but never specified."
+}
