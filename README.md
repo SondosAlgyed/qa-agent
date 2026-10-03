@@ -12,7 +12,7 @@ Early development. What works today:
 - Jira adapter (`JiraTicketSystem`): implements the contract with the Jira Cloud REST API, tested against a real Jira project
 - `LLMProvider` contract + Claude adapter (`ClaudeProvider`), plug in your own through qa.config.ts
 - Config file (`qa.config.ts`): use the built-in Jira and Claude adapters, or plug in your own
-- CLI with one command: `qa review <key>` fetches a story from Jira and asks Claude to review it: a verdict (Ready / Ready with questions / Not ready) plus findings classified as Blocking, Question, or Out of scope, each with a question for the product owner. Evaluation results: [docs/metrics.md](docs/metrics.md)
+- CLI with one command: `qa review <key>` fetches a story from Jira and asks Claude to review it: a verdict (Ready / Ready with questions / Not ready) plus findings classified as Blocking, Question, or Out of scope, each with a question for the product owner. Add `--json` to get the story, verdict, and review as one JSON object (for scripts and evals). Evaluation results: [docs/metrics.md](docs/metrics.md)
 
 ## Setup
 

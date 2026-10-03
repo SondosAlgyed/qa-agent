@@ -91,12 +91,13 @@ the same way as TypeScript (new concepts explained the first time they appear).
 - [x] `qa review <key>` works end to end (Jira → Claude → verdict + findings).
 - [x] Review prompt v2 committed (5492c1e). Evaluated on 8 stories: 8/8 correct
       verdicts, 6 of 10 Blocking findings real. Details in docs/metrics.md.
+- [x] `qa review <key> --json` prints story + verdict + full review as JSON (98acefe).
+      parseVerdict reads the verdict from the first line; prompt v2 unchanged.
 
 ## Next steps (in order)
-1. Add --json output to `qa review`.
-2. Create evals/goldens/review.json with the 8 stories.
-3. First eval: verdict assertion + one G-Eval metric for grounded Blocking findings.
-4. Validate the G-Eval metric against docs/metrics.md.
+1. Create evals/goldens/review.json with the 8 stories.
+2. First eval: verdict assertion + one G-Eval metric for grounded Blocking findings.
+3. Validate the G-Eval metric against docs/metrics.md.
 
 ## Cleanup still needed
 - tsconfig.json: trailing comma after "types": ["node"]
