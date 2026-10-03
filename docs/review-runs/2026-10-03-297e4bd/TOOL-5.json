@@ -1,0 +1,8 @@
+{
+  "key": "TOOL-5",
+  "summary": "TOOL-5  Product sorting",
+  "description": "As a customer, I want to sort the products.\n\n* Sorting should work properly.",
+  "status": "To Do",
+  "verdict": "Not ready",
+  "review": "Verdict: Not ready — the only acceptance criterion (\"sorting should work properly\") defines no sort fields, order or observable result, so nothing can be implemented or verified.\n\n1. **No sort fields defined** (Blocking, Gap): Which attributes must be sortable (price, name, rating, popularity, newest) and in what exact comparison rules?\n2. **\"Work properly\" is unmeasurable** (Blocking, Testability): What is the exact expected product order after a sort is applied, so a tester can pass/fail it?\n3. **Sort direction unspecified** (Blocking, Gap): Must each field support both ascending and descending, and does re-selecting the same field toggle direction?\n4. **Default state undefined** (Question, Gap): What order are products shown in before the customer chooses a sort, and is any default sort indicated in the UI?\n5. **Scope of the sorted set** (Question, Ambiguity): Does sorting apply to the full result set across pagination, or only to the items on the current page?\n6. **Which listings are covered** (Question, Ambiguity): Does this apply to category listings, search results, or both?\n7. **Missing/equal values** (Question, Gap): Where should products with no value for the sort field (e.g. no rating or no price) appear, and how are ties broken?\n8. **Persistence of selection** (Question, Gap): Should the chosen sort survive paging, filtering, page refresh or returning from a product detail page?\n\nOut of scope:\n- Filtering and faceted navigation\n- Search relevance ranking"
+}

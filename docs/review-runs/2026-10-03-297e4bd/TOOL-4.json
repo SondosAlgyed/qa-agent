@@ -1,0 +1,8 @@
+{
+  "key": "TOOL-4",
+  "summary": "TOOL-4 Filter products by category and brand",
+  "description": "As a customer, I want to filter so I can narrow down the catalogue.\n\n* Selecting one category → only products from that category appear.\n* Selecting two categories → products from both appear.\n* Combining a category and a brand → only products matching both appear.\n* Unchecking all filters → the full list returns.",
+  "status": "To Do",
+  "verdict": "Ready with questions",
+  "review": "Verdict: Ready with questions — the stated combination rules are implementable and testable, but several supporting details are unspecified.\n\n1. **Multiple brands selected** (Question, Gap): When two or more brands are checked, should products matching any of them appear (same OR logic as categories)?\n2. **No matching products** (Question, Gap): What should the list area show when a category/brand combination returns zero results?\n3. **\"products from both appear\"** (Question, Ambiguity): Confirming two categories means the union of their products, not only products belonging to both categories?\n4. **When filters take effect** (Question, Ambiguity): Does the list refresh immediately on each checkbox change, or only after an explicit \"Apply\" action?\n5. **Source of filter options** (Question, Gap): Are the category and brand options a fixed list, or derived from the current catalogue — and do unavailable options stay selectable?\n\nOut of scope:\n- Persisting filters in the URL or across sessions\n- Interaction with sorting and pagination\n- Other filter types (price, rating, availability)"
+}
