@@ -1,0 +1,122 @@
+[
+  {
+    "key": "TOOL-1",
+    "input": {
+      "summary": "TOOL-1 Login with valid and invalid credentials",
+      "description": "As a customer, I want to sign in so I can access my account.\n\n* Valid email and password → redirected to the account page, and the user's name shows in the navigation.\n* Wrong password → an error message appears and the user stays on the login page.\n* Empty fields → each shows a required-field validation message.\n* Password field masks the input.",
+      "status": "To Do"
+    },
+    "expected": {
+      "verdict": "Ready with questions"
+    },
+    "human": {
+      "story_type": "Clear",
+      "notes": "v2: correct."
+    }
+  },
+  {
+    "key": "TOOL-2",
+    "input": {
+      "summary": " TOOL-2 Customer registration ",
+      "description": "As a new visitor, I want to create an account so I can place orders.\n\n* All required fields filled with valid data → account created and the user can sign in with it.\n* An already-registered email → a clear error, and no duplicate account.\n* Invalid email format or a password below the minimum length → inline validation errors.\n* A customer under 18 years old cannot register.\n** Required fields: first name, last name, date of birth, email, password.\n** Password must be at least 8 characters.\n** Age is calculated from date of birth; under 18 → \"You must be at least 18 years old.\"",
+      "status": "To Do"
+    },
+    "expected": {
+      "verdict": "Ready with questions"
+    },
+    "human": {
+      "story_type": "Clear",
+      "notes": "v2: correct. Story was fixed after v1 (min length, required fields, age check added)."
+    }
+  },
+  {
+    "key": "TOOL-3",
+    "input": {
+      "summary": "TOOL-3  Search for products ",
+      "description": "\nAs a customer, I want to search so I can find a tool quickly.\n\n* A search term matching existing products → only matching products are listed.\n* A term with no matches → an empty state message, no error.\n* Search is case-insensitive.\n* Clearing the search restores the full product list.\n\nSearch matches product names (partial, case-insensitive)",
+      "status": "To Do"
+    },
+    "expected": {
+      "verdict": "Ready with questions"
+    },
+    "human": {
+      "story_type": "Clear",
+      "notes": "v2: correct. v1 was too strict (\"what counts as a match\" should be a Question)."
+    }
+  },
+  {
+    "key": "TOOL-4",
+    "input": {
+      "summary": "TOOL-4 Filter products by category and brand",
+      "description": "As a customer, I want to filter so I can narrow down the catalogue.\n\n* Selecting one category → only products from that category appear.\n* Selecting two categories → products from both appear.\n* Combining a category and a brand → only products matching both appear.\n* Unchecking all filters → the full list returns.",
+      "status": "To Do"
+    },
+    "expected": {
+      "verdict": "Ready with questions"
+    },
+    "human": {
+      "story_type": "Clear",
+      "notes": "v2: correct. v1 invented an ambiguity (false positive Blocking)."
+    }
+  },
+  {
+    "key": "TOOL-5",
+    "input": {
+      "summary": "TOOL-5  Product sorting",
+      "description": "As a customer, I want to sort the products.\n\n* Sorting should work properly.",
+      "status": "To Do"
+    },
+    "expected": {
+      "verdict": "Not ready"
+    },
+    "human": {
+      "story_type": "Vague",
+      "notes": "v2: verdict correct. 2 of 4 Blocking real (1 duplicate, 2 should be Questions)."
+    }
+  },
+  {
+    "key": "TOOL-6",
+    "input": {
+      "summary": "TOOL-6 Checkout",
+      "description": "As a customer, I want to complete my order.\n\n* The user can finish checkout and see a confirmation.",
+      "status": "To Do"
+    },
+    "expected": {
+      "verdict": "Not ready"
+    },
+    "human": {
+      "story_type": "Vague",
+      "notes": "v2: verdict correct. 2 of 4 Blocking real (1 duplicate, 2 should be Questions)."
+    }
+  },
+  {
+    "key": "TOOL-7",
+    "input": {
+      "summary": "TOOL-7 Filter products",
+      "description": "As a customer, I want to filter the products.\n\n* Filters should narrow down the list correctly.",
+      "status": "To Do"
+    },
+    "expected": {
+      "verdict": "Not ready"
+    },
+    "human": {
+      "story_type": "Vague",
+      "notes": "v2: verdict correct. 2 of 2 Blocking real (overlapping)."
+    }
+  },
+  {
+    "key": "TOOL-8",
+    "input": {
+      "summary": "TOOL-8 Manage the shopping cart",
+      "description": "As a customer, I want to change my cart before checking out.\n\n* Increasing the quantity of an item updates that line's total and the cart total.\n* Removing an item removes it from the list and updates the total.\n* Removing the last item shows an empty cart message.\n* Cart contents persist after a page refresh.",
+      "status": "To Do"
+    },
+    "expected": {
+      "verdict": "Ready with questions"
+    },
+    "human": {
+      "story_type": "Clear",
+      "notes": "v2: correct. No Question should be Blocking."
+    }
+  }
+]

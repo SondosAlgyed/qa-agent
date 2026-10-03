@@ -57,7 +57,8 @@ Planned CLI commands:
 I'm learning TypeScript, Playwright, and AI agents through this project.
 I'm also learning Python and DeepEval through this project — explain them
 the same way as TypeScript (new concepts explained the first time they appear).
-- Reply in simple, clear English. Short sentences, no jargon without explaining it.
+- Reply in the language of my message: Arabic message → Arabic reply, English message →
+  English reply. Simple, clear language. Short sentences, no jargon without explaining it.
 - You may write code, but in small steps only: one small piece at a time
   (a function, a few lines), never a whole file or several files at once.
 - Before writing: tell me what we're adding and why.
@@ -93,11 +94,13 @@ the same way as TypeScript (new concepts explained the first time they appear).
       verdicts, 6 of 10 Blocking findings real. Details in docs/metrics.md.
 - [x] `qa review <key> --json` prints story + verdict + full review as JSON (98acefe).
       parseVerdict reads the verdict from the first line; prompt v2 unchanged.
+- [x] evals/goldens/review.json: 8 cases (Jira snapshot + expected verdict + my notes).
+      Expected verdicts confirmed by me. The eval must first check the snapshot still
+      matches Jira (stories can change).
 
 ## Next steps (in order)
-1. Create evals/goldens/review.json with the 8 stories.
-2. First eval: verdict assertion + one G-Eval metric for grounded Blocking findings.
-3. Validate the G-Eval metric against docs/metrics.md.
+1. First eval: verdict assertion + one G-Eval metric for grounded Blocking findings.
+2. Validate the G-Eval metric against docs/metrics.md.
 
 ## Cleanup still needed
 - tsconfig.json: trailing comma after "types": ["node"]
