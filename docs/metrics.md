@@ -50,3 +50,26 @@ Run with: `evals/.venv/Scripts/python.exe -m pytest evals/test_review.py -v`
 | Date | Prompt | Eval code | Check | Result | Notes |
 |------|--------|-----------|-------|--------|-------|
 | 2026-10-03 | v2 (`5492c1e`) | `fd95f65` | Snapshot matches Jira + verdict assertion | 8 of 8 passed | One run only. Claude is non-deterministic, so a borderline story could change on a re-run. |
+| 2026-10-03 | v2 (`5492c1e`) | `84c622c` | + G-Eval "Grounded Blocking findings" (judge: gpt-5.5-2026-04-23) on TOOL-5/6/7 | 3 of 3 passed, score 1.0 each | Fresh reviews, not the ones I judged, so not comparable with my scores. |
+
+## Judge validation: "Grounded Blocking findings"
+
+The judge scores the saved v2 reviews (`docs/review-runs/2026-09-30-v2/`) that I judged by hand.
+Score = share of Blocking findings that are real. G-Eval scores are approximate (0–10 scale
+normalised), so small differences mean nothing.
+Run with: `evals/.venv/Scripts/python.exe evals/validate_judge.py`
+
+| Date | Judge code | Story | My score | Judge score | Where we disagree |
+|------|------------|-------|----------|-------------|-------------------|
+| 2026-10-03 | `84c622c` (duplicates = not real) | TOOL-5 | 0.50 | 0.80 | Judge accepted "Where sorting applies" |
+| 2026-10-03 | `84c622c` (duplicates = not real) | TOOL-6 | 0.50 | 0.80 | Judge accepted "See a confirmation is untestable" (unspecified message content) |
+| 2026-10-03 | `84c622c` (duplicates = not real) | TOOL-7 | 1.00 | 1.00 | – |
+| 2026-10-03 | `3855937` (duplicates = real) | TOOL-5 | 0.50 | 0.80 | Judge accepted "Where sorting applies" |
+| 2026-10-03 | `3855937` (duplicates = real) | TOOL-6 | 0.50 | 0.50 | – |
+| 2026-10-03 | `3855937` (duplicates = real) | TOOL-7 | 1.00 | 1.00 | – |
+
+**Conclusion:** the judge agrees with me on 2 of 3 stories; the third differs by one borderline
+finding. TOOL-6 changed between runs although the rule change did not touch that finding, so the
+judge itself is non-deterministic. Usable, but the sample is tiny (3 stories): don't trust small
+score differences, and don't tune the judge further on these same 3 stories (overfitting).
+Rule decision: duplicates count as real in this metric; duplication needs its own metric (v3).
