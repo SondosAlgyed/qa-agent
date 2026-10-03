@@ -42,6 +42,9 @@ Test set: 8 stories, TOOL-1 to TOOL-8. TOOL-9 and TOOL-10 were deleted from Jira
   part of the story ("omitting this section is normal") + rule "Before marking an Ambiguity as
   Blocking, ask: would a typical developer and tester read this the same way?"
   Raw outputs: `docs/review-runs/2026-09-30-v2/`
+- **v3-a** (commit `297e4bd`): v2 + "Unspecified message content (the exact text of a message,
+  its wording, or where it appears on screen) is always a Question, never Blocking."
+  Raw outputs: `docs/review-runs/2026-10-03-297e4bd/`
 
 ## Automated evals (evals/)
 
@@ -51,6 +54,8 @@ Run with: `evals/.venv/Scripts/python.exe -m pytest evals/test_review.py -v`
 |------|--------|-----------|-------|--------|-------|
 | 2026-10-03 | v2 (`5492c1e`) | `fd95f65` | Snapshot matches Jira + verdict assertion | 8 of 8 passed | One run only. Claude is non-deterministic, so a borderline story could change on a re-run. |
 | 2026-10-03 | v2 (`5492c1e`) | `84c622c` | + G-Eval "Grounded Blocking findings" (judge: gpt-5.5-2026-04-23) on TOOL-5/6/7 | 3 of 3 passed, score 1.0 each | Fresh reviews, not the ones I judged, so not comparable with my scores. |
+| 2026-10-03 | v3-a (`297e4bd`) | `3855937` | Verdicts + G-Eval | 8 of 8 passed. Judge: TOOL-5 0.6, TOOL-6 0.8, TOOL-7 1.0 | Reviews not saved (eval didn't save them yet). Rejected findings were extra cases, unrelated to the v3-a rule. |
+| 2026-10-03 | v3-a (`297e4bd`) | `b763337` | Verdicts + G-Eval | 8 of 8 passed. Judge: TOOL-5 1.0, TOOL-6 1.0, TOOL-7 1.0 | Raw outputs: `docs/review-runs/2026-10-03-297e4bd/`. TOOL-6: confirmation content and failure paths moved from Blocking (v2) to Question. Out of scope had 4 items. |
 
 ## Judge validation: "Grounded Blocking findings"
 
