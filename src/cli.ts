@@ -1,9 +1,11 @@
-import "dotenv/config";
+import dotenv from "dotenv";
 import { Command } from "commander";
 import { loadConfig } from "./config/load.js";
 import { createTicketSystem } from "./trackers/factory.js";
 import { createLLMProvider } from "./llm/factory.js";
 import { parseVerdict, reviewStory } from "./core/review.js";
+
+dotenv.config({ quiet: true });
 
 const program = new Command();
 
