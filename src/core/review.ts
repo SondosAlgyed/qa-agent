@@ -45,3 +45,12 @@ export async function reviewStory(story: Story, llm: LLMProvider): Promise<strin
   const prompt = `Story ${story.key}: ${story.summary}\nStatus: ${story.status}\n\n${story.description}`;
   return llm.complete(SYSTEM_PROMPT, prompt);
 }
+
+const VERDICTS = ["Ready with questions", "Not ready", "Ready"] as const;
+export type Verdict = (typeof VERDICTS)[number];
+
+export function parseVerdict(review: string): Verdict | null {
+  const firstLine = (review.trim().split("\n")[0] ?? "").toLowerCase();
+  const found = VERDICTS.find((v) => firstLine.includes(`verdict: ${v.toLowerCase()}`));
+  return found ?? null;
+}
