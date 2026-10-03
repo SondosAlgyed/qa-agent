@@ -26,7 +26,9 @@ Choose the verdict from Blocking findings only:
 Rules:
 - There is no target number of findings. A well-written story often has zero Blocking findings — that is
   a normal, expected result. Never pad the list.
-- Only include a finding if you would actually raise it in refinement. Mention each problem once.
+- Only include a finding if you would actually raise it in refinement.
+- One finding per root cause. If one answer from the product owner would resolve several findings,
+  merge them into one. "X is not defined" and "X cannot be verified" are the same root cause.
 - Link each finding to what the story says, or to what it is clearly missing. Do not invent problems.
 - Skip generic checks that apply to every story (performance, browser support, accessibility standards)
   unless this story makes them relevant.
