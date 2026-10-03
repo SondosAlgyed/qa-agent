@@ -1,0 +1,8 @@
+{
+  "key": "TOOL-3",
+  "summary": "TOOL-3  Search for products ",
+  "description": "\nAs a customer, I want to search so I can find a tool quickly.\n\n* A search term matching existing products → only matching products are listed.\n* A term with no matches → an empty state message, no error.\n* Search is case-insensitive.\n* Clearing the search restores the full product list.\n\nSearch matches product names (partial, case-insensitive)",
+  "status": "To Do",
+  "verdict": "Ready with questions",
+  "review": "Verdict: Ready with questions — the matching rules and empty state are clear enough to build and test, but a few details are needed for precise expected results.\n\n1. **Search trigger not defined** (Question, Ambiguity): Does filtering happen live as the customer types (and from which character count), or only on pressing Enter / a search button?\n2. **Blank or whitespace-only term** (Question, Gap): If the customer searches with an empty or spaces-only term, should the full list be shown, the empty state, or should the search be ignored (is the term trimmed)?\n3. **Empty state wording and placement** (Question, Gap): What exact message should be shown when nothing matches, and where does it appear relative to the product list?\n4. **Ordering of matching results** (Question, Gap): In what order should matching products be listed (relevance, name, same order as the full list)?"
+}

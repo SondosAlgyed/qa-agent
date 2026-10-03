@@ -49,6 +49,10 @@ Test set: 8 stories, TOOL-1 to TOOL-8. TOOL-9 and TOOL-10 were deleted from Jira
   owner would resolve several findings, merge them into one. 'X is not defined' and 'X cannot be
   verified' are the same root cause." (replaces "Mention each problem once")
   Raw outputs: `docs/review-runs/2026-10-03-ddde6ae/`
+- **v3-c** (commit `fb47af7`): v3-b + each Out of scope bullet must be "- <item> — <the part of the
+  story that could make someone think it is included>"; "If you cannot point to such a part, leave
+  the item out."
+  Raw outputs: `docs/review-runs/2026-10-03-fb47af7/`
 
 ## Automated evals (evals/)
 
@@ -61,6 +65,7 @@ Run with: `evals/.venv/Scripts/python.exe -m pytest evals/test_review.py -v`
 | 2026-10-03 | v3-a (`297e4bd`) | `3855937` | Verdicts + G-Eval | 8 of 8 passed. Judge: TOOL-5 0.6, TOOL-6 0.8, TOOL-7 1.0 | Reviews not saved (eval didn't save them yet). Rejected findings were extra cases, unrelated to the v3-a rule. |
 | 2026-10-03 | v3-a (`297e4bd`) | `b763337` | Verdicts + G-Eval | 8 of 8 passed. Judge: TOOL-5 1.0, TOOL-6 1.0, TOOL-7 1.0 | Raw outputs: `docs/review-runs/2026-10-03-297e4bd/`. TOOL-6: confirmation content and failure paths moved from Blocking (v2) to Question. Out of scope had 4 items. |
 | 2026-10-03 | v3-b (`ddde6ae`) | `b763337` | Verdicts + G-Eval | 8 of 8 passed. Judge: TOOL-5 1.0, TOOL-6 1.0, TOOL-7 1.0 | Raw outputs: `docs/review-runs/2026-10-03-ddde6ae/`. Blocking count: TOOL-5 1, TOOL-6 3, TOOL-7 3. My judgment on duplicates: none in TOOL-5 and TOOL-6; TOOL-7 #1 (attributes undefined) and #2 ("narrow down correctly" unmeasurable) partly repeat the same root cause. Clearly better than v2 (duplicates in all 3 vague stories). |
+| 2026-10-03 | v3-c (`fb47af7`) | `b763337` | Verdicts + G-Eval | 8 of 8 passed. Judge: TOOL-5 0.5, TOOL-6 0.7, TOOL-7 1.0 | Raw outputs: `docs/review-runs/2026-10-03-fb47af7/`. Out of scope: in 4 of 8 stories, 9 items (v3-b: 7 of 8, 20 items). My judgment: 7 of 9 items justified; weak: TOOL-7 "Keyword search" (reason points to no part of the story) and TOOL-1 "Password reset" ("natural follow-on"). Lower judge scores come from Blocking findings, not this rule: TOOL-5 again had a Blocking about scope/pagination (the borderline finding). |
 
 ## Judge validation: "Grounded Blocking findings"
 

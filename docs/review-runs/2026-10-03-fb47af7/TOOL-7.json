@@ -1,0 +1,8 @@
+{
+  "key": "TOOL-7",
+  "summary": "TOOL-7 Filter products",
+  "description": "As a customer, I want to filter the products.\n\n* Filters should narrow down the list correctly.",
+  "status": "To Do",
+  "verdict": "Not ready",
+  "review": "Verdict: Not ready — the story names no filter attributes and defines \"correctly\" only in circular terms, so nothing can be implemented or verified as written.\n\n1. **No filter criteria defined** (Blocking, Gap): Which product attributes can be filtered (e.g. category, price, brand, availability), and what control type and value set does each one use?\n2. **\"Narrow down correctly\" is unmeasurable** (Blocking, Testability): For a given filter selection, what is the exact expected result set and ordering so a tester can confirm pass or fail?\n3. **Combining multiple filters is undefined** (Blocking, Gap): When a customer selects several filters (or several values of one filter), are they combined with AND or OR?\n4. **No empty result behaviour** (Question, Gap): What should the customer see when no products match the selected filters?\n5. **Applying and clearing filters** (Question, Gap): Do filters apply immediately on selection or via an Apply button, and is there a way to clear or reset individual filters and all filters?\n6. **Filter state persistence** (Question, Gap): Should the selected filters survive paging, reload, back navigation or sharing a URL?\n\nOut of scope:\n- Sorting the product list — \"narrow down the list\" could be read as covering list presentation in general.\n- Keyword search — often paired with filtering on a product list page."
+}

@@ -1,0 +1,8 @@
+{
+  "key": "TOOL-5",
+  "summary": "TOOL-5  Product sorting",
+  "description": "As a customer, I want to sort the products.\n\n* Sorting should work properly.",
+  "status": "To Do",
+  "verdict": "Not ready",
+  "review": "Verdict: Not ready — the single acceptance criterion (\"sorting should work properly\") names no sort fields, directions or expected ordering, so nothing can be implemented or verified as written.\n\n1. **No sort criteria or directions defined** (Blocking, Testability): Which attributes can the customer sort by (price, name, rating, newest?) and in which directions, so a tester can state the expected order?\n2. **Scope of the sortable list is undefined** (Blocking, Ambiguity): Does sorting apply to category listings, search results, or both — and does the chosen sort stay applied when the customer moves to the next page or changes a filter?\n3. **Default sort order** (Question, Gap): What ordering is shown before the customer makes any selection?\n4. **Tie-breaking rule** (Question, Gap): When two products have the same sort value (e.g. identical price), what secondary order applies?\n5. **Products with missing sort values** (Question, Gap): Where do products with no rating or no price (e.g. \"call for price\") appear in the sorted list?\n6. **Empty or single-item result set** (Question, Gap): Should the sort control still be shown and enabled when the list has zero or one product?"
+}

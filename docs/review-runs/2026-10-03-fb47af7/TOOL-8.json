@@ -1,0 +1,8 @@
+{
+  "key": "TOOL-8",
+  "summary": "TOOL-8 Manage the shopping cart",
+  "description": "As a customer, I want to change my cart before checking out.\n\n* Increasing the quantity of an item updates that line's total and the cart total.\n* Removing an item removes it from the list and updates the total.\n* Removing the last item shows an empty cart message.\n* Cart contents persist after a page refresh.",
+  "status": "To Do",
+  "verdict": "Ready with questions",
+  "review": "Verdict: Ready with questions — the stated criteria are implementable and verifiable, but several cart-editing cases need clarification before expected results can be written.\n\n1. **Only quantity increase is specified** (Question, Gap): Should decreasing quantity (and setting it to 0, or entering a negative/non-numeric value) also be supported, and if so what should happen — does 0 remove the line or show a validation error?\n2. **No upper limit on quantity** (Question, Gap): Is there a maximum quantity per line (stock level or fixed cap), and what should the customer see when they exceed it?\n3. **Scope of \"persist after a page refresh\"** (Question, Ambiguity): Does the cart only need to survive a refresh in the same browser session, or also closing the browser, logging out, or using another device?\n4. **Empty cart message undefined** (Question, Gap): What exact text should the empty cart state show, and does anything else change (e.g. the checkout action being hidden or disabled)?"
+}
