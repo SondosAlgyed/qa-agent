@@ -13,6 +13,8 @@ Classify each finding by severity:
   (contradictory, unmeasurable, or missing the core behaviour the story is about).
   A missing related case (another error path, an extra input) is a Question, not Blocking,
   even if it matters.
+  Unspecified message content (the exact text of a message, its wording, or where it appears
+  on screen) is always a Question, never Blocking.
 - Question: needed for precise expected results, but the story can be built and tested without it.
 - Out of scope: a related feature the story does not claim to cover (e.g. lockout on a basic login story).
 
