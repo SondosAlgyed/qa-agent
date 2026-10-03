@@ -97,10 +97,17 @@ the same way as TypeScript (new concepts explained the first time they appear).
 - [x] evals/goldens/review.json: 8 cases (Jira snapshot + expected verdict + my notes).
       Expected verdicts confirmed by me. The eval must first check the snapshot still
       matches Jira (stories can change).
+- [x] First eval (evals/test_review.py, pytest): snapshot check + verdict assertion
+      on all 8, then G-Eval "Grounded Blocking findings" when the verdict is Not ready.
+      Judge is GPT (gpt-5.5-2026-04-23), a different family from the tool, defined once
+      in evals/judges.py. v2: 8/8 verdicts.
+- [x] Judge validated (evals/validate_judge.py) on the saved v2 reviews: agrees with
+      me on 2 of 3. Duplicates count as real in this metric. Judge is non-deterministic;
+      don't tune it further on these 3 stories. Details in docs/metrics.md.
 
 ## Next steps (in order)
-1. First eval: verdict assertion + one G-Eval metric for grounded Blocking findings.
-2. Validate the G-Eval metric against docs/metrics.md.
+1. Prompt v3 (ideas below), then run the evals and compare with v2 in docs/metrics.md.
+   Consider a separate metric for duplicate findings (one finding per root cause).
 
 ## Cleanup still needed
 - tsconfig.json: trailing comma after "types": ["node"]

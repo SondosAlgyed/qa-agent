@@ -28,3 +28,20 @@
   prompt. When comparing prompt versions, the input has to stay the same.
 - Ran out of API credit in the middle of a batch. Now each prompt version is
   a git commit, and every run is saved, so results can be traced.
+
+## 2026-10-03 — First evals
+- Added `qa review --json` so the evals can treat the CLI as a black box.
+  Found a hidden bug: dotenv 17 prints a line to stdout, which broke the JSON.
+- Built a golden set: 8 stories, each with a Jira snapshot and my expected
+  verdict. Learned that goldens are an answer key for testing the tool, not
+  something I fill in for every new story — like a regression suite for prompts.
+- First Python + pytest + DeepEval code. The verdict check is a plain assert;
+  G-Eval (an LLM judge) is only for what needs judgment.
+- Chose GPT as the judge, so Claude doesn't grade its own work.
+- Hard part: `assert_test` hid the score. A test that passes says nothing
+  about how good the judge is — I needed the actual score and reason.
+- Validated the judge on the reviews I had judged by hand: it agrees on 2 of 3.
+  Found that my own rule (duplicates count as real) and the judge's rule
+  disagreed. Lesson: one metric should measure one thing.
+- The judge is non-deterministic too, and 3 stories is a tiny sample, so I
+  stopped tuning it to avoid overfitting.
