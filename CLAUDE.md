@@ -111,7 +111,19 @@ the same way as TypeScript (new concepts explained the first time they appear).
       QA_TOOL_DIR runs an older version from a git worktree. Details in docs/metrics.md.
 
 ## Next steps (in order)
-1. `qa cases <key>` (Part 1 roadmap).
+1. Cleanup: one clear error line for CLI errors (Jira 404, API credit, auth), and a
+   failed run leaves no normal-looking output file. First, because `cases` writes files.
+2. `qa cases <key>`: TestCaseStore interface + Markdown adapter + cases prompt v1.
+   Writes test cases for humans (steps + expected result); it does not run anything.
+3. cases evals: goldens, plain assertions (every AC covered), G-Eval (no invented
+   requirements), validate the judge against my judgments. Part 1 done.
+4. `qa automate <key>` + its evals (Part 2).
+5. `qa run --smoke | --regression`.
+6. Better evaluation: synthetic goldens → Prompt Alignment → review prompt v4.
+   After Part 2, so the Synthesizer serves all three prompts (review, cases, automate).
+7. Safety evals (PII + prompt injection). Before `qa report`, the first command that
+   writes to Jira.
+8. Part 3: `triage`, `report`, MCP server, evals in CI, npm publish.
 
 ## Cleanup still needed
 - tsconfig.json: trailing comma after "types": ["node"]
@@ -132,6 +144,9 @@ the same way as TypeScript (new concepts explained the first time they appear).
 - Synthetic goldens: use DeepEval's Synthesizer to generate more stories and balance
   clear vs vague. A human sets the expected verdict for every generated story;
   the model never labels its own data.
+- Prompt Alignment: check the review (and later cases) output follows the prompt's
+  rules. Do it together with synthetic goldens, when we improve the review prompt again.
+  Validate the judge against my judgments first.
 - Safety evals: PII / secret leakage (the tool must never write tokens, keys, or
   personal data into Jira comments or test scripts), and prompt injection (a story
   containing instructions like "ignore previous instructions" must not change the
