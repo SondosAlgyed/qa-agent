@@ -62,3 +62,16 @@
   tuned on the same 8 stories would be overfitting.
 - My judgment has to stay mine: the evals are only trustworthy if the human
   labels really come from a human.
+
+## 2026-10-14 — DeepEval course and next steps
+
+- Finished the Udemy course "Testing AI Systems with DeepEval" (Rahul Shetty Academy).
+- Most of what it teaches was already in our evaluation roadmap. Now I know the
+  tools behind each item: G-Eval for cases, Synthesizer for synthetic goldens,
+  tracing and tool correctness for automate.
+- One new idea: Prompt Alignment, to check the output follows the prompt's rules.
+  Added to the roadmap for later, with synthetic goldens.
+- The course confirmed one of our decisions: a judge from another vendor (GPT)
+  than the tool (Claude) avoids self-evaluation bias.
+- Planned the next steps in order. Cleanup comes before `cases`, because `cases`
+  writes files and should be built on clear error handling from the start.
