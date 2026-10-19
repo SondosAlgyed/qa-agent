@@ -75,3 +75,19 @@
   than the tool (Claude) avoids self-evaluation bias.
 - Planned the next steps in order. Cleanup comes before `cases`, because `cases`
   writes files and should be built on clear error handling from the start.
+
+## 2026-10-19 — Playwright practice repo, back to qa-agent
+
+- Paused qa-agent for a few days to prepare for a job interview, and learned
+  Playwright hands-on in a separate repo: `toolshop-tests` (UI + API tests on
+  Toolshop, a LoginPage page object, tags `@smoke` / `@regression`, GitHub Actions CI).
+- Kept it separate on purpose: qa-agent is the tool, `toolshop-tests` is a
+  project the tool works on. It will be the target repo for `qa automate`,
+  which learns conventions from the existing tests and page objects.
+- Watch out for Part 2: hand-written tests for the same stories as our goldens
+  could let `qa automate` copy them during evals.
+- Health check before restarting: the Jira API token no longer works (401 on
+  `/myself`). Jira then answers the issue request as an anonymous user, with a
+  404 "issue doesn't exist or no permission". So the tool reports "not found"
+  when the real problem is auth. That's exactly the kind of misleading error
+  the cleanup step should fix. Anthropic and OpenAI keys are fine.
