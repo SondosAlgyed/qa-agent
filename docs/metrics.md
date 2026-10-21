@@ -178,19 +178,19 @@ seeing any judge or assistant opinion. Score = share of test cases with nothing 
 
 | TOOL-6 | 1.00 (1 of 1 fine) | Not invented, but missing: no case for a failed checkout. The assistant had pointed me to look at the preconditions before I answered. Afterwards it noted "logged in" is an assumption (guest checkout isn't ruled out); I kept my judgment. |
 
-Still to judge: TOOL-5.
-
 Judge: G-Eval "No invented requirements" (`evals/judges.py`, GPT `gpt-5.5-2026-04-23`).
 Run with: `evals/.venv/Scripts/python.exe evals/validate_cases_judge.py`
 
 | Date | Story | My score | Judge score | Where we disagree |
 |------|-------|----------|-------------|-------------------|
-| 2026-10-21 | TOOL-5 | not judged | 0.80 | – (judge flagged TC-3, "sorting an empty list") |
+| 2026-10-21 | TOOL-5 | 1.00 | 0.80 | Judge flagged TC-3 (sorting an empty list). I see TC-3/TC-4 (empty list, one product) as low-value padding, not invention. I gave this judgment after reading the assistant's, and agreed with it. |
 | 2026-10-21 | TOOL-6 | 1.00 | 1.00 | – (judge also noted "logged in" as an assumption, but not an invented requirement) |
 | 2026-10-21 | TOOL-7 | 1.00 | 0.80 | Judge flagged TC-3 (removing a filter restores the list). It accepted TC-2 (AND), the one the assistant had questioned. |
 
-**Conclusion so far:** the judge agrees with me on 1 of 2 stories; on TOOL-7 it is stricter by one
-borderline case. Three readers (me, the assistant, the judge) each drew the line in a different
+**Conclusion so far:** the judge agrees with me on 1 of 3 stories; on TOOL-5 and TOOL-7 it is
+stricter by one borderline case each. Pattern: the judge counts ordinary expectations ("no error",
+"the list comes back") as invented, where I don't. If more stories confirm it, the judge's steps need
+a clearer line between a new requirement and an ordinary expectation. Three readers (me, the assistant, the judge) each drew the line in a different
 place on TOOL-7, so "invented" is itself a fuzzy label here. Sample far too small to trust the
 judge yet: don't add it to test_cases.py as a pass/fail check until more stories are judged by me.
 Idea from my review, not measured yet: a failure/negative case can be needed even when the story

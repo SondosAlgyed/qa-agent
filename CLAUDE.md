@@ -126,9 +126,12 @@ the same way as TypeScript (new concepts explained the first time they appear).
       counting rule; written in the goldens), evals/test_cases.py (criteria count + coverage).
       v1 4/8, v2-b 24/24 over 3 runs. Details in docs/metrics.md.
 
+- [x] G-Eval "No invented requirements" (evals/judges.py), validated on TOOL-5/6/7: agrees with
+      me on 1 of 3, stricter on the other two (it counts ordinary expectations as invented).
+      Not a pass/fail check yet; needs more human-judged stories. Part 1 is done.
+
 ## Next steps (in order)
-1. Finish cases evals: I judge TOOL-5 and TOOL-6 (TOOL-7 done: 1.00), then a G-Eval metric
-   "No invented requirements", validated against my judgments. Then Part 1 is done.
+1. Part 2 design: `qa automate`. Agree the design before any code.
 2. `qa automate <key>` + its evals (Part 2). Target repo: ../toolshop-tests.
 3. `qa run --smoke | --regression`.
 4. Better evaluation: synthetic goldens → Prompt Alignment → review prompt v4.

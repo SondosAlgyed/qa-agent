@@ -8,8 +8,7 @@ GOLDENS_FILE = REPO_ROOT / "evals" / "goldens" / "cases.json"
 GOLDENS = json.loads(GOLDENS_FILE.read_text(encoding="utf-8"))
 
 # My judgments of run 1 (docs/metrics.md): share of test cases that invent nothing.
-# TOOL-5 is not judged by me yet, so the judge's score is shown for information only.
-HUMAN_SCORES = {"TOOL-6": 1.0, "TOOL-7": 1.0}
+HUMAN_SCORES = {"TOOL-5": 1.0, "TOOL-6": 1.0, "TOOL-7": 1.0}
 STORIES = ["TOOL-5", "TOOL-6", "TOOL-7"]
 
 
