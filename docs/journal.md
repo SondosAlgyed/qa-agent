@@ -106,3 +106,18 @@
   but the code reads the model from qa.config.ts. Tests on error paths matter too.
 - Not tested: no-credit and busy messages (would need to really run out of credit
   or wait for an outage).
+## 2026-10-21 — `qa cases`: from contract to 24 of 24
+
+- `TestCaseStore` contract + Markdown adapter. The file is written to a temp file and renamed at
+  the end, so a failed run never leaves a half-written file.
+- Stories list criteria as bullets without IDs, so the model numbers them and each test case
+  says which criteria it covers. That makes coverage a plain assertion, no judge needed.
+- Structured outputs (a JSON schema) instead of asking for JSON in the prompt: the evals measure
+  test case quality, not broken JSON. The schema guarantees the shape, not the logic, so the code
+  still checks that every "covers" ID exists.
+- Prompt v1: 4 of 8. The eval found three different causes. v2 changed one rule (what counts as
+  a criterion) and got 24 of 24 over 3 runs.
+- Mistake caught: v2-a's examples came from a golden story, which our rules forbid. Replaced them
+  (v2-b) and recorded v2-a as not trusted.
+- The goldens' labels were decided by Claude at my request, using my counting rule; that's written
+  in the goldens. Judging the judge must be my own call, so I judged TOOL-7 myself first.

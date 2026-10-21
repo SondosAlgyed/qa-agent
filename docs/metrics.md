@@ -166,3 +166,14 @@ Raw outputs: `docs/cases-runs/2026-10-21-3883f28/` (v2-a), `docs/cases-runs/2026
 - TOOL-2: two of three runs put the detail lines in brackets after their criterion (copied from the
   story, not invented); one run left them out.
 - "No invented requirements" is not measured yet: that needs the G-Eval metric, next.
+
+### Judge validation for "No invented requirements" (in progress)
+
+Human judgments of the saved v2-b runs (`docs/cases-runs/2026-10-21-d67b2ef/`, run 1), made before
+seeing any judge or assistant opinion. Score = share of test cases with nothing invented.
+
+| Story | My score | Notes |
+|-------|----------|-------|
+| TOOL-7 | 1.00 (4 of 4 fine) | Claude (the assistant) disagreed afterwards on TC-2: "two filters show products matching both" picks AND over OR without saying "not specified" (TOOL-4 uses OR for two categories). I kept my judgment: it is the natural reading of "narrow down correctly". |
+
+Still to judge: TOOL-5, TOOL-6. Then write the G-Eval metric and compare.
