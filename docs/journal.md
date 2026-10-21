@@ -91,3 +91,18 @@
   404 "issue doesn't exist or no permission". So the tool reports "not found"
   when the real problem is auth. That's exactly the kind of misleading error
   the cleanup step should fix. Anthropic and OpenAI keys are fine.
+
+## 2026-10-21 — Cleanup: clear errors
+
+- Two kinds of errors: expected ones we can explain (`QaError`, one line, exit
+  code 1) and bugs (full stack trace). The adapters know what a 401 means; the CLI
+  only asks "is it a QaError?", so it stays thin and a GUI or MCP server can reuse it.
+- Jira: a bad token gives 404, not 401. So on a 404 the adapter asks Jira "who am
+  I?" first. Now a bad token says "login failed" and a wrong key says "not found".
+  Root cause, not symptom.
+- Claude: matched the SDK's error classes, not message text (except the credit
+  case, which can come as a plain 400).
+- Testing the messages found a wrong one: I pointed users to CLAUDE_MODEL in .env,
+  but the code reads the model from qa.config.ts. Tests on error paths matter too.
+- Not tested: no-credit and busy messages (would need to really run out of credit
+  or wait for an outage).

@@ -110,28 +110,31 @@ the same way as TypeScript (new concepts explained the first time they appear).
       Out of scope items 43 → 26. Evals save every review; QA_EVAL_RUNS repeats runs;
       QA_TOOL_DIR runs an older version from a git worktree. Details in docs/metrics.md.
 
+- [x] Cleanup: clear CLI errors. `QaError` (src/core/errors.ts) = an expected error with
+      a clear message; the CLI prints it as one line on stderr, exit code 1. Other
+      errors keep their stack trace. Jira: 401/403 → login failed; on 404 it checks
+      /myself first, because Jira answers a bad token as anonymous (404), so "not found"
+      is only shown when the login works. Claude: bad key, no credit, unknown model,
+      busy/unreachable. Missing .env values. The credit and busy messages are untested.
+
 ## Next steps (in order)
-1. Cleanup: one clear error line for CLI errors (Jira 404, API credit, auth), and a
-   failed run leaves no normal-looking output file. First, because `cases` writes files.
-2. `qa cases <key>`: TestCaseStore interface + Markdown adapter + cases prompt v1.
+1. `qa cases <key>`: TestCaseStore interface + Markdown adapter + cases prompt v1.
    Writes test cases for humans (steps + expected result); it does not run anything.
-3. cases evals: goldens, plain assertions (every AC covered), G-Eval (no invented
+   A failed run must not leave a normal-looking output file (write only at the end).
+2. cases evals: goldens, plain assertions (every AC covered), G-Eval (no invented
    requirements), validate the judge against my judgments. Part 1 done.
-4. `qa automate <key>` + its evals (Part 2).
-5. `qa run --smoke | --regression`.
-6. Better evaluation: synthetic goldens → Prompt Alignment → review prompt v4.
+3. `qa automate <key>` + its evals (Part 2). Target repo: ../toolshop-tests.
+4. `qa run --smoke | --regression`.
+5. Better evaluation: synthetic goldens → Prompt Alignment → review prompt v4.
    After Part 2, so the Synthesizer serves all three prompts (review, cases, automate).
-7. Safety evals (PII + prompt injection). Before `qa report`, the first command that
+6. Safety evals (PII + prompt injection). Before `qa report`, the first command that
    writes to Jira.
-8. Part 3: `triage`, `report`, MCP server, evals in CI, npm publish.
+7. Part 3: `triage`, `report`, MCP server, evals in CI, npm publish.
 
 ## Cleanup still needed
 - tsconfig.json: trailing comma after "types": ["node"]
-- LLM adapter: show a clear message when the Anthropic API credit is exhausted,
-  instead of the raw 400 error.
-- All CLI errors (Jira 404, API credit, auth) should print one clear line instead
-  of a raw stack trace.
-- A failed run must not leave a normal-looking output file.
+- .env has unused leftovers (CLAUDE_MODEL, AGENT_MAX_TURNS, BASE_URL); the model is
+  set in qa.config.ts (llm.model).
 
 ## Roadmap
 - Part 1: interfaces, config, CLI skeleton, Jira + Markdown adapters, `review`, then an

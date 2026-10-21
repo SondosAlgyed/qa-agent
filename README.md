@@ -13,6 +13,7 @@ Early development. What works today:
 - `LLMProvider` contract + Claude adapter (`ClaudeProvider`), plug in your own through qa.config.ts
 - Config file (`qa.config.ts`): use the built-in Jira and Claude adapters, or plug in your own
 - CLI with one command: `qa review <key>` fetches a story from Jira and asks Claude to review it: a verdict (Ready / Ready with questions / Not ready) plus findings classified as Blocking, Question, or Out of scope, each with a question for the product owner. Add `--json` to get the story, verdict, and review as one JSON object (for scripts and evals). Evaluation results: [docs/metrics.md](docs/metrics.md)
+- Clear errors: problems you can fix (missing `.env` value, bad Jira token, story not found, bad Anthropic key, no API credit, unknown model, Claude busy) print one line that says what to do, and exit with code 1. Unexpected errors keep their full stack trace.
 - Evals (`evals/`, Python + DeepEval): run `qa review` as a black box on 8 golden stories, check the verdict, and use a GPT judge (G-Eval) to check that Blocking findings are grounded in the story. The judge was checked against human judgments first.
 
 ## Running the evals
@@ -51,7 +52,8 @@ src/
 │   ├── load.ts       # loads qa.config.ts
 │   └── env.ts        # reads secrets from .env
 ├── core/
-│   └── review.ts     # review logic + prompt
+│   ├── review.ts     # review logic + prompt
+│   └── errors.ts     # QaError: an expected error with a clear message
 ├── llm/
 │   ├── types.ts      # LLMProvider contract
 │   ├── claude.ts     # Claude adapter
