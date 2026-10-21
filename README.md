@@ -13,8 +13,10 @@ Early development. What works today:
 - `LLMProvider` contract + Claude adapter (`ClaudeProvider`), plug in your own through qa.config.ts
 - Config file (`qa.config.ts`): use the built-in Jira and Claude adapters, or plug in your own
 - CLI with one command: `qa review <key>` fetches a story from Jira and asks Claude to review it: a verdict (Ready / Ready with questions / Not ready) plus findings classified as Blocking, Question, or Out of scope, each with a question for the product owner. Add `--json` to get the story, verdict, and review as one JSON object (for scripts and evals). Evaluation results: [docs/metrics.md](docs/metrics.md)
+- `qa cases <key>` writes manual test cases for a story to `test-cases/<KEY>.md`, as a draft for a tester to review: the acceptance criteria numbered AC1, AC2, ..., then test cases (positive, negative, edge) with preconditions, steps, expected result, and which criteria each one covers. Where the story doesn't say what should happen, the case says "not specified in the story" instead of guessing. Add `--json` to print instead of saving. The model returns structured JSON (a schema enforced by the API). Saving goes through a `TestCaseStore` contract, so other tools (Zephyr, Xray, TestRail) can be added as adapters.
 - Clear errors: problems you can fix (missing `.env` value, bad Jira token, story not found, bad Anthropic key, no API credit, unknown model, Claude busy) print one line that says what to do, and exit with code 1. Unexpected errors keep their full stack trace.
 - Evals (`evals/`, Python + DeepEval): run `qa review` as a black box on 8 golden stories, check the verdict, and use a GPT judge (G-Eval) to check that Blocking findings are grounded in the story. The judge was checked against human judgments first.
+- Cases evals: run `qa cases` on the same 8 stories and check that it finds the same number of acceptance criteria as a human counted, and that every criterion has a test case (24 of 24 over 3 runs). A GPT judge for "no invented requirements" exists but isn't trusted yet: it agreed with my judgment on 1 of 2 stories so far.
 
 ## Running the evals
 
@@ -24,6 +26,7 @@ Requires Python 3 and an `OPENAI_API_KEY` in `.env` (for the judge).
 python -m venv evals/.venv
 evals/.venv/Scripts/python.exe -m pip install -r evals/requirements.txt   # on macOS/Linux: evals/.venv/bin/python
 evals/.venv/Scripts/python.exe -m pytest evals/test_review.py -v -s
+evals/.venv/Scripts/python.exe -m pytest evals/test_cases.py -v
 ```
 
 Every review is saved to `docs/review-runs/<date>-<prompt commit>/`. Optional settings:
@@ -53,7 +56,11 @@ src/
 │   └── env.ts        # reads secrets from .env
 ├── core/
 │   ├── review.ts     # review logic + prompt
+│   ├── cases.ts      # test case logic + prompt + JSON schema
 │   └── errors.ts     # QaError: an expected error with a clear message
+├── stores/
+│   ├── types.ts      # TestCase, TestSuite + TestCaseStore contract
+│   └── markdown.ts   # Markdown adapter (test-cases/<KEY>.md)
 ├── llm/
 │   ├── types.ts      # LLMProvider contract
 │   ├── claude.ts     # Claude adapter
@@ -64,8 +71,11 @@ src/
     └── factory.ts    # picks the ticket system
 evals/                # Python evals (never imported by src/)
 ├── goldens/review.json   # 8 stories: Jira snapshot + expected verdict
-├── run_cli.py        # runs qa review --json
-├── judges.py         # G-Eval judge for Blocking findings
-├── test_review.py    # the eval (pytest)
-└── validate_judge.py # compares the judge with my own judgments
+├── goldens/cases.json    # same 8 stories + expected acceptance criteria
+├── run_cli.py        # runs qa review / qa cases --json
+├── judges.py         # G-Eval judges (Blocking findings, invented requirements)
+├── test_review.py    # the review eval (pytest)
+├── test_cases.py     # the cases eval (pytest)
+├── validate_judge.py        # compares the review judge with my own judgments
+└── validate_cases_judge.py  # compares the cases judge with my own judgments
 ```
