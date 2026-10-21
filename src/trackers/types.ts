@@ -1,4 +1,5 @@
 export interface Story {
+  id: string; // the tracker's internal ID; some tools link by ID, not by key
   key: string;
   summary: string;
   description: string;

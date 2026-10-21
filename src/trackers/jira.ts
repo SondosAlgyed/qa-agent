@@ -22,6 +22,7 @@ export class JiraTicketSystem implements TicketSystem {
   // 2) Public method: part of the TicketSystem contract
   async getStory(key: string): Promise<Story> {
     type JiraIssueResponse = {
+      id: string;
       key: string;
       fields: Record<string, any>;
     };
@@ -33,6 +34,7 @@ export class JiraTicketSystem implements TicketSystem {
     const f = issue.fields;
 
     return {
+      id: issue.id,
       key: issue.key,
       summary: f.summary ?? "",
       description: f.description ?? "",
