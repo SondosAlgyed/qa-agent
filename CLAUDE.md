@@ -130,8 +130,21 @@ the same way as TypeScript (new concepts explained the first time they appear).
       me on 1 of 3, stricter on the other two (it counts ordinary expectations as invented).
       Not a pass/fail check yet; needs more human-judged stories. Part 1 is done.
 
+- [x] `qa cases <key> --push`: posts the reviewed file to the story as a Jira comment.
+- [ ] Zephyr adapter (in progress). Zephyr (SmartBear, trial, Standard plan, $10/month after
+      the trial: cancel it if not needed) is installed on the TOOL project. Done: parseMarkdown
+      (reviewed file → TestSuite, round-trip test 8/8 identical), Story.id (TOOL-1 = 10006).
+      Blocked: ZEPHYR_API_TOKEN (.env, from Personal settings → Apps → Zephyr API Access Tokens)
+      gets 401 "Unknown token" on https://api.zephyrscale.smartbear.com/v2/projects, US and EU,
+      although it's fresh, issued for our site, and valid to 2027. Maybe a new-install delay.
+
 ## Next steps (in order)
-1. Part 2 design: `qa automate`. Agree the design before any code.
+1. Zephyr: retry the token. If it works, write ZephyrTestCaseStore against the real API, one
+   call at a time (POST /testcases, /testcases/{key}/teststeps, /testcases/{key}/links/issues
+   with the numeric issueId); the field names so far come from third-party examples, not the
+   official docs. If it still fails, contact SmartBear support with the exact error.
+   Then: should --push go to Zephyr instead of a comment, and delete the TOOL-1 comment?
+2. Part 2 design: `qa automate`. Agree the design before any code.
 2. `qa automate <key>` + its evals (Part 2). Target repo: ../toolshop-tests.
 3. `qa run --smoke | --regression`.
 4. Better evaluation: synthetic goldens → Prompt Alignment → review prompt v4.

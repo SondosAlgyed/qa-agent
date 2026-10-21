@@ -125,3 +125,10 @@
   it, and `qa cases <key> --push` posts that file as a comment, without calling the model.
   That's why this is allowed before the safety evals (recorded in CLAUDE.md). Jira's API
   reads wiki markup, so the Jira adapter converts the Markdown; the CLI doesn't know.
+- Started a Zephyr adapter, because a comment can't hold test runs, and Zephyr is what I used
+  at _VOIS. The reviewed Markdown file is the source, so `parseMarkdown` reads it back (a
+  round-trip test: parse + write gives the same file for all 8). Zephyr links by the issue's
+  numeric ID, so `Story` now has `id`.
+- Blocked on Zephyr's API token: a fresh token gets "Unknown token". I stopped instead of
+  writing the adapter blind: field names guessed from examples, with no way to test them,
+  would likely mean rewriting it. Tomorrow: retry, then build it against the real API.
