@@ -1,4 +1,4 @@
-import { readFile } from "node:fs/promises";
+import { mkdir, readdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 
 // The tester's project that the automate agent works in. Every tool goes
@@ -19,8 +19,7 @@ export class TargetRepo {
     if (inside.startsWith("..") || path.isAbsolute(inside)) {
       throw new Error(`"${requested}" is outside the project. Use a path inside it.`);
     }
-    const parts = inside.split(path.sep);
-    if (parts.some((p) => p === "node_modules" || p === ".git" || p.startsWith(".env"))) {
+    if (inside.split(path.sep).some(OFF_LIMITS)) {
       throw new Error(`"${requested}" is not allowed (node_modules, .git and .env files are off limits).`);
     }
     return full;
@@ -29,4 +28,29 @@ export class TargetRepo {
   async readFile(requested: string): Promise<string> {
     return readFile(this.resolve(requested), "utf8");
   }
+
+  // One folder level; folders end with "/". Off-limits names are left out.
+  async listFiles(requested = "."): Promise<string[]> {
+    const entries = await readdir(this.resolve(requested), { withFileTypes: true });
+    return entries
+      .filter((e) => !OFF_LIMITS(e.name))
+      .map((e) => (e.isDirectory() ? `${e.name}/` : e.name))
+      .sort();
+  }
+
+  // New files only: the agent never changes a test or page object someone wrote
+  async writeFile(requested: string, content: string): Promise<void> {
+    const full = this.resolve(requested);
+    await mkdir(path.dirname(full), { recursive: true });
+    try {
+      await writeFile(full, content, { encoding: "utf8", flag: "wx" });
+    } catch (error) {
+      if ((error as NodeJS.ErrnoException).code === "EEXIST") {
+        throw new Error(`"${requested}" already exists. Write a new file instead of changing it.`);
+      }
+      throw error;
+    }
+  }
 }
+
+const OFF_LIMITS = (name: string) => name === "node_modules" || name === ".git" || name.startsWith(".env");

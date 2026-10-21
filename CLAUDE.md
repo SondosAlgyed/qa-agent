@@ -145,6 +145,8 @@ the same way as TypeScript (new concepts explained the first time they appear).
    official docs. If it still fails, contact SmartBear support with the exact error.
    Then: should --push go to Zephyr instead of a comment, and delete the TOOL-1 comment?
 2. `qa automate`: build it following the agreed design below, one small step at a time.
+   Done so far: src/automate/repo.ts `TargetRepo` (resolve = the boundary check, readFile,
+   listFiles, writeFile new files only) + unit tests (`npm run test:unit`, node:test, 7 pass).
 
 ## `qa automate` design (agreed 2026-10-22)
 - Command: `qa automate <key> <TC-id>`, e.g. `qa automate TOOL-1 TC-2`. One test case, chosen by
@@ -167,7 +169,8 @@ the same way as TypeScript (new concepts explained the first time they appear).
   tag; the trace shows run_test before "done". One G-Eval: the test really checks the expected
   result (validate against my judgments). Use test cases with no existing hand-written test
   (TOOL-4 filters, TOOL-2 registration, TOOL-8 removing an item), so it can't copy one.
-2. `qa automate <key>` + its evals (Part 2). Target repo: ../toolshop-tests.
+
+## Later steps (continuing the list above)
 3. `qa run --smoke | --regression`.
 4. Better evaluation: synthetic goldens → Prompt Alignment → review prompt v4.
    After Part 2, so the Synthesizer serves all three prompts (review, cases, automate).

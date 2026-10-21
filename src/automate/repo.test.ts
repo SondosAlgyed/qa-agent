@@ -33,3 +33,27 @@ test("refuses .env, node_modules and .git", async () => {
   await assert.rejects(repo.readFile("node_modules/x/index.js"), /not allowed/);
   await assert.rejects(repo.readFile(".git/config"), /not allowed/);
 });
+
+test("lists one folder, leaving out off-limits names", async () => {
+  const repo = await makeRepo();
+  assert.deepEqual(await repo.listFiles(), ["pages/"]);
+  assert.deepEqual(await repo.listFiles("pages"), ["login-page.ts"]);
+});
+
+test("writes a new file, creating its folder", async () => {
+  const repo = await makeRepo();
+  await repo.writeFile("tests/TOOL-1-TC-2.spec.ts", "test code");
+  assert.equal(await repo.readFile("tests/TOOL-1-TC-2.spec.ts"), "test code");
+});
+
+test("never overwrites an existing file", async () => {
+  const repo = await makeRepo();
+  await assert.rejects(repo.writeFile("pages/login-page.ts", "changed"), /already exists/);
+  assert.equal(await repo.readFile("pages/login-page.ts"), "export class LoginPage {}");
+});
+
+test("refuses to write outside the project or to .env", async () => {
+  const repo = await makeRepo();
+  await assert.rejects(repo.writeFile("../evil.ts", "x"), /outside the project/);
+  await assert.rejects(repo.writeFile(".env.local", "x"), /not allowed/);
+});
