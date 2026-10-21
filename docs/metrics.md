@@ -176,4 +176,22 @@ seeing any judge or assistant opinion. Score = share of test cases with nothing 
 |-------|----------|-------|
 | TOOL-7 | 1.00 (4 of 4 fine) | Claude (the assistant) disagreed afterwards on TC-2: "two filters show products matching both" picks AND over OR without saying "not specified" (TOOL-4 uses OR for two categories). I kept my judgment: it is the natural reading of "narrow down correctly". |
 
-Still to judge: TOOL-5, TOOL-6. Then write the G-Eval metric and compare.
+| TOOL-6 | 1.00 (1 of 1 fine) | Not invented, but missing: no case for a failed checkout. The assistant had pointed me to look at the preconditions before I answered. Afterwards it noted "logged in" is an assumption (guest checkout isn't ruled out); I kept my judgment. |
+
+Still to judge: TOOL-5.
+
+Judge: G-Eval "No invented requirements" (`evals/judges.py`, GPT `gpt-5.5-2026-04-23`).
+Run with: `evals/.venv/Scripts/python.exe evals/validate_cases_judge.py`
+
+| Date | Story | My score | Judge score | Where we disagree |
+|------|-------|----------|-------------|-------------------|
+| 2026-10-21 | TOOL-5 | not judged | 0.80 | – (judge flagged TC-3, "sorting an empty list") |
+| 2026-10-21 | TOOL-6 | 1.00 | 1.00 | – (judge also noted "logged in" as an assumption, but not an invented requirement) |
+| 2026-10-21 | TOOL-7 | 1.00 | 0.80 | Judge flagged TC-3 (removing a filter restores the list). It accepted TC-2 (AND), the one the assistant had questioned. |
+
+**Conclusion so far:** the judge agrees with me on 1 of 2 stories; on TOOL-7 it is stricter by one
+borderline case. Three readers (me, the assistant, the judge) each drew the line in a different
+place on TOOL-7, so "invented" is itself a fuzzy label here. Sample far too small to trust the
+judge yet: don't add it to test_cases.py as a pass/fail check until more stories are judged by me.
+Idea from my review, not measured yet: a failure/negative case can be needed even when the story
+doesn't describe the failure (expected result "not specified").
