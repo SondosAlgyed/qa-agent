@@ -1,0 +1,96 @@
+{
+  "key": "TOOL-7",
+  "summary": "TOOL-7 Filter products",
+  "description": "As a customer, I want to filter the products.\n\n* Filters should narrow down the list correctly.",
+  "status": "To Do",
+  "criteria": [
+    {
+      "id": "AC1",
+      "text": "As a customer, I am able to filter the products (filtering is available on the product list)."
+    },
+    {
+      "id": "AC2",
+      "text": "Filters should narrow down the list correctly (the resulting list contains only products matching the applied filter)."
+    }
+  ],
+  "cases": [
+    {
+      "id": "TC-1",
+      "title": "Customer can apply a filter on the product list",
+      "covers": [
+        "AC1"
+      ],
+      "type": "positive",
+      "preconditions": "The application is reachable; the product list page is available and contains several products. The tester is acting as a customer (no special permissions assumed).",
+      "steps": [
+        "Open the product list page as a customer.",
+        "Locate the filter control(s) offered on the page (the story does not specify which filter attributes or control types exist - not specified in the story).",
+        "Select one available filter value.",
+        "Apply the filter (via the apply/confirm action offered by the UI - not specified in the story)."
+      ],
+      "expected": "Filtering is available to the customer and the selected filter is accepted and applied; the product list is refreshed with the filter in effect. The exact filter attributes, control layout and confirmation wording are not specified in the story."
+    },
+    {
+      "id": "TC-2",
+      "title": "Applied filter narrows the list to matching products only",
+      "covers": [
+        "AC2"
+      ],
+      "type": "positive",
+      "preconditions": "The product list page contains a known mix of products: at least 3 products that match a chosen filter value and at least 3 products that do not match it. The tester knows which products belong to each group.",
+      "steps": [
+        "Open the product list page as a customer.",
+        "Record the products shown before filtering.",
+        "Select the chosen filter value and apply the filter.",
+        "Compare the resulting list against the recorded data."
+      ],
+      "expected": "The resulting list shows only the products that match the applied filter value; none of the non-matching products are shown, and no matching product is missing. Sorting, paging and count display behaviour are not specified in the story."
+    },
+    {
+      "id": "TC-3",
+      "title": "Filter value that matches no product",
+      "covers": [
+        "AC2"
+      ],
+      "type": "edge",
+      "preconditions": "The product list page is available, and a filter value exists for which no product in the catalogue matches.",
+      "steps": [
+        "Open the product list page as a customer.",
+        "Select the filter value that no product matches.",
+        "Apply the filter."
+      ],
+      "expected": "No products are shown, because no product matches the filter - the filter must not display non-matching products. The exact empty-result message or screen is not specified in the story."
+    },
+    {
+      "id": "TC-4",
+      "title": "Filter value that matches every product",
+      "covers": [
+        "AC2"
+      ],
+      "type": "edge",
+      "preconditions": "The product list page is available and all products in the catalogue share the same value for one filterable attribute.",
+      "steps": [
+        "Open the product list page as a customer.",
+        "Record the full product list before filtering.",
+        "Select the filter value shared by all products and apply the filter."
+      ],
+      "expected": "The resulting list still contains all products, since all of them match the filter; no product is incorrectly removed."
+    },
+    {
+      "id": "TC-5",
+      "title": "Filtering is performed on the product list without a filter applied",
+      "covers": [
+        "AC1",
+        "AC2"
+      ],
+      "type": "negative",
+      "preconditions": "The product list page is available and contains several products; no filter has been applied yet in this session.",
+      "steps": [
+        "Open the product list page as a customer.",
+        "Do not select any filter value.",
+        "Observe the displayed product list."
+      ],
+      "expected": "With no filter applied, the list is not narrowed - all products of the unfiltered list are shown. The story specifies narrowing only as a result of applying filters; default filter pre-selection is not specified in the story."
+    }
+  ]
+}

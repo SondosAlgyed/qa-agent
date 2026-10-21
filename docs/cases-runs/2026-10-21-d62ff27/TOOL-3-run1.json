@@ -1,0 +1,141 @@
+{
+  "key": "TOOL-3",
+  "summary": "TOOL-3  Search for products ",
+  "description": "\nAs a customer, I want to search so I can find a tool quickly.\n\n* A search term matching existing products → only matching products are listed.\n* A term with no matches → an empty state message, no error.\n* Search is case-insensitive.\n* Clearing the search restores the full product list.\n\nSearch matches product names (partial, case-insensitive)",
+  "status": "To Do",
+  "criteria": [
+    {
+      "id": "AC1",
+      "text": "A search term that matches existing products results in only the matching products being listed."
+    },
+    {
+      "id": "AC2",
+      "text": "A search term with no matches shows an empty state message and no error."
+    },
+    {
+      "id": "AC3",
+      "text": "Search is case-insensitive."
+    },
+    {
+      "id": "AC4",
+      "text": "Clearing the search restores the full product list."
+    },
+    {
+      "id": "AC5",
+      "text": "Search matches product names, including partial matches."
+    }
+  ],
+  "cases": [
+    {
+      "id": "TC-1",
+      "title": "Search term matching existing products lists only matching products",
+      "covers": [
+        "AC1"
+      ],
+      "type": "positive",
+      "preconditions": "The customer is on the product list page. The catalogue contains at least one product whose name contains the word \"Hammer\" and at least one product whose name does not contain \"Hammer\" (e.g. \"Screwdriver\").",
+      "steps": [
+        "Note the products currently shown in the full product list.",
+        "Enter the search term \"Hammer\" in the search field.",
+        "Submit/apply the search as the UI requires.",
+        "Review the resulting product list."
+      ],
+      "expected": "Only products whose name contains \"Hammer\" are listed; products whose name does not contain \"Hammer\" (e.g. \"Screwdriver\") are not listed."
+    },
+    {
+      "id": "TC-2",
+      "title": "Search term with no matching products shows empty state message without error",
+      "covers": [
+        "AC2"
+      ],
+      "type": "negative",
+      "preconditions": "The customer is on the product list page. The catalogue contains no product whose name contains the string \"zzzqqq\".",
+      "steps": [
+        "Enter the search term \"zzzqqq\" in the search field.",
+        "Submit/apply the search as the UI requires.",
+        "Observe the result area and the page as a whole."
+      ],
+      "expected": "No products are listed and an empty state message is displayed (exact wording not specified in the story). No error message or error state is shown."
+    },
+    {
+      "id": "TC-3",
+      "title": "Search is case-insensitive (uppercase term matches lowercase product name)",
+      "covers": [
+        "AC3",
+        "AC1"
+      ],
+      "type": "positive",
+      "preconditions": "The customer is on the product list page. The catalogue contains a product named with lowercase/mixed case, e.g. \"Cordless drill\".",
+      "steps": [
+        "Enter the search term in a different case to the product name, e.g. \"CORDLESS DRILL\".",
+        "Submit/apply the search as the UI requires.",
+        "Review the resulting product list."
+      ],
+      "expected": "The product \"Cordless drill\" is listed; the result is the same as searching with the term in its original case. Only matching products are shown."
+    },
+    {
+      "id": "TC-4",
+      "title": "Search is case-insensitive (lowercase term matches capitalised product name)",
+      "covers": [
+        "AC3"
+      ],
+      "type": "edge",
+      "preconditions": "The customer is on the product list page. The catalogue contains a product whose name starts with a capital letter, e.g. \"Hammer\".",
+      "steps": [
+        "Enter the search term entirely in lowercase, e.g. \"hammer\".",
+        "Submit/apply the search as the UI requires.",
+        "Review the resulting product list."
+      ],
+      "expected": "The product \"Hammer\" is listed among the results."
+    },
+    {
+      "id": "TC-5",
+      "title": "Partial product name matches the product",
+      "covers": [
+        "AC5",
+        "AC1"
+      ],
+      "type": "positive",
+      "preconditions": "The customer is on the product list page. The catalogue contains a product named \"Cordless drill\" and at least one product whose name does not contain the fragment \"dril\".",
+      "steps": [
+        "Enter a partial product name, e.g. \"dril\", in the search field.",
+        "Submit/apply the search as the UI requires.",
+        "Review the resulting product list."
+      ],
+      "expected": "The product \"Cordless drill\" is listed because its name contains the entered fragment; products whose names do not contain \"dril\" are not listed."
+    },
+    {
+      "id": "TC-6",
+      "title": "Clearing the search restores the full product list",
+      "covers": [
+        "AC4"
+      ],
+      "type": "positive",
+      "preconditions": "The customer is on the product list page and the catalogue contains several products, at least one of which matches the term \"Hammer\" and at least one of which does not.",
+      "steps": [
+        "Note the complete set of products shown before searching.",
+        "Enter the search term \"Hammer\" and apply the search so that a filtered list is shown.",
+        "Clear the search field (remove all entered text) and apply as the UI requires.",
+        "Review the resulting product list."
+      ],
+      "expected": "The full product list is shown again, identical to the list noted before the search was performed."
+    },
+    {
+      "id": "TC-7",
+      "title": "Clearing the search after a no-results search restores the full product list",
+      "covers": [
+        "AC4",
+        "AC2"
+      ],
+      "type": "edge",
+      "preconditions": "The customer is on the product list page and the catalogue contains several products, none of which has a name containing \"zzzqqq\".",
+      "steps": [
+        "Note the complete set of products shown before searching.",
+        "Enter the search term \"zzzqqq\" and apply the search; confirm the empty state message is shown.",
+        "Clear the search field (remove all entered text) and apply as the UI requires.",
+        "Review the resulting product list."
+      ],
+      "expected": "The empty state message is no longer shown and the full product list is displayed again, identical to the list noted before the search."
+    }
+  ]
+}

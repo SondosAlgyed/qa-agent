@@ -1,0 +1,120 @@
+{
+  "key": "TOOL-8",
+  "summary": "TOOL-8 Manage the shopping cart",
+  "description": "As a customer, I want to change my cart before checking out.\n\n* Increasing the quantity of an item updates that line's total and the cart total.\n* Removing an item removes it from the list and updates the total.\n* Removing the last item shows an empty cart message.\n* Cart contents persist after a page refresh.",
+  "status": "To Do",
+  "criteria": [
+    {
+      "id": "AC1",
+      "text": "Increasing the quantity of an item updates that line's total and the cart total."
+    },
+    {
+      "id": "AC2",
+      "text": "Removing an item removes it from the list and updates the cart total."
+    },
+    {
+      "id": "AC3",
+      "text": "Removing the last item shows an empty cart message."
+    },
+    {
+      "id": "AC4",
+      "text": "Cart contents persist after a page refresh."
+    }
+  ],
+  "cases": [
+    {
+      "id": "TC-1",
+      "title": "Increasing the quantity of an item updates the line total and the cart total",
+      "covers": [
+        "AC1"
+      ],
+      "type": "positive",
+      "preconditions": "A customer is logged in (or has an active session) and the cart page is open with exactly one item, quantity 1. The line total and cart total are noted before the change.",
+      "steps": [
+        "Open the cart page.",
+        "Note the item's unit price, line total and the cart total.",
+        "Increase the quantity of the item from 1 to 2."
+      ],
+      "expected": "The line total for that item is updated to reflect the new quantity, and the cart total is updated accordingly."
+    },
+    {
+      "id": "TC-2",
+      "title": "Increasing the quantity of one item in a multi-item cart updates only that line and the cart total",
+      "covers": [
+        "AC1"
+      ],
+      "type": "edge",
+      "preconditions": "The cart page is open with two different items, each with quantity 1. Line totals and the cart total are noted before the change.",
+      "steps": [
+        "Open the cart page.",
+        "Note both line totals and the cart total.",
+        "Increase the quantity of the first item from 1 to 3.",
+        "Review both lines and the cart total."
+      ],
+      "expected": "The first item's line total is updated for the new quantity, the second item's line total is unchanged, and the cart total is updated to reflect the change."
+    },
+    {
+      "id": "TC-3",
+      "title": "Removing one item from a multi-item cart removes the line and updates the total",
+      "covers": [
+        "AC2"
+      ],
+      "type": "positive",
+      "preconditions": "The cart page is open with two different items in it.",
+      "steps": [
+        "Open the cart page.",
+        "Note the items listed and the cart total.",
+        "Remove the first item from the cart."
+      ],
+      "expected": "The removed item no longer appears in the cart list, the other item is still listed, and the cart total is updated to no longer include the removed item."
+    },
+    {
+      "id": "TC-4",
+      "title": "Removing the last item shows the empty cart message",
+      "covers": [
+        "AC2",
+        "AC3"
+      ],
+      "type": "edge",
+      "preconditions": "The cart page is open with exactly one item in it.",
+      "steps": [
+        "Open the cart page.",
+        "Remove the only item from the cart."
+      ],
+      "expected": "The item is removed from the list, the cart total is updated, and an empty cart message is shown (exact wording not specified in the story)."
+    },
+    {
+      "id": "TC-5",
+      "title": "Cart contents persist after a page refresh",
+      "covers": [
+        "AC4"
+      ],
+      "type": "positive",
+      "preconditions": "The cart page is open with two different items in it.",
+      "steps": [
+        "Open the cart page and note the items, their quantities and the cart total.",
+        "Refresh the page in the browser.",
+        "Review the cart contents."
+      ],
+      "expected": "The same items, quantities and cart total are shown after the refresh as before it."
+    },
+    {
+      "id": "TC-6",
+      "title": "Quantity change and item removal persist after a page refresh",
+      "covers": [
+        "AC1",
+        "AC2",
+        "AC4"
+      ],
+      "type": "positive",
+      "preconditions": "The cart page is open with two different items, each with quantity 1.",
+      "steps": [
+        "Open the cart page.",
+        "Increase the quantity of the first item from 1 to 2 and confirm the line total and cart total update.",
+        "Remove the second item and confirm it disappears from the list and the cart total updates.",
+        "Refresh the page in the browser."
+      ],
+      "expected": "After the refresh the cart still shows only the first item with quantity 2, its updated line total, and the updated cart total; the removed item is still absent."
+    }
+  ]
+}

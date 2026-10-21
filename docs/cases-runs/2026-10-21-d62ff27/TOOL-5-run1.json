@@ -1,0 +1,97 @@
+{
+  "key": "TOOL-5",
+  "summary": "TOOL-5  Product sorting",
+  "description": "As a customer, I want to sort the products.\n\n* Sorting should work properly.",
+  "status": "To Do",
+  "criteria": [
+    {
+      "id": "AC1",
+      "text": "As a customer, I want to sort the products (a sorting capability is available to the customer on the products)."
+    },
+    {
+      "id": "AC2",
+      "text": "Sorting should work properly."
+    }
+  ],
+  "cases": [
+    {
+      "id": "TC-1",
+      "title": "Sorting capability is available to the customer on the product list",
+      "covers": [
+        "AC1"
+      ],
+      "type": "positive",
+      "preconditions": "Access to the application as a customer. A product list containing several products is displayed.",
+      "steps": [
+        "Open the application as a customer.",
+        "Navigate to the page that displays the list of products.",
+        "Look for the control that lets the customer sort the products."
+      ],
+      "expected": "A sorting control is available to the customer on the product list. The exact location, label and the set of available sort options are not specified in the story."
+    },
+    {
+      "id": "TC-2",
+      "title": "Applying a sort option reorders the products according to that option",
+      "covers": [
+        "AC1",
+        "AC2"
+      ],
+      "type": "positive",
+      "preconditions": "Access to the application as a customer. A product list containing several products with differing values (so the order is visible) is displayed.",
+      "steps": [
+        "Open the product list as a customer.",
+        "Record the current order of the displayed products.",
+        "Select one of the available sort options.",
+        "Observe the order of the products after the sort is applied."
+      ],
+      "expected": "The products are displayed in the order defined by the selected sort option; the sorting works properly. The concrete sort options and their exact ordering rules are not specified in the story."
+    },
+    {
+      "id": "TC-3",
+      "title": "Switching to a different sort option re-sorts the product list",
+      "covers": [
+        "AC2"
+      ],
+      "type": "positive",
+      "preconditions": "Access to the application as a customer. A product list containing several products is displayed and at least two sort options are available.",
+      "steps": [
+        "Open the product list as a customer.",
+        "Select one sort option and record the resulting order.",
+        "Select a different sort option.",
+        "Observe the order of the products."
+      ],
+      "expected": "The product list is re-sorted according to the newly selected option and no longer follows the previously selected option; sorting works properly for each option."
+    },
+    {
+      "id": "TC-4",
+      "title": "No products are lost, added or duplicated by sorting",
+      "covers": [
+        "AC2"
+      ],
+      "type": "edge",
+      "preconditions": "Access to the application as a customer. A product list containing several products is displayed.",
+      "steps": [
+        "Open the product list as a customer.",
+        "Record the complete set of products shown (names and count).",
+        "Apply a sort option.",
+        "Compare the set of products shown after sorting with the set recorded before sorting."
+      ],
+      "expected": "The same products are shown after sorting - only their order changes; no product is missing, duplicated or added."
+    },
+    {
+      "id": "TC-5",
+      "title": "Sorting a list with no products or a single product",
+      "covers": [
+        "AC2"
+      ],
+      "type": "edge",
+      "preconditions": "Access to the application as a customer. A product list that contains no products, or exactly one product, is displayed.",
+      "steps": [
+        "Open the product list as a customer in a state where it contains zero or one product.",
+        "Apply a sort option.",
+        "Observe the page."
+      ],
+      "expected": "Sorting is handled without an error and the list still shows the same zero or one product. The exact message or behaviour for an empty list is not specified in the story."
+    }
+  ]
+}

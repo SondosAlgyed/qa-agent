@@ -114,3 +114,30 @@ finding. TOOL-6 changed between runs although the rule change did not touch that
 judge itself is non-deterministic. Usable, but the sample is tiny (3 stories): don't trust small
 score differences, and don't tune the judge further on these same 3 stories (overfitting).
 Rule decision: duplicates count as real in this metric; duplication needs its own metric (v3).
+## Cases prompt
+
+Eval: `evals/test_cases.py` (run with `evals/.venv/Scripts/python.exe -m pytest evals/test_cases.py -v`).
+Goldens: `evals/goldens/cases.json`, 8 stories. Counting rule (mine): a criterion is any sentence that
+describes a new behaviour; details that explain a criterion are part of it. The labels were decided by
+Claude with that rule at my request, not yet reviewed by me. TOOL-6's single bullet counts as one
+criterion (one result of one action), also decided by Claude at my request.
+Checks: 1. criteria count = golden count. 2. every criterion has at least one test case.
+
+### v1 (`d62ff27`), 2026-10-21, 1 run
+
+Raw outputs: `docs/cases-runs/2026-10-21-d62ff27/`.
+
+| Story | Criteria found | Expected | Result |
+|-------|----------------|----------|--------|
+| TOOL-1 | 4 | 4 | pass |
+| TOOL-2 | 7 | 4 | fail: the 3 detail lines (`**`) counted as criteria |
+| TOOL-3 | 5 | 5 | pass |
+| TOOL-4 | 4 | 4 | pass |
+| TOOL-5 | 2 | 1 | fail: "As a customer, I want…" counted as a criterion, with invented text in brackets |
+| TOOL-6 | 2 | 1 | fail: one bullet split into two |
+| TOOL-7 | 2 | 1 | fail: "As a customer, I want…" counted as a criterion, with invented text in brackets |
+| TOOL-8 | 4 | 4 | pass |
+
+**4 of 8.** Coverage passed on the 4 stories that reached it. Three different causes: details counted
+as criteria, the user story sentence counted as a criterion, and splitting one bullet. On the vague
+stories the model also added text to the criteria in brackets, against rule 1.

@@ -1,0 +1,63 @@
+{
+  "key": "TOOL-6",
+  "summary": "TOOL-6 Checkout",
+  "description": "As a customer, I want to complete my order.\n\n* The user can finish checkout and see a confirmation.",
+  "status": "To Do",
+  "criteria": [
+    {
+      "id": "AC1",
+      "text": "As a customer, the user can complete (finish) their order via checkout."
+    },
+    {
+      "id": "AC2",
+      "text": "After finishing checkout, the user sees a confirmation."
+    }
+  ],
+  "cases": [
+    {
+      "id": "TC-1",
+      "title": "Customer finishes checkout and sees a confirmation",
+      "covers": [
+        "AC1",
+        "AC2"
+      ],
+      "type": "positive",
+      "preconditions": "A customer account is available and logged in (if login is required by the application). The customer has at least one item in the cart and is able to reach the checkout flow.",
+      "steps": [
+        "Open the cart containing at least one item.",
+        "Start the checkout process.",
+        "Complete every step of the checkout flow with valid data until the final 'finish/place order' action is available.",
+        "Trigger the final action that finishes checkout."
+      ],
+      "expected": "Checkout completes and the order is finished, and a confirmation is displayed to the user. The exact wording, layout and content of the confirmation are not specified in the story."
+    },
+    {
+      "id": "TC-2",
+      "title": "Confirmation is shown on the same session immediately after finishing checkout",
+      "covers": [
+        "AC2"
+      ],
+      "type": "edge",
+      "preconditions": "A customer is able to reach checkout with at least one item in the cart; no order has been placed yet in this session.",
+      "steps": [
+        "Complete the checkout flow with valid data and trigger the final finish action.",
+        "Without navigating away or reloading, observe the screen presented after the finish action."
+      ],
+      "expected": "A confirmation is visible to the user directly after finishing checkout, without any further user action. Any additional behaviour (e.g. confirmation email, order number format, what happens after reload) is not specified in the story."
+    },
+    {
+      "id": "TC-3",
+      "title": "Attempt to finish checkout with an empty cart",
+      "covers": [
+        "AC1"
+      ],
+      "type": "negative",
+      "preconditions": "A customer session with an empty cart (no items added).",
+      "steps": [
+        "Ensure the cart contains no items.",
+        "Attempt to start and finish the checkout process."
+      ],
+      "expected": "The story only states that the user can finish checkout and see a confirmation; it does not define behaviour for an empty cart. Record the observed behaviour and report it for clarification (not specified in the story)."
+    }
+  ]
+}
