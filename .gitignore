@@ -6,3 +6,4 @@ evals/.venv/
 __pycache__/
 .deepeval/
 .pytest_cache/
+test-cases/
