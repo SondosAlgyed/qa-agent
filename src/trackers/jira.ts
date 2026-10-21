@@ -40,12 +40,12 @@ export class JiraTicketSystem implements TicketSystem {
     };
   }
 
-  // 3) Public method: part of the TicketSystem contract
+  // 3) Public method: part of the TicketSystem contract. `text` is Markdown.
   async addComment(key: string, text: string): Promise<void> {
     const path = `/rest/api/2/issue/${encodeURIComponent(key)}/comment`;
     await this.request(path, {
       method: "POST",
-      body: { body: text },
+      body: { body: markdownToJira(text) },
       what: `Story ${key}`,
     });
   }
@@ -103,4 +103,19 @@ export class JiraTicketSystem implements TicketSystem {
     });
     return res.ok;
   }
+}
+
+// Jira's v2 API reads wiki markup, not Markdown: "# x" would become a numbered list.
+// Converts only the Markdown our tool writes (headings, bullets, numbered steps).
+function markdownToJira(markdown: string): string {
+  return markdown
+    .split("\n")
+    .map((line) =>
+      line
+        .replace(/^## (.*)$/, "h3. $1")
+        .replace(/^# (.*)$/, "h2. $1")
+        .replace(/^- /, "* ")
+        .replace(/^\d+\. /, "# "),
+    )
+    .join("\n");
 }

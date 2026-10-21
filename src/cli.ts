@@ -1,3 +1,5 @@
+import { existsSync, readFileSync } from "node:fs";
+import path from "node:path";
 import dotenv from "dotenv";
 import { Command } from "commander";
 import { loadConfig } from "./config/load.js";
@@ -51,9 +53,22 @@ program
   .description("Write test cases for a story's acceptance criteria")
   .argument("<key>", "story key, e.g. TOOL-1")
   .option("--json", "print the story and test cases as JSON instead of saving a file")
-  .action(async (key: string, options: { json?: boolean }) => {
+  .option("--push", "post the reviewed test case file to the story as a comment (no AI call)")
+  .action(async (key: string, options: { json?: boolean; push?: boolean }) => {
     const config = await loadConfig();
     const tickets = createTicketSystem(config);
+
+    // Only a file a human has reviewed goes to the tracker, never the model's answer directly
+    if (options.push) {
+      const file = path.join("test-cases", `${key}.md`);
+      if (!existsSync(file)) {
+        throw new QaError(`No ${file} to push. Run "qa cases ${key}" first, then review the file.`);
+      }
+      await tickets.addComment(key, readFileSync(file, "utf8"));
+      console.log(`Posted ${file} to ${key} as a comment.`);
+      return;
+    }
+
     const llm = createLLMProvider(config);
 
     const story = await tickets.getStory(key);

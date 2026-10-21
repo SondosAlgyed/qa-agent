@@ -136,8 +136,11 @@ the same way as TypeScript (new concepts explained the first time they appear).
 3. `qa run --smoke | --regression`.
 4. Better evaluation: synthetic goldens → Prompt Alignment → review prompt v4.
    After Part 2, so the Synthesizer serves all three prompts (review, cases, automate).
-5. Safety evals (PII + prompt injection). Before `qa report` or any Jira/Zephyr test case
-   adapter: the first commands that write to Jira.
+5. Safety evals (PII + prompt injection). Before any command that writes AI output to Jira
+   directly (`qa report`, a Zephyr adapter that skips review).
+   Decided 2026-10-21: `qa cases <key> --push` may post to Jira before the safety evals,
+   because it only posts the Markdown file a human has reviewed, never the model's answer
+   directly, and it doesn't call the model at all.
 6. Part 3: `triage`, `report`, MCP server, evals in CI, npm publish.
 
 ## Cleanup still needed
