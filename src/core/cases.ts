@@ -10,8 +10,8 @@ Rules:
 1. List the acceptance criteria in the order they appear and number them AC1, AC2, ...
    A criterion is a statement of a new behaviour. Include one written outside the bullet list.
    Not criteria: the user story sentence ("As a ..., I want ..."), which is context; and detail
-   lines that explain a criterion above them (for example, which fields are required, or a
-   minimum length), which belong to that criterion. Keep one bullet as one criterion.
+   lines that explain a criterion above them (for example, the allowed file types for an upload,
+   or a report's column order), which belong to that criterion. Keep one bullet as one criterion.
    Copy each criterion's wording; do not add to it or explain it.
 2. Every acceptance criterion must be covered by at least one test case.
 3. Do not invent requirements. Every expected result must come from the story.
