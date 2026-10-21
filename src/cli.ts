@@ -5,6 +5,8 @@ import { createTicketSystem } from "./trackers/factory.js";
 import { createLLMProvider } from "./llm/factory.js";
 import { parseVerdict, reviewStory } from "./core/review.js";
 import { QaError } from "./core/errors.js";
+import { writeTestCases } from "./core/cases.js";
+import { MarkdownTestCaseStore } from "./stores/markdown.js";
 
 dotenv.config({ quiet: true });
 
@@ -42,6 +44,33 @@ program
 
     const review = await reviewStory(story, llm);
     console.log(review);
+  });
+
+program
+  .command("cases")
+  .description("Write test cases for a story's acceptance criteria")
+  .argument("<key>", "story key, e.g. TOOL-1")
+  .option("--json", "print the story and test cases as JSON instead of saving a file")
+  .action(async (key: string, options: { json?: boolean }) => {
+    const config = await loadConfig();
+    const tickets = createTicketSystem(config);
+    const llm = createLLMProvider(config);
+
+    const story = await tickets.getStory(key);
+    if (!options.json) console.log(`Writing test cases for ${story.key}: ${story.summary}...`);
+
+    const suite = await writeTestCases(story, llm);
+
+    if (options.json) {
+      console.log(JSON.stringify({ ...story, ...suite }, null, 2));
+      return;
+    }
+
+    const store = new MarkdownTestCaseStore();
+    const location = await store.save(story, suite);
+    console.log(
+      `Saved ${suite.cases.length} test cases (covering ${suite.criteria.length} criteria) to ${location}`,
+    );
   });
 
 // Expected errors (QaError) print one clear line on stderr and exit with code 1.
