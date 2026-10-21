@@ -1,0 +1,105 @@
+{
+  "key": "TOOL-8",
+  "summary": "TOOL-8 Manage the shopping cart",
+  "description": "As a customer, I want to change my cart before checking out.\n\n* Increasing the quantity of an item updates that line's total and the cart total.\n* Removing an item removes it from the list and updates the total.\n* Removing the last item shows an empty cart message.\n* Cart contents persist after a page refresh.",
+  "status": "To Do",
+  "criteria": [
+    {
+      "id": "AC1",
+      "text": "Increasing the quantity of an item updates that line's total and the cart total."
+    },
+    {
+      "id": "AC2",
+      "text": "Removing an item removes it from the list and updates the total."
+    },
+    {
+      "id": "AC3",
+      "text": "Removing the last item shows an empty cart message."
+    },
+    {
+      "id": "AC4",
+      "text": "Cart contents persist after a page refresh."
+    }
+  ],
+  "cases": [
+    {
+      "id": "TC-1",
+      "title": "Increasing an item's quantity updates the line total and the cart total",
+      "covers": [
+        "AC1"
+      ],
+      "type": "positive",
+      "preconditions": "A customer is on the shopping cart page with exactly one item in the cart at quantity 1. The line total and cart total are noted before the change.",
+      "steps": [
+        "Note the item's unit price, its line total and the cart total.",
+        "Increase the quantity of the item from 1 to 2.",
+        "Observe the item's line total.",
+        "Observe the cart total."
+      ],
+      "expected": "The item's line total is updated to reflect the new quantity, and the cart total is updated accordingly."
+    },
+    {
+      "id": "TC-2",
+      "title": "Increasing the quantity of one item in a multi-item cart",
+      "covers": [
+        "AC1"
+      ],
+      "type": "edge",
+      "preconditions": "A customer is on the shopping cart page with two different items in the cart, each at quantity 1.",
+      "steps": [
+        "Note both line totals and the cart total.",
+        "Increase the quantity of the first item from 1 to 3.",
+        "Observe the first item's line total.",
+        "Observe the second item's line total.",
+        "Observe the cart total."
+      ],
+      "expected": "The first item's line total is updated for the new quantity, the second item's line total is unchanged, and the cart total is updated."
+    },
+    {
+      "id": "TC-3",
+      "title": "Removing one item from a cart that contains several items",
+      "covers": [
+        "AC2"
+      ],
+      "type": "positive",
+      "preconditions": "A customer is on the shopping cart page with three different items in the cart.",
+      "steps": [
+        "Note the three items listed and the cart total.",
+        "Remove the second item from the cart.",
+        "Observe the list of items.",
+        "Observe the cart total."
+      ],
+      "expected": "The removed item no longer appears in the cart list, the other two items remain, and the cart total is updated to exclude the removed item."
+    },
+    {
+      "id": "TC-4",
+      "title": "Removing the last remaining item shows the empty cart message",
+      "covers": [
+        "AC2",
+        "AC3"
+      ],
+      "type": "edge",
+      "preconditions": "A customer is on the shopping cart page with exactly one item in the cart.",
+      "steps": [
+        "Remove the only item from the cart.",
+        "Observe the cart page."
+      ],
+      "expected": "The item is removed from the list and an empty cart message is shown (exact message text not specified in the story)."
+    },
+    {
+      "id": "TC-5",
+      "title": "Cart contents persist after a page refresh",
+      "covers": [
+        "AC4"
+      ],
+      "type": "positive",
+      "preconditions": "A customer is on the shopping cart page with two different items in the cart, one of them at a quantity greater than 1.",
+      "steps": [
+        "Note the items in the cart, their quantities and the cart total.",
+        "Refresh the page in the browser.",
+        "Observe the cart contents after the page reloads."
+      ],
+      "expected": "The same items with the same quantities are still in the cart and the cart total is the same as before the refresh."
+    }
+  ]
+}

@@ -1,0 +1,199 @@
+{
+  "key": "TOOL-2",
+  "summary": " TOOL-2 Customer registration ",
+  "description": "As a new visitor, I want to create an account so I can place orders.\n\n* All required fields filled with valid data → account created and the user can sign in with it.\n* An already-registered email → a clear error, and no duplicate account.\n* Invalid email format or a password below the minimum length → inline validation errors.\n* A customer under 18 years old cannot register.\n** Required fields: first name, last name, date of birth, email, password.\n** Password must be at least 8 characters.\n** Age is calculated from date of birth; under 18 → \"You must be at least 18 years old.\"",
+  "status": "To Do",
+  "criteria": [
+    {
+      "id": "AC1",
+      "text": "All required fields filled with valid data → account created and the user can sign in with it. (Required fields: first name, last name, date of birth, email, password.)"
+    },
+    {
+      "id": "AC2",
+      "text": "An already-registered email → a clear error, and no duplicate account."
+    },
+    {
+      "id": "AC3",
+      "text": "Invalid email format or a password below the minimum length → inline validation errors. (Password must be at least 8 characters.)"
+    },
+    {
+      "id": "AC4",
+      "text": "A customer under 18 years old cannot register. (Age is calculated from date of birth; under 18 → \"You must be at least 18 years old.\")"
+    }
+  ],
+  "cases": [
+    {
+      "id": "TC-1",
+      "title": "Successful registration with all required fields valid, then sign in",
+      "covers": [
+        "AC1"
+      ],
+      "type": "positive",
+      "preconditions": "Registration page is reachable. The email address to be used (e.g. new.user@example.com) is not registered in the system.",
+      "steps": [
+        "Open the registration page.",
+        "Enter first name: Anna.",
+        "Enter last name: Novak.",
+        "Enter date of birth of a person clearly over 18 (e.g. 10 May 1990).",
+        "Enter email: new.user@example.com.",
+        "Enter password: Passw0rd1 (9 characters).",
+        "Submit the registration form.",
+        "Open the sign-in page and sign in with new.user@example.com / Passw0rd1."
+      ],
+      "expected": "The account is created and the user can sign in with the registered email and password."
+    },
+    {
+      "id": "TC-2",
+      "title": "Registration blocked when a required field is left empty",
+      "covers": [
+        "AC1"
+      ],
+      "type": "negative",
+      "preconditions": "Registration page is reachable. The email address to be used is not registered in the system.",
+      "steps": [
+        "Open the registration page.",
+        "Enter first name: Anna.",
+        "Leave last name empty.",
+        "Enter date of birth of a person clearly over 18 (e.g. 10 May 1990).",
+        "Enter email: anna.required@example.com.",
+        "Enter password: Passw0rd1.",
+        "Submit the registration form."
+      ],
+      "expected": "The account is not created, because last name is one of the required fields (first name, last name, date of birth, email, password). The exact error text and presentation are not specified in the story."
+    },
+    {
+      "id": "TC-3",
+      "title": "Registration with an email that is already registered",
+      "covers": [
+        "AC2"
+      ],
+      "type": "negative",
+      "preconditions": "An account already exists with the email existing.user@example.com.",
+      "steps": [
+        "Open the registration page.",
+        "Enter first name: Petra.",
+        "Enter last name: Kovac.",
+        "Enter date of birth of a person clearly over 18 (e.g. 2 March 1985).",
+        "Enter email: existing.user@example.com.",
+        "Enter password: Passw0rd1.",
+        "Submit the registration form.",
+        "Check the list of accounts for the email existing.user@example.com (e.g. via admin/customer list)."
+      ],
+      "expected": "A clear error is shown about the email already being registered (exact wording not specified in the story) and no duplicate account is created — only the original account for existing.user@example.com exists."
+    },
+    {
+      "id": "TC-4",
+      "title": "Inline validation error for invalid email format",
+      "covers": [
+        "AC3"
+      ],
+      "type": "negative",
+      "preconditions": "Registration page is reachable.",
+      "steps": [
+        "Open the registration page.",
+        "Enter first name: Anna.",
+        "Enter last name: Novak.",
+        "Enter date of birth of a person clearly over 18 (e.g. 10 May 1990).",
+        "Enter email: anna.example.com (no @ sign).",
+        "Enter password: Passw0rd1.",
+        "Attempt to submit the registration form."
+      ],
+      "expected": "An inline validation error is shown for the email field and the account is not created. The exact error text is not specified in the story."
+    },
+    {
+      "id": "TC-5",
+      "title": "Inline validation error for password below minimum length",
+      "covers": [
+        "AC3"
+      ],
+      "type": "negative",
+      "preconditions": "Registration page is reachable. The email to be used is not registered in the system.",
+      "steps": [
+        "Open the registration page.",
+        "Enter first name: Anna.",
+        "Enter last name: Novak.",
+        "Enter date of birth of a person clearly over 18 (e.g. 10 May 1990).",
+        "Enter email: anna.short@example.com.",
+        "Enter password: Pass1 (5 characters, below the 8-character minimum).",
+        "Attempt to submit the registration form."
+      ],
+      "expected": "An inline validation error is shown for the password field and the account is not created. The exact error text is not specified in the story."
+    },
+    {
+      "id": "TC-6",
+      "title": "Password of exactly 7 characters is rejected, 8 characters is accepted",
+      "covers": [
+        "AC3",
+        "AC1"
+      ],
+      "type": "edge",
+      "preconditions": "Registration page is reachable. The emails to be used are not registered in the system.",
+      "steps": [
+        "Open the registration page.",
+        "Fill first name: Anna, last name: Novak, date of birth of a person clearly over 18 (e.g. 10 May 1990), email: edge7@example.com.",
+        "Enter password: Passw0r (7 characters) and attempt to submit.",
+        "Note the result, then change the email to edge8@example.com and the password to Passw0rd (exactly 8 characters).",
+        "Submit the registration form."
+      ],
+      "expected": "With the 7-character password an inline validation error is shown for the password field and no account is created; with the 8-character password the account is created, as the minimum length is 8 characters."
+    },
+    {
+      "id": "TC-7",
+      "title": "Registration rejected for a customer under 18",
+      "covers": [
+        "AC4"
+      ],
+      "type": "negative",
+      "preconditions": "Registration page is reachable. The email to be used is not registered in the system.",
+      "steps": [
+        "Open the registration page.",
+        "Enter first name: Max.",
+        "Enter last name: Junior.",
+        "Enter a date of birth that makes the person 16 years old today (calculate from today's date).",
+        "Enter email: max.junior@example.com.",
+        "Enter password: Passw0rd1.",
+        "Submit the registration form."
+      ],
+      "expected": "The message \"You must be at least 18 years old.\" is shown and no account is created."
+    },
+    {
+      "id": "TC-8",
+      "title": "Registration allowed for a customer who is exactly 18 today",
+      "covers": [
+        "AC4",
+        "AC1"
+      ],
+      "type": "edge",
+      "preconditions": "Registration page is reachable. The email to be used is not registered in the system.",
+      "steps": [
+        "Open the registration page.",
+        "Enter first name: Eva.",
+        "Enter last name: Exact.",
+        "Enter a date of birth exactly 18 years before today's date (18th birthday is today).",
+        "Enter email: eva.exact@example.com.",
+        "Enter password: Passw0rd1.",
+        "Submit the registration form."
+      ],
+      "expected": "The age calculated from the date of birth is 18, so the registration is not blocked and the account is created."
+    },
+    {
+      "id": "TC-9",
+      "title": "Registration rejected one day before the 18th birthday",
+      "covers": [
+        "AC4"
+      ],
+      "type": "edge",
+      "preconditions": "Registration page is reachable. The email to be used is not registered in the system.",
+      "steps": [
+        "Open the registration page.",
+        "Enter first name: Leo.",
+        "Enter last name: Almost.",
+        "Enter a date of birth so that the 18th birthday falls on tomorrow's date (age today is 17).",
+        "Enter email: leo.almost@example.com.",
+        "Enter password: Passw0rd1.",
+        "Submit the registration form."
+      ],
+      "expected": "The age calculated from the date of birth is under 18, so the message \"You must be at least 18 years old.\" is shown and no account is created."
+    }
+  ]
+}

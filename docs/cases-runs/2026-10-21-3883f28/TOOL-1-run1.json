@@ -1,0 +1,116 @@
+{
+  "key": "TOOL-1",
+  "summary": "TOOL-1 Login with valid and invalid credentials",
+  "description": "As a customer, I want to sign in so I can access my account.\n\n* Valid email and password → redirected to the account page, and the user's name shows in the navigation.\n* Wrong password → an error message appears and the user stays on the login page.\n* Empty fields → each shows a required-field validation message.\n* Password field masks the input.",
+  "status": "To Do",
+  "criteria": [
+    {
+      "id": "AC1",
+      "text": "Valid email and password → redirected to the account page, and the user's name shows in the navigation."
+    },
+    {
+      "id": "AC2",
+      "text": "Wrong password → an error message appears and the user stays on the login page."
+    },
+    {
+      "id": "AC3",
+      "text": "Empty fields → each shows a required-field validation message."
+    },
+    {
+      "id": "AC4",
+      "text": "Password field masks the input."
+    }
+  ],
+  "cases": [
+    {
+      "id": "TC-1",
+      "title": "Sign in with valid email and password",
+      "covers": [
+        "AC1"
+      ],
+      "type": "positive",
+      "preconditions": "A registered customer account exists with a known email and password. The tester is signed out and on the login page.",
+      "steps": [
+        "Enter the registered account's email in the email field.",
+        "Enter the matching correct password in the password field.",
+        "Submit the login form."
+      ],
+      "expected": "The user is redirected to the account page, and the user's name is shown in the navigation."
+    },
+    {
+      "id": "TC-2",
+      "title": "Sign in with a wrong password",
+      "covers": [
+        "AC2"
+      ],
+      "type": "negative",
+      "preconditions": "A registered customer account exists with a known email. The tester is signed out and on the login page.",
+      "steps": [
+        "Enter the registered account's email in the email field.",
+        "Enter a password that does not match the account (e.g. the correct password with extra characters).",
+        "Submit the login form."
+      ],
+      "expected": "An error message appears and the user remains on the login page (exact message text not specified in the story). The user is not redirected to the account page."
+    },
+    {
+      "id": "TC-3",
+      "title": "Submit the login form with both fields empty",
+      "covers": [
+        "AC3"
+      ],
+      "type": "negative",
+      "preconditions": "The tester is signed out and on the login page with both fields empty.",
+      "steps": [
+        "Leave the email field empty.",
+        "Leave the password field empty.",
+        "Submit the login form."
+      ],
+      "expected": "Each empty field shows a required-field validation message (exact message text not specified in the story)."
+    },
+    {
+      "id": "TC-4",
+      "title": "Submit the login form with only the email filled in",
+      "covers": [
+        "AC3"
+      ],
+      "type": "edge",
+      "preconditions": "A registered customer account exists with a known email. The tester is signed out and on the login page.",
+      "steps": [
+        "Enter the registered account's email in the email field.",
+        "Leave the password field empty.",
+        "Submit the login form."
+      ],
+      "expected": "The password field shows a required-field validation message (exact message text not specified in the story)."
+    },
+    {
+      "id": "TC-5",
+      "title": "Submit the login form with only the password filled in",
+      "covers": [
+        "AC3"
+      ],
+      "type": "edge",
+      "preconditions": "A registered customer account exists with a known password. The tester is signed out and on the login page.",
+      "steps": [
+        "Leave the email field empty.",
+        "Enter a password in the password field.",
+        "Submit the login form."
+      ],
+      "expected": "The email field shows a required-field validation message (exact message text not specified in the story)."
+    },
+    {
+      "id": "TC-6",
+      "title": "Password field masks typed characters",
+      "covers": [
+        "AC4"
+      ],
+      "type": "positive",
+      "preconditions": "The tester is signed out and on the login page.",
+      "steps": [
+        "Click into the password field.",
+        "Type a password of several characters.",
+        "Look at the characters displayed in the password field."
+      ],
+      "expected": "The typed characters are masked and not displayed as readable text."
+    }
+  ]
+}

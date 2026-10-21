@@ -1,0 +1,120 @@
+{
+  "key": "TOOL-3",
+  "summary": "TOOL-3  Search for products ",
+  "description": "\nAs a customer, I want to search so I can find a tool quickly.\n\n* A search term matching existing products → only matching products are listed.\n* A term with no matches → an empty state message, no error.\n* Search is case-insensitive.\n* Clearing the search restores the full product list.\n\nSearch matches product names (partial, case-insensitive)",
+  "status": "To Do",
+  "criteria": [
+    {
+      "id": "AC1",
+      "text": "A search term matching existing products → only matching products are listed."
+    },
+    {
+      "id": "AC2",
+      "text": "A term with no matches → an empty state message, no error."
+    },
+    {
+      "id": "AC3",
+      "text": "Search is case-insensitive."
+    },
+    {
+      "id": "AC4",
+      "text": "Clearing the search restores the full product list."
+    },
+    {
+      "id": "AC5",
+      "text": "Search matches product names (partial, case-insensitive)"
+    }
+  ],
+  "cases": [
+    {
+      "id": "TC-1",
+      "title": "Search term matching existing products lists only matching products",
+      "covers": [
+        "AC1"
+      ],
+      "type": "positive",
+      "preconditions": "The product list contains several products, at least two whose names contain the word \"hammer\" (e.g. \"Claw Hammer\", \"Sledge Hammer\") and at least two products whose names do not contain it (e.g. \"Screwdriver\", \"Wrench\").",
+      "steps": [
+        "Open the product list page.",
+        "Note the full set of products displayed.",
+        "Enter \"hammer\" in the search field and run the search."
+      ],
+      "expected": "Only the products whose names contain \"hammer\" are listed; products whose names do not contain the term (e.g. \"Screwdriver\", \"Wrench\") are not shown."
+    },
+    {
+      "id": "TC-2",
+      "title": "Search term with no matches shows an empty state message and no error",
+      "covers": [
+        "AC2"
+      ],
+      "type": "negative",
+      "preconditions": "The product list contains products, and none of their names contain the string \"zzzzqq\".",
+      "steps": [
+        "Open the product list page.",
+        "Enter \"zzzzqq\" in the search field and run the search.",
+        "Observe the result area of the page."
+      ],
+      "expected": "No products are listed and an empty state message is shown. No error is displayed (the exact message text is not specified in the story)."
+    },
+    {
+      "id": "TC-3",
+      "title": "Search is case-insensitive for upper, lower and mixed case terms",
+      "covers": [
+        "AC3",
+        "AC5"
+      ],
+      "type": "positive",
+      "preconditions": "The product list contains a product named \"Claw Hammer\".",
+      "steps": [
+        "Open the product list page.",
+        "Search for \"hammer\" (all lowercase) and note the results.",
+        "Clear the field, search for \"HAMMER\" (all uppercase) and note the results.",
+        "Clear the field, search for \"HaMMeR\" (mixed case) and note the results."
+      ],
+      "expected": "All three searches return the same results, including the product \"Claw Hammer\"."
+    },
+    {
+      "id": "TC-4",
+      "title": "Clearing the search restores the full product list",
+      "covers": [
+        "AC4"
+      ],
+      "type": "positive",
+      "preconditions": "The product list contains several products, at least one of which is named \"Claw Hammer\".",
+      "steps": [
+        "Open the product list page and note the full list of products displayed.",
+        "Enter \"hammer\" in the search field and run the search, confirming the list is now filtered.",
+        "Clear the search field."
+      ],
+      "expected": "The full product list is displayed again, matching the list noted in step 1."
+    },
+    {
+      "id": "TC-5",
+      "title": "Partial product name term matches products",
+      "covers": [
+        "AC5"
+      ],
+      "type": "positive",
+      "preconditions": "The product list contains a product named \"Screwdriver\" and at least one product whose name does not contain \"driv\".",
+      "steps": [
+        "Open the product list page.",
+        "Enter the partial term \"driv\" in the search field and run the search."
+      ],
+      "expected": "The product \"Screwdriver\" is listed; products whose names do not contain \"driv\" are not listed."
+    },
+    {
+      "id": "TC-6",
+      "title": "Term matching only a non-name field does not list the product",
+      "covers": [
+        "AC5"
+      ],
+      "type": "edge",
+      "preconditions": "The product list contains a product whose name is \"Claw Hammer\" and whose other details (e.g. description) contain the word \"steel\", and no product name contains \"steel\".",
+      "steps": [
+        "Open the product list page.",
+        "Enter \"steel\" in the search field and run the search."
+      ],
+      "expected": "\"Claw Hammer\" is not listed, because search matches product names; as no product name matches, the empty state message is shown and no error is displayed (the exact message text is not specified in the story)."
+    }
+  ]
+}

@@ -1,0 +1,59 @@
+{
+  "key": "TOOL-5",
+  "summary": "TOOL-5  Product sorting",
+  "description": "As a customer, I want to sort the products.\n\n* Sorting should work properly.",
+  "status": "To Do",
+  "criteria": [
+    {
+      "id": "AC1",
+      "text": "Sorting should work properly."
+    }
+  ],
+  "cases": [
+    {
+      "id": "TC-1",
+      "title": "Products are reordered when a sort option is applied",
+      "covers": [
+        "AC1"
+      ],
+      "type": "positive",
+      "preconditions": "The application is available and a product list containing several products is displayed. The tester knows which sort options the application offers (the story does not specify the sort options).",
+      "steps": [
+        "Open the product list.",
+        "Note the current order of the displayed products.",
+        "Select one of the available sort options.",
+        "Observe the product list after the sort option is applied."
+      ],
+      "expected": "The product list is sorted according to the selected sort option; the displayed order of all products matches that sort option. The exact sort options, ordering rules and any message or indicator are not specified in the story."
+    },
+    {
+      "id": "TC-2",
+      "title": "Each available sort option sorts the product list correctly",
+      "covers": [
+        "AC1"
+      ],
+      "type": "positive",
+      "preconditions": "The application is available and a product list containing several products is displayed.",
+      "steps": [
+        "Open the product list.",
+        "Select the first available sort option and check the resulting order of the products.",
+        "Repeat for every remaining sort option offered by the application, checking the resulting order each time."
+      ],
+      "expected": "For every sort option, the product list is ordered according to that option. No sort option leaves the list unsorted or in the order of a different option. The exact set of sort options is not specified in the story."
+    },
+    {
+      "id": "TC-3",
+      "title": "Sorting a list with no products",
+      "covers": [
+        "AC1"
+      ],
+      "type": "edge",
+      "preconditions": "The application is available and a product list that contains no products is displayed (for example an empty category or a search with no results).",
+      "steps": [
+        "Open the empty product list.",
+        "Select one of the available sort options."
+      ],
+      "expected": "Sorting is handled without an error or crash; the list remains empty. Any specific message or behaviour for an empty list is not specified in the story."
+    }
+  ]
+}

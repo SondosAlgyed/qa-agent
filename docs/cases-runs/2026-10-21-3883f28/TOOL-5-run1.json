@@ -1,0 +1,61 @@
+{
+  "key": "TOOL-5",
+  "summary": "TOOL-5  Product sorting",
+  "description": "As a customer, I want to sort the products.\n\n* Sorting should work properly.",
+  "status": "To Do",
+  "criteria": [
+    {
+      "id": "AC1",
+      "text": "Sorting should work properly."
+    }
+  ],
+  "cases": [
+    {
+      "id": "TC-1",
+      "title": "Products are sorted correctly when a sort option is applied",
+      "covers": [
+        "AC1"
+      ],
+      "type": "positive",
+      "preconditions": "The product list page is reachable and shows several products. The sorting control is available (the story does not specify which sort options exist - not specified in the story).",
+      "steps": [
+        "Open the product list page.",
+        "Note the current order of the displayed products.",
+        "Apply one of the available sort options using the sorting control.",
+        "Inspect the order of the products shown after sorting."
+      ],
+      "expected": "The products are re-ordered and displayed in the order matching the selected sort option, i.e. sorting works properly. The exact sort options and their resulting order are not specified in the story."
+    },
+    {
+      "id": "TC-2",
+      "title": "Sorting can be changed from one option to another",
+      "covers": [
+        "AC1"
+      ],
+      "type": "positive",
+      "preconditions": "The product list page is reachable and shows several products. At least two sort options are available in the sorting control (the available options are not specified in the story).",
+      "steps": [
+        "Open the product list page.",
+        "Apply the first available sort option and note the resulting order.",
+        "Apply a different sort option.",
+        "Inspect the order of the products shown."
+      ],
+      "expected": "The product list is re-sorted according to the newly selected option; the previously applied sorting no longer determines the order. Sorting works properly for each selected option."
+    },
+    {
+      "id": "TC-3",
+      "title": "Sorting applied to a list with no products or a single product",
+      "covers": [
+        "AC1"
+      ],
+      "type": "edge",
+      "preconditions": "The product list page is reachable and currently shows either no products or exactly one product.",
+      "steps": [
+        "Open the product list page showing no products (or exactly one product).",
+        "Apply an available sort option using the sorting control.",
+        "Observe the page."
+      ],
+      "expected": "Sorting is handled without error; with no products nothing is listed and with one product that product remains listed. The specific behaviour/message for an empty list is not specified in the story."
+    }
+  ]
+}

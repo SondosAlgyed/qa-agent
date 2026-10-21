@@ -1,0 +1,121 @@
+{
+  "key": "TOOL-4",
+  "summary": "TOOL-4 Filter products by category and brand",
+  "description": "As a customer, I want to filter so I can narrow down the catalogue.\n\n* Selecting one category → only products from that category appear.\n* Selecting two categories → products from both appear.\n* Combining a category and a brand → only products matching both appear.\n* Unchecking all filters → the full list returns.",
+  "status": "To Do",
+  "criteria": [
+    {
+      "id": "AC1",
+      "text": "Selecting one category → only products from that category appear."
+    },
+    {
+      "id": "AC2",
+      "text": "Selecting two categories → products from both appear."
+    },
+    {
+      "id": "AC3",
+      "text": "Combining a category and a brand → only products matching both appear."
+    },
+    {
+      "id": "AC4",
+      "text": "Unchecking all filters → the full list returns."
+    }
+  ],
+  "cases": [
+    {
+      "id": "TC-1",
+      "title": "Selecting a single category shows only that category's products",
+      "covers": [
+        "AC1"
+      ],
+      "type": "positive",
+      "preconditions": "The catalogue page is open with no filters applied. The catalogue contains products in at least two categories (e.g. 'Shoes' and 'Bags'), with at least two products in 'Shoes'.",
+      "steps": [
+        "Note the products currently listed in the catalogue and their categories.",
+        "Select the category filter 'Shoes'.",
+        "Review the resulting product list."
+      ],
+      "expected": "Only products belonging to the 'Shoes' category appear in the list; no products from any other category are shown."
+    },
+    {
+      "id": "TC-2",
+      "title": "Selecting two categories shows products from both categories",
+      "covers": [
+        "AC2"
+      ],
+      "type": "positive",
+      "preconditions": "The catalogue page is open with no filters applied. The catalogue contains products in at least three categories (e.g. 'Shoes', 'Bags' and 'Hats'), with at least one product in each.",
+      "steps": [
+        "Select the category filter 'Shoes'.",
+        "Additionally select the category filter 'Bags'.",
+        "Review the resulting product list."
+      ],
+      "expected": "Products from both the 'Shoes' and the 'Bags' categories appear in the list; products from other categories (e.g. 'Hats') are not shown."
+    },
+    {
+      "id": "TC-3",
+      "title": "Combining a category and a brand shows only products matching both",
+      "covers": [
+        "AC3"
+      ],
+      "type": "positive",
+      "preconditions": "The catalogue page is open with no filters applied. The catalogue contains: at least one 'Shoes' product of brand 'Nike', at least one 'Shoes' product of another brand, and at least one 'Nike' product in a different category.",
+      "steps": [
+        "Select the category filter 'Shoes'.",
+        "Select the brand filter 'Nike'.",
+        "Review the resulting product list."
+      ],
+      "expected": "Only products that are both in the 'Shoes' category and of the brand 'Nike' appear. 'Shoes' products of other brands and 'Nike' products from other categories are not shown."
+    },
+    {
+      "id": "TC-4",
+      "title": "Unchecking all filters restores the full product list",
+      "covers": [
+        "AC4"
+      ],
+      "type": "positive",
+      "preconditions": "The catalogue page is open with no filters applied and the full product list is visible.",
+      "steps": [
+        "Note the full list of products shown with no filters applied.",
+        "Select a category filter (e.g. 'Shoes') and a brand filter (e.g. 'Nike') so that the list is narrowed down.",
+        "Uncheck the brand filter 'Nike'.",
+        "Uncheck the category filter 'Shoes' so that no filters remain selected.",
+        "Review the resulting product list."
+      ],
+      "expected": "With no filters selected, the full product list returns, matching the list noted in step 1."
+    },
+    {
+      "id": "TC-5",
+      "title": "Unchecking all category filters after selecting two categories restores the full list",
+      "covers": [
+        "AC2",
+        "AC4"
+      ],
+      "type": "positive",
+      "preconditions": "The catalogue page is open with no filters applied. The catalogue contains products in at least three categories (e.g. 'Shoes', 'Bags' and 'Hats').",
+      "steps": [
+        "Note the full list of products shown with no filters applied.",
+        "Select the category filters 'Shoes' and 'Bags' and confirm products from both categories are shown.",
+        "Uncheck 'Shoes'.",
+        "Uncheck 'Bags' so that no filters remain selected.",
+        "Review the resulting product list."
+      ],
+      "expected": "After step 2 products from both selected categories appear; after step 4, with no filters selected, the full product list returns, matching the list noted in step 1."
+    },
+    {
+      "id": "TC-6",
+      "title": "Category and brand combination with no matching products",
+      "covers": [
+        "AC3"
+      ],
+      "type": "edge",
+      "preconditions": "The catalogue page is open with no filters applied. The catalogue contains a category 'Bags' and a brand 'Nike', but no product that is both in 'Bags' and of brand 'Nike'.",
+      "steps": [
+        "Select the category filter 'Bags'.",
+        "Select the brand filter 'Nike'.",
+        "Review the resulting product list."
+      ],
+      "expected": "No products are shown, since only products matching both the category and the brand may appear and none match. The exact empty-result message or display is not specified in the story."
+    }
+  ]
+}

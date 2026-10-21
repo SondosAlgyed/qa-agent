@@ -1,0 +1,73 @@
+{
+  "key": "TOOL-7",
+  "summary": "TOOL-7 Filter products",
+  "description": "As a customer, I want to filter the products.\n\n* Filters should narrow down the list correctly.",
+  "status": "To Do",
+  "criteria": [
+    {
+      "id": "AC1",
+      "text": "Filters should narrow down the list correctly."
+    }
+  ],
+  "cases": [
+    {
+      "id": "TC-1",
+      "title": "Applying a single filter narrows the product list to matching products",
+      "covers": [
+        "AC1"
+      ],
+      "type": "positive",
+      "preconditions": "The product list page is open and shows an unfiltered list containing products that match a given filter value and products that do not.",
+      "steps": [
+        "Note the products shown in the unfiltered list.",
+        "Apply one filter with a value that at least one product matches.",
+        "Review the resulting product list."
+      ],
+      "expected": "The list is narrowed: only products matching the applied filter value are shown, and products that do not match are no longer listed."
+    },
+    {
+      "id": "TC-2",
+      "title": "Applying more than one filter narrows the list further",
+      "covers": [
+        "AC1"
+      ],
+      "type": "positive",
+      "preconditions": "The product list page is open and shows an unfiltered list containing at least one product that matches two different filter values and products that match only one of them.",
+      "steps": [
+        "Apply a first filter with a value that several products match and note the resulting list.",
+        "Apply a second filter with a value that only some of those products match.",
+        "Review the resulting product list."
+      ],
+      "expected": "The list is narrowed further: only products matching the applied filters remain; products not matching are not listed. (The exact way multiple filters are combined is not specified in the story.)"
+    },
+    {
+      "id": "TC-3",
+      "title": "Filter value with no matching products",
+      "covers": [
+        "AC1"
+      ],
+      "type": "edge",
+      "preconditions": "The product list page is open and a filter value exists that no product in the catalogue matches.",
+      "steps": [
+        "Apply the filter using the value that no product matches.",
+        "Review the resulting product list."
+      ],
+      "expected": "No products are shown, since no product matches the filter; no non-matching products are listed. (The exact empty-result message or display is not specified in the story.)"
+    },
+    {
+      "id": "TC-4",
+      "title": "Removing an applied filter stops narrowing the list by that filter",
+      "covers": [
+        "AC1"
+      ],
+      "type": "negative",
+      "preconditions": "The product list page is open and one filter is already applied, so the list is narrowed.",
+      "steps": [
+        "Note the products shown while the filter is applied.",
+        "Remove / deselect the applied filter.",
+        "Review the resulting product list."
+      ],
+      "expected": "The list is no longer narrowed by that filter: products that were hidden by it are shown again. (The exact behaviour of removing a filter is not specified in the story.)"
+    }
+  ]
+}

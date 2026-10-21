@@ -141,3 +141,28 @@ Raw outputs: `docs/cases-runs/2026-10-21-d62ff27/`.
 **4 of 8.** Coverage passed on the 4 stories that reached it. Three different causes: details counted
 as criteria, the user story sentence counted as a criterion, and splitting one bullet. On the vague
 stories the model also added text to the criteria in brackets, against rule 1.
+
+### v2-a (`3883f28`) and v2-b (`d67b2ef`), 2026-10-21
+
+One change to rule 1: say what counts as a criterion (a new behaviour; the user story sentence and
+detail lines are not criteria; one bullet = one criterion; copy the wording, don't add to it).
+v2-a's examples ("which fields are required, a minimum length") came from TOOL-2, a golden story,
+which our rules forbid. v2-b replaced them with unrelated examples (file types, column order).
+v2-a's result is not trusted for that reason.
+
+| Version | Runs | Count check | Coverage check |
+|---------|------|-------------|----------------|
+| v1 | 1 | 4 of 8 | passed on the 4 that reached it |
+| v2-a (golden example in prompt) | 1 | 8 of 8 | 8 of 8 |
+| v2-b | 3 per story | 24 of 24 | 24 of 24 |
+
+Raw outputs: `docs/cases-runs/2026-10-21-3883f28/` (v2-a), `docs/cases-runs/2026-10-21-d67b2ef/` (v2-b).
+
+**What the checks don't show (read by hand, v2-b):**
+- Vague stories (TOOL-5/6/7): the criterion text is now copied exactly, no invented text in brackets.
+- TOOL-5's test cases say the sort options are "not specified in the story" instead of inventing them,
+  but add edge cases like "sorting an empty list" and "a single product": low-risk padding, the same
+  open issue as in the review prompt.
+- TOOL-2: two of three runs put the detail lines in brackets after their criterion (copied from the
+  story, not invented); one run left them out.
+- "No invented requirements" is not measured yet: that needs the G-Eval metric, next.

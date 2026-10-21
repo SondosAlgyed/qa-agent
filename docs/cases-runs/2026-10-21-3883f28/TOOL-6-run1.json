@@ -1,0 +1,29 @@
+{
+  "key": "TOOL-6",
+  "summary": "TOOL-6 Checkout",
+  "description": "As a customer, I want to complete my order.\n\n* The user can finish checkout and see a confirmation.",
+  "status": "To Do",
+  "criteria": [
+    {
+      "id": "AC1",
+      "text": "The user can finish checkout and see a confirmation."
+    }
+  ],
+  "cases": [
+    {
+      "id": "TC-1",
+      "title": "Customer finishes checkout and sees a confirmation",
+      "covers": [
+        "AC1"
+      ],
+      "type": "positive",
+      "preconditions": "A customer account is available and logged in (if login is used in the test environment). The customer has at least one item in the cart and is able to reach the checkout flow.",
+      "steps": [
+        "Open the cart and start the checkout flow.",
+        "Complete the checkout flow through to its final step, entering whatever data the flow requests (specific checkout fields and steps are not specified in the story).",
+        "Submit/finish the checkout."
+      ],
+      "expected": "Checkout completes and a confirmation is shown to the customer. The exact content and wording of the confirmation is not specified in the story."
+    }
+  ]
+}

@@ -1,0 +1,58 @@
+{
+  "key": "TOOL-7",
+  "summary": "TOOL-7 Filter products",
+  "description": "As a customer, I want to filter the products.\n\n* Filters should narrow down the list correctly.",
+  "status": "To Do",
+  "criteria": [
+    {
+      "id": "AC1",
+      "text": "Filters should narrow down the list correctly."
+    }
+  ],
+  "cases": [
+    {
+      "id": "TC-1",
+      "title": "Applying a filter narrows the product list to matching products",
+      "covers": [
+        "AC1"
+      ],
+      "type": "positive",
+      "preconditions": "The product list page is open and shows products, of which some match a given filter value and some do not. The tester knows (from the unfiltered list) which products match that value.",
+      "steps": [
+        "Note the products shown in the unfiltered list and which of them match the chosen filter value.",
+        "Apply the filter with that value.",
+        "Review the resulting product list."
+      ],
+      "expected": "The list is narrowed: every product shown matches the applied filter value, and all products that match it are still shown."
+    },
+    {
+      "id": "TC-2",
+      "title": "Products that do not match the applied filter are removed from the list",
+      "covers": [
+        "AC1"
+      ],
+      "type": "negative",
+      "preconditions": "The product list page is open and contains at least one product that does not match the filter value to be applied.",
+      "steps": [
+        "Identify a product in the unfiltered list that does not match the chosen filter value.",
+        "Apply the filter with that value.",
+        "Look for the identified product in the resulting list."
+      ],
+      "expected": "The non-matching product is no longer shown in the list."
+    },
+    {
+      "id": "TC-3",
+      "title": "Applying a filter that no product matches",
+      "covers": [
+        "AC1"
+      ],
+      "type": "edge",
+      "preconditions": "The product list page is open and no product in the list matches the filter value to be applied.",
+      "steps": [
+        "Apply the filter with a value that no product matches.",
+        "Review the resulting product list."
+      ],
+      "expected": "No products are shown, since none match the filter. The exact wording or appearance of any empty-result message is not specified in the story."
+    }
+  ]
+}

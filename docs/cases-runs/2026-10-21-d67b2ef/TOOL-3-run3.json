@@ -1,0 +1,104 @@
+{
+  "key": "TOOL-3",
+  "summary": "TOOL-3  Search for products ",
+  "description": "\nAs a customer, I want to search so I can find a tool quickly.\n\n* A search term matching existing products → only matching products are listed.\n* A term with no matches → an empty state message, no error.\n* Search is case-insensitive.\n* Clearing the search restores the full product list.\n\nSearch matches product names (partial, case-insensitive)",
+  "status": "To Do",
+  "criteria": [
+    {
+      "id": "AC1",
+      "text": "A search term matching existing products → only matching products are listed."
+    },
+    {
+      "id": "AC2",
+      "text": "A term with no matches → an empty state message, no error."
+    },
+    {
+      "id": "AC3",
+      "text": "Search is case-insensitive."
+    },
+    {
+      "id": "AC4",
+      "text": "Clearing the search restores the full product list."
+    },
+    {
+      "id": "AC5",
+      "text": "Search matches product names (partial, case-insensitive)"
+    }
+  ],
+  "cases": [
+    {
+      "id": "TC-1",
+      "title": "Search term matching existing products lists only matching products",
+      "covers": [
+        "AC1"
+      ],
+      "type": "positive",
+      "preconditions": "The product list contains at least one product whose name contains \"Hammer\" (e.g. \"Hammer\") and several products whose names do not contain \"Hammer\" (e.g. \"Screwdriver\", \"Wrench\").",
+      "steps": [
+        "Open the product list page.",
+        "Note the full set of products displayed.",
+        "Enter \"Hammer\" in the search field and run the search."
+      ],
+      "expected": "Only the products whose name contains \"Hammer\" are listed; products such as \"Screwdriver\" and \"Wrench\" are not shown."
+    },
+    {
+      "id": "TC-2",
+      "title": "Search term with no matches shows an empty state message and no error",
+      "covers": [
+        "AC2"
+      ],
+      "type": "negative",
+      "preconditions": "The product list contains products, and none of their names contain the string \"zzzqwx\".",
+      "steps": [
+        "Open the product list page.",
+        "Enter \"zzzqwx\" in the search field and run the search."
+      ],
+      "expected": "No products are listed and an empty state message is shown (exact wording not specified in the story). No error is shown."
+    },
+    {
+      "id": "TC-3",
+      "title": "Search is case-insensitive",
+      "covers": [
+        "AC3"
+      ],
+      "type": "positive",
+      "preconditions": "The product list contains a product named \"Hammer\".",
+      "steps": [
+        "Open the product list page.",
+        "Enter \"hammer\" (all lowercase) in the search field and run the search.",
+        "Note the results.",
+        "Clear the field, enter \"HAMMER\" (all uppercase) and run the search."
+      ],
+      "expected": "Both searches list the product \"Hammer\"; the results are the same regardless of the letter case used."
+    },
+    {
+      "id": "TC-4",
+      "title": "Clearing the search restores the full product list",
+      "covers": [
+        "AC4"
+      ],
+      "type": "positive",
+      "preconditions": "The product list contains several products, including at least one named \"Hammer\" and others that do not contain \"Hammer\".",
+      "steps": [
+        "Open the product list page and note the full set of products displayed.",
+        "Enter \"Hammer\" in the search field and run the search so that the list is filtered.",
+        "Clear the search field."
+      ],
+      "expected": "The full product list is displayed again, matching the set of products noted in step 1."
+    },
+    {
+      "id": "TC-5",
+      "title": "Partial product name matches",
+      "covers": [
+        "AC5"
+      ],
+      "type": "edge",
+      "preconditions": "The product list contains a product named \"Hammer\" and at least one product whose name does not contain \"amm\".",
+      "steps": [
+        "Open the product list page.",
+        "Enter the partial name \"amm\" in the search field and run the search."
+      ],
+      "expected": "The product \"Hammer\" is listed because its name contains the entered fragment; products whose names do not contain \"amm\" are not listed."
+    }
+  ]
+}

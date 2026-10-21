@@ -1,0 +1,89 @@
+{
+  "key": "TOOL-5",
+  "summary": "TOOL-5  Product sorting",
+  "description": "As a customer, I want to sort the products.\n\n* Sorting should work properly.",
+  "status": "To Do",
+  "criteria": [
+    {
+      "id": "AC1",
+      "text": "Sorting should work properly."
+    }
+  ],
+  "cases": [
+    {
+      "id": "TC-1",
+      "title": "Products are sorted correctly when a sort option is applied",
+      "covers": [
+        "AC1"
+      ],
+      "type": "positive",
+      "preconditions": "The application is available and a product list containing several products is displayed. A sorting control is available on the product list (the story does not specify which sort options exist).",
+      "steps": [
+        "Open the product list and note the products currently displayed.",
+        "Apply one of the available sorting options.",
+        "Review the order of the products shown after sorting."
+      ],
+      "expected": "The products are re-ordered according to the selected sorting option; the sorting works properly. The exact sort options, ordering rules and resulting order are not specified in the story."
+    },
+    {
+      "id": "TC-2",
+      "title": "Each available sorting option produces a correct order",
+      "covers": [
+        "AC1"
+      ],
+      "type": "positive",
+      "preconditions": "The application is available and a product list containing several products is displayed, with more than one sorting option available (the story does not specify which).",
+      "steps": [
+        "Open the product list.",
+        "Apply the first available sorting option and review the resulting product order.",
+        "Apply each remaining sorting option in turn, reviewing the product order after each one."
+      ],
+      "expected": "For every available sorting option the products are ordered according to that option; sorting works properly for all options. The specific options and their ordering rules are not specified in the story."
+    },
+    {
+      "id": "TC-3",
+      "title": "Sorting a list with no products",
+      "covers": [
+        "AC1"
+      ],
+      "type": "edge",
+      "preconditions": "The application is available and the product list is displayed with no products in it (for example, a category or filter result that contains no products).",
+      "steps": [
+        "Open the product list so that no products are displayed.",
+        "Apply an available sorting option."
+      ],
+      "expected": "The application handles the sorting request without error and the empty product list is still displayed. Any message or specific behaviour for an empty list is not specified in the story."
+    },
+    {
+      "id": "TC-4",
+      "title": "Sorting a list containing a single product",
+      "covers": [
+        "AC1"
+      ],
+      "type": "edge",
+      "preconditions": "The application is available and the product list is displayed with exactly one product in it.",
+      "steps": [
+        "Open the product list showing exactly one product.",
+        "Apply an available sorting option.",
+        "Review the product list."
+      ],
+      "expected": "The sorting is applied without error and the single product remains displayed."
+    },
+    {
+      "id": "TC-5",
+      "title": "Sorting is re-applied after changing the sort option back and forth",
+      "covers": [
+        "AC1"
+      ],
+      "type": "edge",
+      "preconditions": "The application is available and a product list containing several products is displayed, with more than one sorting option available.",
+      "steps": [
+        "Open the product list.",
+        "Apply one sorting option and note the resulting order.",
+        "Apply a different sorting option and note the resulting order.",
+        "Apply the first sorting option again and review the order."
+      ],
+      "expected": "Each time a sorting option is applied the products are re-ordered according to the currently selected option; re-applying the first option produces the same order as in step 2."
+    }
+  ]
+}

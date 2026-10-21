@@ -1,0 +1,73 @@
+{
+  "key": "TOOL-5",
+  "summary": "TOOL-5  Product sorting",
+  "description": "As a customer, I want to sort the products.\n\n* Sorting should work properly.",
+  "status": "To Do",
+  "criteria": [
+    {
+      "id": "AC1",
+      "text": "Sorting should work properly."
+    }
+  ],
+  "cases": [
+    {
+      "id": "TC-1",
+      "title": "Products are reordered when a sorting option is applied",
+      "covers": [
+        "AC1"
+      ],
+      "type": "positive",
+      "preconditions": "The product listing page is reachable and shows several products. The sorting options offered are not specified in the story.",
+      "steps": [
+        "Open the product listing page.",
+        "Note the current order of the products shown.",
+        "Select one of the sorting options offered by the application.",
+        "Observe the product list after the page refreshes/updates."
+      ],
+      "expected": "The product list is sorted according to the selected sorting option; every product in the list follows that order without exception. The exact sorting options and their ordering rules are not specified in the story."
+    },
+    {
+      "id": "TC-2",
+      "title": "Each available sorting option sorts the list correctly",
+      "covers": [
+        "AC1"
+      ],
+      "type": "positive",
+      "preconditions": "The product listing page is reachable and shows several products with differing values (e.g. different names and prices).",
+      "steps": [
+        "Open the product listing page.",
+        "Apply the first sorting option in the list of available options and check the resulting order of all products.",
+        "Repeat for every remaining sorting option offered, checking the resulting order each time."
+      ],
+      "expected": "For every sorting option, the products are displayed in the order that option indicates. The set of available sorting options is not specified in the story."
+    },
+    {
+      "id": "TC-3",
+      "title": "Sorting a product list that contains no products",
+      "covers": [
+        "AC1"
+      ],
+      "type": "edge",
+      "preconditions": "A product listing page that currently returns no products (for example an empty category or a search with no results).",
+      "steps": [
+        "Open a product listing page that shows no products.",
+        "Apply a sorting option."
+      ],
+      "expected": "Applying sorting does not break the page; the empty list is still displayed. The exact behaviour and any message for an empty list is not specified in the story."
+    },
+    {
+      "id": "TC-4",
+      "title": "Sorting a product list that contains exactly one product",
+      "covers": [
+        "AC1"
+      ],
+      "type": "edge",
+      "preconditions": "A product listing page that returns exactly one product.",
+      "steps": [
+        "Open the product listing page that shows exactly one product.",
+        "Apply a sorting option."
+      ],
+      "expected": "The single product remains displayed and the page continues to work after sorting is applied. No further behaviour for a one-item list is specified in the story."
+    }
+  ]
+}
