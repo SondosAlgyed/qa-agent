@@ -4,6 +4,7 @@ import { loadConfig } from "./config/load.js";
 import { createTicketSystem } from "./trackers/factory.js";
 import { createLLMProvider } from "./llm/factory.js";
 import { parseVerdict, reviewStory } from "./core/review.js";
+import { QaError } from "./core/errors.js";
 
 dotenv.config({ quiet: true });
 
@@ -43,4 +44,12 @@ program
     console.log(review);
   });
 
-await program.parseAsync();
+// Expected errors (QaError) print one clear line on stderr and exit with code 1.
+// Anything else is a bug, so it keeps its full stack trace.
+try {
+  await program.parseAsync();
+} catch (error) {
+  if (!(error instanceof QaError)) throw error;
+  console.error(`Error: ${error.message}`);
+  process.exitCode = 1;
+}
