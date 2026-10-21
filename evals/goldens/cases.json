@@ -1,0 +1,162 @@
+[
+  {
+    "key": "TOOL-1",
+    "input": {
+      "summary": "TOOL-1 Login with valid and invalid credentials",
+      "description": "As a customer, I want to sign in so I can access my account.\n\n* Valid email and password → redirected to the account page, and the user's name shows in the navigation.\n* Wrong password → an error message appears and the user stays on the login page.\n* Empty fields → each shows a required-field validation message.\n* Password field masks the input.",
+      "status": "To Do"
+    },
+    "expected": {
+      "criteria": [
+        "Valid email and password → redirected to the account page, and the user's name shows in the navigation.",
+        "Wrong password → an error message appears and the user stays on the login page.",
+        "Empty fields → each shows a required-field validation message.",
+        "Password field masks the input."
+      ]
+    },
+    "human": {
+      "counting_rule": "A criterion is any sentence that describes a new behaviour. Details that explain an existing criterion count as part of it.",
+      "labeled_by": "Counting rule agreed by me. The labels were decided by Claude (the assistant) with that rule, at my request; not yet reviewed by me.",
+      "notes": ""
+    }
+  },
+  {
+    "key": "TOOL-2",
+    "input": {
+      "summary": " TOOL-2 Customer registration ",
+      "description": "As a new visitor, I want to create an account so I can place orders.\n\n* All required fields filled with valid data → account created and the user can sign in with it.\n* An already-registered email → a clear error, and no duplicate account.\n* Invalid email format or a password below the minimum length → inline validation errors.\n* A customer under 18 years old cannot register.\n** Required fields: first name, last name, date of birth, email, password.\n** Password must be at least 8 characters.\n** Age is calculated from date of birth; under 18 → \"You must be at least 18 years old.\"",
+      "status": "To Do"
+    },
+    "expected": {
+      "criteria": [
+        "All required fields filled with valid data → account created and the user can sign in with it.",
+        "An already-registered email → a clear error, and no duplicate account.",
+        "Invalid email format or a password below the minimum length → inline validation errors.",
+        "A customer under 18 years old cannot register."
+      ]
+    },
+    "human": {
+      "counting_rule": "A criterion is any sentence that describes a new behaviour. Details that explain an existing criterion count as part of it.",
+      "labeled_by": "Counting rule agreed by me. The labels were decided by Claude (the assistant) with that rule, at my request; not yet reviewed by me.",
+      "notes": "The ** lines are details of the * criteria above them, not separate criteria. Test cases should still use them (8-character boundary, the exact under-18 message)."
+    }
+  },
+  {
+    "key": "TOOL-3",
+    "input": {
+      "summary": "TOOL-3  Search for products ",
+      "description": "\nAs a customer, I want to search so I can find a tool quickly.\n\n* A search term matching existing products → only matching products are listed.\n* A term with no matches → an empty state message, no error.\n* Search is case-insensitive.\n* Clearing the search restores the full product list.\n\nSearch matches product names (partial, case-insensitive)",
+      "status": "To Do"
+    },
+    "expected": {
+      "criteria": [
+        "A search term matching existing products → only matching products are listed.",
+        "A term with no matches → an empty state message, no error.",
+        "Search is case-insensitive.",
+        "Clearing the search restores the full product list.",
+        "Search matches product names (partial, case-insensitive)"
+      ]
+    },
+    "human": {
+      "counting_rule": "A criterion is any sentence that describes a new behaviour. Details that explain an existing criterion count as part of it.",
+      "labeled_by": "Counting rule agreed by me. The labels were decided by Claude (the assistant) with that rule, at my request; not yet reviewed by me.",
+      "notes": "The line outside the bullets is its own criterion: it adds name matching and partial matching."
+    }
+  },
+  {
+    "key": "TOOL-4",
+    "input": {
+      "summary": "TOOL-4 Filter products by category and brand",
+      "description": "As a customer, I want to filter so I can narrow down the catalogue.\n\n* Selecting one category → only products from that category appear.\n* Selecting two categories → products from both appear.\n* Combining a category and a brand → only products matching both appear.\n* Unchecking all filters → the full list returns.",
+      "status": "To Do"
+    },
+    "expected": {
+      "criteria": [
+        "Selecting one category → only products from that category appear.",
+        "Selecting two categories → products from both appear.",
+        "Combining a category and a brand → only products matching both appear.",
+        "Unchecking all filters → the full list returns."
+      ]
+    },
+    "human": {
+      "counting_rule": "A criterion is any sentence that describes a new behaviour. Details that explain an existing criterion count as part of it.",
+      "labeled_by": "Counting rule agreed by me. The labels were decided by Claude (the assistant) with that rule, at my request; not yet reviewed by me.",
+      "notes": ""
+    }
+  },
+  {
+    "key": "TOOL-5",
+    "input": {
+      "summary": "TOOL-5  Product sorting",
+      "description": "As a customer, I want to sort the products.\n\n* Sorting should work properly.",
+      "status": "To Do"
+    },
+    "expected": {
+      "criteria": [
+        "Sorting should work properly."
+      ]
+    },
+    "human": {
+      "counting_rule": "A criterion is any sentence that describes a new behaviour. Details that explain an existing criterion count as part of it.",
+      "labeled_by": "Counting rule agreed by me. The labels were decided by Claude (the assistant) with that rule, at my request; not yet reviewed by me.",
+      "notes": "Vague story: test cases must not invent options or steps the story does not state; expected results should say what is not specified."
+    }
+  },
+  {
+    "key": "TOOL-6",
+    "input": {
+      "summary": "TOOL-6 Checkout",
+      "description": "As a customer, I want to complete my order.\n\n* The user can finish checkout and see a confirmation.",
+      "status": "To Do"
+    },
+    "expected": {
+      "criteria": [
+        "The user can finish checkout and see a confirmation."
+      ]
+    },
+    "human": {
+      "counting_rule": "A criterion is any sentence that describes a new behaviour. Details that explain an existing criterion count as part of it.",
+      "labeled_by": "Counting rule agreed by me. The labels were decided by Claude (the assistant) with that rule, at my request; not yet reviewed by me.",
+      "notes": "Vague story: test cases must not invent options or steps the story does not state; expected results should say what is not specified."
+    }
+  },
+  {
+    "key": "TOOL-7",
+    "input": {
+      "summary": "TOOL-7 Filter products",
+      "description": "As a customer, I want to filter the products.\n\n* Filters should narrow down the list correctly.",
+      "status": "To Do"
+    },
+    "expected": {
+      "criteria": [
+        "Filters should narrow down the list correctly."
+      ]
+    },
+    "human": {
+      "counting_rule": "A criterion is any sentence that describes a new behaviour. Details that explain an existing criterion count as part of it.",
+      "labeled_by": "Counting rule agreed by me. The labels were decided by Claude (the assistant) with that rule, at my request; not yet reviewed by me.",
+      "notes": "Vague story: test cases must not invent options or steps the story does not state; expected results should say what is not specified."
+    }
+  },
+  {
+    "key": "TOOL-8",
+    "input": {
+      "summary": "TOOL-8 Manage the shopping cart",
+      "description": "As a customer, I want to change my cart before checking out.\n\n* Increasing the quantity of an item updates that line's total and the cart total.\n* Removing an item removes it from the list and updates the total.\n* Removing the last item shows an empty cart message.\n* Cart contents persist after a page refresh.",
+      "status": "To Do"
+    },
+    "expected": {
+      "criteria": [
+        "Increasing the quantity of an item updates that line's total and the cart total.",
+        "Removing an item removes it from the list and updates the total.",
+        "Removing the last item shows an empty cart message.",
+        "Cart contents persist after a page refresh."
+      ]
+    },
+    "human": {
+      "counting_rule": "A criterion is any sentence that describes a new behaviour. Details that explain an existing criterion count as part of it.",
+      "labeled_by": "Counting rule agreed by me. The labels were decided by Claude (the assistant) with that rule, at my request; not yet reviewed by me.",
+      "notes": ""
+    }
+  }
+]
