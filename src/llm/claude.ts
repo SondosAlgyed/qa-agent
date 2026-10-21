@@ -1,5 +1,5 @@
 import Anthropic from "@anthropic-ai/sdk";
-import type { LLMProvider } from "./types.js";
+import type { CompleteOptions, LLMProvider } from "./types.js";
 import { QaError } from "../core/errors.js";
 
 export interface ClaudeConfig {
@@ -16,7 +16,11 @@ export class ClaudeProvider implements LLMProvider {
     this.model = config.model ?? "claude-opus-5";
   }
 
-  async complete(system: string, prompt: string): Promise<string> {
+  async complete(
+    system: string,
+    prompt: string,
+    options: CompleteOptions = {},
+  ): Promise<string> {
     let response;
     try {
       response = await this.client.beta.messages.create({
@@ -26,6 +30,10 @@ export class ClaudeProvider implements LLMProvider {
         fallbacks: "default",
         system,
         messages: [{ role: "user", content: prompt }],
+        // Structured outputs: the API makes the answer valid JSON for this schema
+        ...(options.jsonSchema
+          ? { output_config: { format: { type: "json_schema", schema: options.jsonSchema } } }
+          : {}),
       });
     } catch (error) {
       throw toQaError(error, this.model);
