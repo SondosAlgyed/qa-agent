@@ -144,7 +144,29 @@ the same way as TypeScript (new concepts explained the first time they appear).
    with the numeric issueId); the field names so far come from third-party examples, not the
    official docs. If it still fails, contact SmartBear support with the exact error.
    Then: should --push go to Zephyr instead of a comment, and delete the TOOL-1 comment?
-2. Part 2 design: `qa automate`. Agree the design before any code.
+2. `qa automate`: build it following the agreed design below, one small step at a time.
+
+## `qa automate` design (agreed 2026-10-22)
+- Command: `qa automate <key> <TC-id>`, e.g. `qa automate TOOL-1 TC-2`. One test case, chosen by
+  me. Later: the agent suggests what to automate and why, and I decide.
+- Input: the reviewed test case file + the target repo. The target repo is the folder qa runs in;
+  while developing, `repo: "../toolshop-tests"` in qa.config.ts. Test case files live in the
+  target repo too.
+- An agent (tool-use loop), not a single call: it must run the test it writes and fix it.
+  Turn limit (AGENT_MAX_TURNS, e.g. 15); if it can't finish, it stops and says why.
+- Five tools, written by us, each with its own limits: list_files, read_file, write_file,
+  run_test (only the test it wrote), page_snapshot (opens a page with Playwright, returns the
+  element tree). Playwright MCP later, only if page_snapshot isn't enough.
+- Limits: nothing outside the target repo (so qa-agent's evals/ and goldens are unreachable);
+  no .env or node_modules; new files only (it may add a page object, never edit existing ones);
+  no shell, no git.
+- Done = the test passes 3 runs in a row. Output: the new file (tests/<KEY>-<TC>.spec.ts) +
+  a short report (passed 3/3, page objects reused, tag). No commit: I review and commit.
+- Evals: plain checks first: the eval runs the test itself 3 times; reuses existing page
+  objects (e.g. imports LoginPage for a login step); git status shows only new files; has a
+  tag; the trace shows run_test before "done". One G-Eval: the test really checks the expected
+  result (validate against my judgments). Use test cases with no existing hand-written test
+  (TOOL-4 filters, TOOL-2 registration, TOOL-8 removing an item), so it can't copy one.
 2. `qa automate <key>` + its evals (Part 2). Target repo: ../toolshop-tests.
 3. `qa run --smoke | --regression`.
 4. Better evaluation: synthetic goldens → Prompt Alignment → review prompt v4.
