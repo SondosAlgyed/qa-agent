@@ -121,3 +121,7 @@
   (v2-b) and recorded v2-a as not trusted.
 - The goldens' labels were decided by Claude at my request, using my counting rule; that's written
   in the goldens. Judging the judge must be my own call, so I judged TOOL-7 myself first.
+- Test cases reach Jira, but only through a human: `qa cases <key>` writes a draft, I review
+  it, and `qa cases <key> --push` posts that file as a comment, without calling the model.
+  That's why this is allowed before the safety evals (recorded in CLAUDE.md). Jira's API
+  reads wiki markup, so the Jira adapter converts the Markdown; the CLI doesn't know.
