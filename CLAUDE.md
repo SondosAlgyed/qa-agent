@@ -117,19 +117,25 @@ the same way as TypeScript (new concepts explained the first time they appear).
       is only shown when the login works. Claude: bad key, no credit, unknown model,
       busy/unreachable. Missing .env values. The credit and busy messages are untested.
 
+- [x] `qa cases <key>` (--json): TestCaseStore + Markdown adapter (temp file + rename), structured
+      outputs via an optional jsonSchema in LLMProvider, cases prompt v2-b (d67b2ef). The model
+      numbers the criteria (AC1...) and each case lists what it covers. Output: test-cases/<KEY>.md
+      (gitignored). Plan: the file is a draft for a human to review; a Jira/Zephyr adapter comes
+      after the safety evals.
+- [x] cases evals part 1: evals/goldens/cases.json (labels by Claude at my request, with my
+      counting rule; written in the goldens), evals/test_cases.py (criteria count + coverage).
+      v1 4/8, v2-b 24/24 over 3 runs. Details in docs/metrics.md.
+
 ## Next steps (in order)
-1. `qa cases <key>`: TestCaseStore interface + Markdown adapter + cases prompt v1.
-   Writes test cases for humans (steps + expected result); it does not run anything.
-   A failed run must not leave a normal-looking output file (write only at the end).
-2. cases evals: goldens, plain assertions (every AC covered), G-Eval (no invented
-   requirements), validate the judge against my judgments. Part 1 done.
-3. `qa automate <key>` + its evals (Part 2). Target repo: ../toolshop-tests.
-4. `qa run --smoke | --regression`.
-5. Better evaluation: synthetic goldens → Prompt Alignment → review prompt v4.
+1. Finish cases evals: I judge TOOL-5 and TOOL-6 (TOOL-7 done: 1.00), then a G-Eval metric
+   "No invented requirements", validated against my judgments. Then Part 1 is done.
+2. `qa automate <key>` + its evals (Part 2). Target repo: ../toolshop-tests.
+3. `qa run --smoke | --regression`.
+4. Better evaluation: synthetic goldens → Prompt Alignment → review prompt v4.
    After Part 2, so the Synthesizer serves all three prompts (review, cases, automate).
-6. Safety evals (PII + prompt injection). Before `qa report`, the first command that
-   writes to Jira.
-7. Part 3: `triage`, `report`, MCP server, evals in CI, npm publish.
+5. Safety evals (PII + prompt injection). Before `qa report` or any Jira/Zephyr test case
+   adapter: the first commands that write to Jira.
+6. Part 3: `triage`, `report`, MCP server, evals in CI, npm publish.
 
 ## Cleanup still needed
 - tsconfig.json: trailing comma after "types": ["node"]
