@@ -57,10 +57,12 @@ program
   .action(async (key: string, options: { json?: boolean; push?: boolean }) => {
     const config = await loadConfig();
     const tickets = createTicketSystem(config);
+    // Test case files live in the tester's project, next to their tests
+    const casesDir = path.join(config.repo ?? ".", "test-cases");
 
     // Only a file a human has reviewed goes to the tracker, never the model's answer directly
     if (options.push) {
-      const file = path.join("test-cases", `${key}.md`);
+      const file = path.join(casesDir, `${key}.md`);
       if (!existsSync(file)) {
         throw new QaError(`No ${file} to push. Run "qa cases ${key}" first, then review the file.`);
       }
@@ -81,7 +83,7 @@ program
       return;
     }
 
-    const store = new MarkdownTestCaseStore();
+    const store = new MarkdownTestCaseStore(casesDir);
     const location = await store.save(story, suite);
     console.log(
       `Saved ${suite.cases.length} test cases (covering ${suite.criteria.length} criteria) to ${location}`,

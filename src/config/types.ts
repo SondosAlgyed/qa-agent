@@ -15,4 +15,8 @@ export interface ClaudeLLMConfig {
 export interface QaConfig {
   tracker: JiraTrackerConfig | TicketSystem;
   llm: ClaudeLLMConfig | LLMProvider;
+  // The tester's project (tests, page objects, test-cases/). Default: the folder qa runs in.
+  repo?: string;
+  // The app under test. qa automate's agent may only open pages from here.
+  appUrl?: string;
 }
