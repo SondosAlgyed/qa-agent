@@ -96,3 +96,13 @@ test("won't run a test that imports a file from outside the project", async () =
   await repo.writeFile("tests/peek.spec.ts", 'import answers from "../../outside.txt";');
   await assert.rejects(repo.runTest("tests/peek.spec.ts"), /import from outside the project/);
 });
+
+test("hides and refuses files git ignores (the tester's private files)", async () => {
+  const repo = await makeRepo();
+  const { execFileSync } = await import("node:child_process");
+  execFileSync("git", ["init", "-q"], { cwd: repo.root });
+  await writeFile(path.join(repo.root, ".gitignore"), "notes.md\n");
+  await writeFile(path.join(repo.root, "notes.md"), "my private notes");
+  assert.ok(!(await repo.listFiles()).includes("notes.md"));
+  await assert.rejects(repo.readFile("notes.md"), /private to the tester/);
+});

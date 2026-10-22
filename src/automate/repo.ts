@@ -27,16 +27,36 @@ export class TargetRepo {
   }
 
   async readFile(requested: string): Promise<string> {
-    return readFile(this.resolve(requested), "utf8");
+    const full = this.resolve(requested);
+    if (await this.isPrivate(full)) {
+      throw new Error(`"${requested}" is private to the tester (ignored by git), so it's off limits.`);
+    }
+    return readFile(full, "utf8");
   }
 
-  // One folder level; folders end with "/". Off-limits names are left out.
+  // One folder level; folders end with "/". Off-limits and private names are left out.
   async listFiles(requested = "."): Promise<string[]> {
-    const entries = await readdir(this.resolve(requested), { withFileTypes: true });
-    return entries
-      .filter((e) => !OFF_LIMITS(e.name))
-      .map((e) => (e.isDirectory() ? `${e.name}/` : e.name))
-      .sort();
+    const dir = this.resolve(requested);
+    const entries = await readdir(dir, { withFileTypes: true });
+    const visible: string[] = [];
+    for (const e of entries) {
+      if (OFF_LIMITS(e.name) || (await this.isPrivate(path.join(dir, e.name)))) continue;
+      visible.push(e.isDirectory() ? `${e.name}/` : e.name);
+    }
+    return visible.sort();
+  }
+
+  // Files git ignores are the tester's own (notes, local config): the agent
+  // shouldn't see them. Test results are the exception: the agent needs them
+  // to debug its own test. Outside a git repo, nothing counts as private.
+  private isPrivate(full: string): Promise<boolean> {
+    const inside = path.relative(this.root, full).split(path.sep).join("/");
+    if (inside.startsWith("test-results")) return Promise.resolve(false);
+    return new Promise((resolve) => {
+      execFile("git", ["check-ignore", "-q", "--", inside], { cwd: this.root }, (error) => {
+        resolve(!error); // exit code 0 = ignored
+      });
+    });
   }
 
   // The agent may create files and rewrite the ones it created, but never
