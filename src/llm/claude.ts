@@ -1,5 +1,13 @@
 import Anthropic from "@anthropic-ai/sdk";
-import type { CompleteOptions, LLMProvider } from "./types.js";
+import type {
+  AgentConversation,
+  AgentTurn,
+  CompleteOptions,
+  LLMProvider,
+  ToolCall,
+  ToolDefinition,
+  ToolResult,
+} from "./types.js";
 import { QaError } from "../core/errors.js";
 
 export interface ClaudeConfig {
@@ -47,6 +55,81 @@ export class ClaudeProvider implements LLMProvider {
       .filter((block) => block.type === "text")
       .map((block) => block.text)
       .join("\n");
+  }
+
+  startAgent(system: string, task: string, tools: ToolDefinition[]): AgentConversation {
+    return new ClaudeConversation(this.client, this.model, system, task, tools);
+  }
+}
+
+// Translates the shared agent language to Claude's API and keeps the history.
+// The API remembers nothing between calls, so every call sends all of it.
+class ClaudeConversation implements AgentConversation {
+  private readonly messages: Anthropic.Beta.BetaMessageParam[] = [];
+  private readonly tools: Anthropic.Beta.BetaTool[];
+
+  constructor(
+    private readonly client: Anthropic,
+    private readonly model: string,
+    private readonly system: string,
+    private readonly task: string,
+    tools: ToolDefinition[],
+  ) {
+    this.tools = tools.map((t) => ({
+      name: t.name,
+      description: t.description,
+      input_schema: t.inputSchema as Anthropic.Beta.BetaTool.InputSchema,
+    }));
+  }
+
+  async next(results: ToolResult[]): Promise<AgentTurn> {
+    if (this.messages.length === 0) {
+      this.messages.push({ role: "user", content: this.task });
+    } else {
+      // All results of one turn go back together, each linked to its call
+      this.messages.push({
+        role: "user",
+        content: results.map((r) => ({
+          type: "tool_result" as const,
+          tool_use_id: r.callId,
+          content: r.output,
+          is_error: r.isError ?? false,
+        })),
+      });
+    }
+
+    let response;
+    try {
+      response = await this.client.beta.messages.create({
+        model: this.model,
+        max_tokens: 16000,
+        betas: ["server-side-fallback-2026-07-01"],
+        fallbacks: "default",
+        system: this.system,
+        tools: this.tools,
+        messages: this.messages,
+      });
+    } catch (error) {
+      throw toQaError(error, this.model);
+    }
+    if (response.stop_reason === "refusal") {
+      throw new Error("Claude declined to continue this task.");
+    }
+
+    // Keep the whole reply (not just the text): it holds the tool calls and the
+    // model's thinking, which the next call needs to continue the same task
+    this.messages.push({ role: "assistant", content: response.content });
+
+    const toolCalls: ToolCall[] = [];
+    const text: string[] = [];
+    for (const block of response.content) {
+      if (block.type === "tool_use") {
+        toolCalls.push({ id: block.id, name: block.name, input: block.input as Record<string, unknown> });
+      } else if (block.type === "text") {
+        text.push(block.text);
+      }
+    }
+    return { text: text.join("\n"), toolCalls };
   }
 }
 
