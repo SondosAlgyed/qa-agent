@@ -132,3 +132,17 @@
 - Blocked on Zephyr's API token: a fresh token gets "Unknown token". I stopped instead of
   writing the adapter blind: field names guessed from examples, with no way to test them,
   would likely mean rewriting it. Tomorrow: retry, then build it against the real API.
+
+## 2026-10-23 — `qa automate`: tools, loop, first run
+
+- Built the agent's five tools on one `TargetRepo` class: every path goes through `resolve`,
+  the boundary check. The agent may rewrite only files it created, and run only those.
+- Unit tests (`node:test`) for the boundaries, because security limits must not break silently.
+- A provider-neutral agent interface in `LLMProvider` (tool calls, results, turns). The Claude
+  adapter translates and keeps the history; the loop knows nothing about Claude.
+- First real loop: asked to read the goldens, the agent was refused and said so.
+- First real `qa automate` run (TOOL-4 TC-1) stopped when the API credit ran out. Before that,
+  the agent wrote an "explore" script into the test file and ran it to study the site. Lesson:
+  a "run test" tool is a "run any code" tool, so the file limits could be bypassed with
+  `import fs` or an import from `../..`. `runTest` now checks every file the agent wrote
+  first. It's a guard, not a sandbox; full isolation needs a container.
