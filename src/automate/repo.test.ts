@@ -57,3 +57,15 @@ test("refuses to write outside the project or to .env", async () => {
   await assert.rejects(repo.writeFile("../evil.ts", "x"), /outside the project/);
   await assert.rejects(repo.writeFile(".env.local", "x"), /not allowed/);
 });
+
+test("can rewrite a file it wrote itself", async () => {
+  const repo = await makeRepo();
+  await repo.writeFile("tests/new.spec.ts", "first try");
+  await repo.writeFile("tests/new.spec.ts", "fixed");
+  assert.equal(await repo.readFile("tests/new.spec.ts"), "fixed");
+});
+
+test("only runs tests it wrote", async () => {
+  const repo = await makeRepo();
+  await assert.rejects(repo.runTest("pages/login-page.ts"), /not written by you/);
+});

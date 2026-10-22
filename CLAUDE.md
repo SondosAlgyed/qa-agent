@@ -146,7 +146,8 @@ the same way as TypeScript (new concepts explained the first time they appear).
    Then: should --push go to Zephyr instead of a comment, and delete the TOOL-1 comment?
 2. `qa automate`: build it following the agreed design below, one small step at a time.
    Done so far: src/automate/repo.ts `TargetRepo` (resolve = the boundary check, readFile,
-   listFiles, writeFile new files only) + unit tests (`npm run test:unit`, node:test, 7 pass).
+   listFiles, writeFile: new files + rewriting its own, runTest: only its own files, fixed command,
+   no shell; checked for real on toolshop-tests) + unit tests (`npm run test:unit`, node:test, 9 pass).
 
 ## `qa automate` design (agreed 2026-10-22)
 - Command: `qa automate <key> <TC-id>`, e.g. `qa automate TOOL-1 TC-2`. One test case, chosen by
