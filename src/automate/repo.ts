@@ -1,5 +1,5 @@
 import { execFile } from "node:child_process";
-import { mkdir, readdir, readFile, writeFile } from "node:fs/promises";
+import { mkdir, readdir, readFile, unlink, writeFile } from "node:fs/promises";
 import path from "node:path";
 
 // The tester's project that the automate agent works in. Every tool goes
@@ -75,6 +75,16 @@ export class TargetRepo {
       throw error;
     }
     this.written.add(full);
+  }
+
+  // Only files the agent created itself, e.g. a temporary debug test
+  async deleteFile(requested: string): Promise<void> {
+    const full = this.resolve(requested);
+    if (!this.written.has(full)) {
+      throw new Error(`"${requested}" was not written by you. You can only delete files you created.`);
+    }
+    await unlink(full);
+    this.written.delete(full);
   }
 
   // Runs one test file the agent wrote, with a fixed command (no shell), and

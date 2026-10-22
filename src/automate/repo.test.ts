@@ -106,3 +106,11 @@ test("hides and refuses files git ignores (the tester's private files)", async (
   assert.ok(!(await repo.listFiles()).includes("notes.md"));
   await assert.rejects(repo.readFile("notes.md"), /private to the tester/);
 });
+
+test("deletes only files it created", async () => {
+  const repo = await makeRepo();
+  await repo.writeFile("tests/debug-tmp.spec.ts", "temp");
+  await repo.deleteFile("tests/debug-tmp.spec.ts");
+  assert.deepEqual(await repo.listFiles("tests"), []);
+  await assert.rejects(repo.deleteFile("pages/login-page.ts"), /only delete files you created/);
+});

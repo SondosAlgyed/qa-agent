@@ -22,6 +22,7 @@ export const TOOLS: ToolDefinition[] = [
       required: ["path", "content"],
     },
   },
+  { name: "delete_file", description: "Delete a file you created, such as a temporary debug test. Clean these up before you finish.", inputSchema: pathInput("A file you created.") },
   { name: "run_test", description: "Run one Playwright test file you wrote, in Chromium. Returns PASSED or FAILED and the output.", inputSchema: pathInput("The test file you wrote.") },
   {
     name: "page_snapshot",
@@ -85,6 +86,10 @@ async function runTool(call: ToolCall, repo: TargetRepo, appUrl: string): Promis
       case "write_file":
         await repo.writeFile(input.path ?? "", input.content ?? "");
         output = `Wrote ${input.path}.`;
+        break;
+      case "delete_file":
+        await repo.deleteFile(input.path ?? "");
+        output = `Deleted ${input.path}.`;
         break;
       case "run_test": {
         const run = await repo.runTest(input.path ?? "");
