@@ -64,6 +64,23 @@ export class TargetRepo {
     if (!this.written.has(full)) {
       throw new Error(`"${requested}" was not written by you. You can only run tests you wrote.`);
     }
+    // Running a test runs its code, which could read any file or call any site,
+    // going around resolve(). So every file the agent wrote is checked first.
+    for (const file of this.written) {
+      const problems = codeProblems(await readFile(file, "utf8"));
+      // A relative import is fine only if it stays inside the project
+      for (const [, from] of (await readFile(file, "utf8")).matchAll(/\bfrom\s+["'](\.[^"']*)["']/g)) {
+        try {
+          this.resolve(path.relative(this.root, path.resolve(path.dirname(file), from!)));
+        } catch {
+          problems.push(`an import from outside the project ("${from}")`);
+        }
+      }
+      if (problems.length > 0) {
+        const name = path.relative(this.root, file);
+        throw new Error(`Not run: ${name} uses ${problems.join(", ")}. Tests may only import @playwright/test and files inside the project.`);
+      }
+    }
     const cli = path.join(this.root, "node_modules", "@playwright", "test", "cli.js");
     // Playwright reads the file argument as a pattern, so Windows "\" must become "/"
     const file = path.relative(this.root, full).split(path.sep).join("/");
@@ -83,6 +100,27 @@ export class TargetRepo {
   }
 
   private readonly written = new Set<string>();
+}
+
+// A guard, not a sandbox: it blocks the plain ways out (Node's file, process and
+// network modules, other packages, require, eval, file:// URLs). Full isolation
+// would need running tests in a separate container.
+function codeProblems(code: string): string[] {
+  const problems: string[] = [];
+  for (const [, from] of code.matchAll(/\bfrom\s+["']([^"']+)["']/g)) {
+    if (from !== "@playwright/test" && !from!.startsWith(".")) problems.push(`an import of "${from}"`);
+  }
+  const banned: [RegExp, string][] = [
+    [/\brequire\s*\(/, "require()"],
+    [/\bimport\s*\(/, "a dynamic import()"],
+    [/\bprocess\./, "process"],
+    [/\beval\s*\(|\bnew\s+Function\s*\(/, "eval"],
+    [/file:\/\//i, "a file:// URL"],
+  ];
+  for (const [pattern, what] of banned) {
+    if (pattern.test(code)) problems.push(what);
+  }
+  return problems;
 }
 
 const OFF_LIMITS = (name: string) => name === "node_modules" || name === ".git" || name.startsWith(".env");

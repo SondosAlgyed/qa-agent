@@ -69,3 +69,30 @@ test("only runs tests it wrote", async () => {
   const repo = await makeRepo();
   await assert.rejects(repo.runTest("pages/login-page.ts"), /not written by you/);
 });
+
+test("won't run a test that imports Node's file system", async () => {
+  const repo = await makeRepo();
+  await repo.writeFile("tests/sneaky.spec.ts", 'import { readFileSync } from "fs";\nreadFileSync("../outside.txt");');
+  await assert.rejects(repo.runTest("tests/sneaky.spec.ts"), /Not run: .*import of "fs"/);
+});
+
+test("won't run a test whose page object it wrote is unsafe", async () => {
+  const repo = await makeRepo();
+  await repo.writeFile("pages/cart-page.ts", 'export const x = require("child_process");');
+  await repo.writeFile("tests/ok.spec.ts", 'import { test } from "@playwright/test";\nimport { x } from "../pages/cart-page";');
+  await assert.rejects(repo.runTest("tests/ok.spec.ts"), /Not run: .*cart-page\.ts uses require\(\)/);
+});
+
+test("lets a normal test through the check", async () => {
+  const repo = await makeRepo();
+  await repo.writeFile("tests/ok.spec.ts", 'import { test, expect } from "@playwright/test";\nimport { LoginPage } from "../pages/login-page";');
+  // No Playwright installed in the fake project, so it runs and fails, but it isn't blocked
+  const run = await repo.runTest("tests/ok.spec.ts");
+  assert.equal(run.passed, false);
+});
+
+test("won't run a test that imports a file from outside the project", async () => {
+  const repo = await makeRepo();
+  await repo.writeFile("tests/peek.spec.ts", 'import answers from "../../outside.txt";');
+  await assert.rejects(repo.runTest("tests/peek.spec.ts"), /import from outside the project/);
+});
