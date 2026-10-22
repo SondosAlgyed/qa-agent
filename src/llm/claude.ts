@@ -13,15 +13,18 @@ import { QaError } from "../core/errors.js";
 export interface ClaudeConfig {
   apiKey: string;
   model?: string;
+  agentModel?: string; // defaults to `model`
 }
 
 export class ClaudeProvider implements LLMProvider {
   private readonly client: Anthropic;
   private readonly model: string;
+  private readonly agentModel: string;
 
   constructor(config: ClaudeConfig) {
     this.client = new Anthropic({ apiKey: config.apiKey });
     this.model = config.model ?? "claude-opus-5";
+    this.agentModel = config.agentModel ?? this.model;
   }
 
   async complete(
@@ -58,7 +61,7 @@ export class ClaudeProvider implements LLMProvider {
   }
 
   startAgent(system: string, task: string, tools: ToolDefinition[]): AgentConversation {
-    return new ClaudeConversation(this.client, this.model, system, task, tools);
+    return new ClaudeConversation(this.client, this.agentModel, system, task, tools);
   }
 }
 

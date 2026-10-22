@@ -13,5 +13,6 @@ export function createLLMProvider(config: QaConfig): LLMProvider {
   return new ClaudeProvider({
     apiKey: requireEnv("ANTHROPIC_API_KEY"),
     model: llm.model,
+    agentModel: llm.agentModel,
   });
 }

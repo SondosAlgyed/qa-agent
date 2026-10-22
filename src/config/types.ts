@@ -10,6 +10,8 @@ export interface JiraTrackerConfig {
 export interface ClaudeLLMConfig {
   type: "claude";
   model?: string;
+  // Model for agents (qa automate). An agent makes many calls, so a cheaper model can fit.
+  agentModel?: string;
 }
 
 export interface QaConfig {
