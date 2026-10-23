@@ -11,6 +11,10 @@ export interface AutomateResult {
   passedRuns: number; // our own check: how many of 3 runs passed
   report: string; // the agent's last words
   trace: string[];
+  turns: number;
+  inputTokens: number;
+  outputTokens: number;
+  seconds: number;
 }
 
 // Turns one reviewed test case into a Playwright test in the target repo.
@@ -39,6 +43,7 @@ export async function automateTestCase(options: {
   }
 
   const file = `tests/${key}-${caseId}.spec.ts`;
+  const started = Date.now();
   const agent = await runAgent({
     llm,
     repo,
@@ -53,5 +58,15 @@ export async function automateTestCase(options: {
     const run = await repo.runTest(file).catch(() => ({ passed: false }));
     if (run.passed) passedRuns++;
   }
-  return { file, finished: agent.finished, passedRuns, report: agent.text, trace: agent.trace };
+  return {
+    file,
+    finished: agent.finished,
+    passedRuns,
+    report: agent.text,
+    trace: agent.trace,
+    turns: agent.turns,
+    inputTokens: agent.inputTokens,
+    outputTokens: agent.outputTokens,
+    seconds: Math.round((Date.now() - started) / 1000),
+  };
 }

@@ -30,6 +30,8 @@ export interface ToolResult {
 export interface AgentTurn {
   text: string;
   toolCalls: ToolCall[];
+  // Tokens this call used (what the provider bills), if the provider reports them
+  usage?: { inputTokens: number; outputTokens: number };
 }
 
 // One agent conversation. The adapter keeps the history; the loop only sends

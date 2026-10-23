@@ -35,6 +35,9 @@ export interface AgentResult {
   finished: boolean; // false = it hit the turn limit
   text: string; // the model's last words
   trace: string[]; // every tool call in order, for the report and the evals
+  turns: number; // how many times we called the model
+  inputTokens: number;
+  outputTokens: number;
 }
 
 // The loop: ask the model, run the tools it asks for, send the results back,
@@ -54,20 +57,28 @@ export async function runAgent(options: {
 
   const conversation = llm.startAgent(system, task, TOOLS);
   const trace: string[] = [];
-  let turn = await conversation.next([]);
+  const totals = { turns: 0, inputTokens: 0, outputTokens: 0 };
+  const ask = async (results: ToolResult[]) => {
+    const t = await conversation.next(results);
+    totals.turns++;
+    totals.inputTokens += t.usage?.inputTokens ?? 0;
+    totals.outputTokens += t.usage?.outputTokens ?? 0;
+    return t;
+  };
+  let turn = await ask([]);
 
   for (let n = 1; turn.toolCalls.length > 0; n++) {
     if (n > maxTurns) {
-      return { finished: false, text: turn.text, trace };
+      return { finished: false, text: turn.text, trace, ...totals };
     }
     const results: ToolResult[] = [];
     for (const call of turn.toolCalls) {
       trace.push(`${call.name}(${JSON.stringify(call.input.path ?? call.input.url ?? "")})`);
       results.push(await runTool(call, repo, appUrl));
     }
-    turn = await conversation.next(results);
+    turn = await ask(results);
   }
-  return { finished: true, text: turn.text, trace };
+  return { finished: true, text: turn.text, trace, ...totals };
 }
 
 // Our code runs every tool, through TargetRepo's limits. A refused or failed

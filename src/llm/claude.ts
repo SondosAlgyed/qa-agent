@@ -132,7 +132,11 @@ class ClaudeConversation implements AgentConversation {
         text.push(block.text);
       }
     }
-    return { text: text.join("\n"), toolCalls };
+    const usage = {
+      inputTokens: response.usage.input_tokens,
+      outputTokens: response.usage.output_tokens,
+    };
+    return { text: text.join("\n"), toolCalls, usage };
   }
 }
 

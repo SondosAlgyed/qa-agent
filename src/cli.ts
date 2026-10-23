@@ -116,6 +116,10 @@ program
     console.log(`\nTools used (${result.trace.length}): ${result.trace.join(" -> ")}`);
     console.log(`\nAgent's report:\n${result.report}`);
     console.log(`\n${result.file}: passed ${result.passedRuns} of 3 runs (checked by qa, not the agent).`);
+    console.log(
+      `Time: ${Math.floor(result.seconds / 60)}m ${result.seconds % 60}s · model calls: ${result.turns} · ` +
+        `tokens: ${result.inputTokens} in, ${result.outputTokens} out`,
+    );
     if (!result.finished) console.log("The agent hit the turn limit before finishing.");
     if (result.passedRuns < 3) process.exitCode = 1;
   });
