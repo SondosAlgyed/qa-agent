@@ -195,3 +195,17 @@ place on TOOL-7, so "invented" is itself a fuzzy label here. Sample far too smal
 judge yet: don't add it to test_cases.py as a pass/fail check until more stories are judged by me.
 Idea from my review, not measured yet: a failure/negative case can be needed even when the story
 doesn't describe the failure (expected result "not specified").
+
+## Automate (qa automate)
+
+Agent: Claude Sonnet 5.5 (`agentModel`), prompt v1 (`343cfab`), target repo toolshop-tests.
+Cost below = tokens × list price for Sonnet 5.5 ($2 / 1M input, $10 / 1M output), no caching.
+
+| Date | Test case | Result (qa's own 3 runs) | Time | Model calls | Tokens in / out | Cost |
+|------|-----------|--------------------------|------|-------------|-----------------|------|
+| 2026-10-23 | TOOL-4 TC-1 | 3 of 3 | not measured yet | not measured yet | not measured yet | – |
+| 2026-10-23 | TOOL-4 TC-3 | 3 of 3 | 1m 1s | 8 | 64,443 / 3,447 | about $0.16 |
+
+Notes: TC-1 ran before the test case was reviewed: it said 'Laptops' (invented by qa cases), the agent
+used 'Pliers' and reported the mismatch instead of hiding it. TC-3 ran on the reviewed file; it reused the
+`HomePage` page object written in the TC-1 run, and reported what it doesn't check.
