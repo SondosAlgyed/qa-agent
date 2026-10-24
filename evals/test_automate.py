@@ -36,7 +36,7 @@ def status() -> list[str]:
     return out.splitlines() if out else []
 
 
-def test_case_text(key: str, case_id: str) -> str:
+def read_test_case(key: str, case_id: str) -> str:
     md = (TARGET / "test-cases" / f"{key}.md").read_text(encoding="utf-8").replace("\r\n", "\n")
     start = md.index(f"## {case_id}:")
     end = md.find("\n## ", start + 1)
@@ -68,7 +68,7 @@ def passes_three_times(test_file: str) -> bool:
 @pytest.mark.parametrize("case", GOLDENS, ids=lambda case: f"{case['key']}-{case['case']}")
 def test_automate(case):
     key, case_id = case["key"], case["case"]
-    assert test_case_text(key, case_id) == case["input"]["test_case"], "The test case changed. Update the golden first."
+    assert read_test_case(key, case_id) == case["input"]["test_case"], "The test case changed. Update the golden first."
     assert status() == [], "The target repo has uncommitted changes. Commit or stash them first."
 
     try:

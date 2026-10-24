@@ -1,0 +1,29 @@
+{
+  "key": "TOOL-4",
+  "caseId": "TC-2",
+  "file": "tests/TOOL-4-TC-2.spec.ts",
+  "finished": true,
+  "passedRuns": 3,
+  "report": "I wrote `tests/TOOL-4-TC-2.spec.ts` and it passes in Chromium. I didn't run it in Firefox or WebKit.\n\n- **Page objects:** I reused `HomePage` (`goto`, `filter`, `productNames`) and changed nothing. I didn't need to create a new one.\n- **Style:** It follows TC-1 and TC-3. It has the `@regression` tag and waits for the shop's `QUERY /products` response after each filter click.\n- **What it checks:**\n  - After selecting Pliers and then Hammer, both checkboxes stay checked.\n  - The returned products include both categories.\n  - Every returned product is Pliers or Hammer, so no Wrench product is in the response.\n  - The visible list matches the returned products exactly.\n- **Wrench check is indirect:** I didn't look up Wrench product names to assert they're absent. Instead I assert that the response contains only Pliers and Hammer products and that the list matches it. If you'd rather see Wrench names asserted absent directly, that needs a separate Wrench lookup.\n- **Pagination:** The catalogue paginates. The test only checks the first page of the filtered results, which is what the list shows. On the run it contained both categories. If the page size or sort order changes, page 1 might hold only one of the two categories and the test would fail.",
+  "trace": [
+    "list_files(\".\")",
+    "list_files(\"tests\")",
+    "read_file(\"playwright.config.ts\")",
+    "list_files(\"pages\")",
+    "read_file(\"tests/TOOL-4-TC-1.spec.ts\")",
+    "read_file(\"tests/TOOL-4-TC-3.spec.ts\")",
+    "list_files(\"test-cases\")",
+    "read_file(\"pages/home-page.ts\")",
+    "read_file(\"test-cases/TOOL-4.md\")",
+    "page_snapshot(\"https://practicesoftwaretesting.com\")",
+    "write_file(\"tests/TOOL-4-TC-2.spec.ts\")",
+    "run_test(\"tests/TOOL-4-TC-2.spec.ts\")"
+  ],
+  "turns": 7,
+  "inputTokens": 45606,
+  "outputTokens": 2276,
+  "seconds": 59,
+  "repo_changes": [
+    "?? tests/TOOL-4-TC-2.spec.ts"
+  ]
+}

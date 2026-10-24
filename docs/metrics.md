@@ -209,3 +209,19 @@ Cost below = tokens × list price for Sonnet 5.5 ($2 / 1M input, $10 / 1M output
 Notes: TC-1 ran before the test case was reviewed: it said 'Laptops' (invented by qa cases), the agent
 used 'Pliers' and reported the mismatch instead of hiding it. TC-3 ran on the reviewed file; it reused the
 `HomePage` page object written in the TC-1 run, and reported what it doesn't check.
+
+### Automate eval (`evals/test_automate.py`), 2026-10-23, prompt v1 (`343cfab`), 1 run
+
+Goldens: `evals/goldens/automate.json`, 3 reviewed TOOL-4 cases with no hand-written test.
+Checks: passes 3 runs (the eval runs it, one worker), imports HomePage, only new files in the
+target repo, has the tag, ran its test before finishing. Raw outputs: `docs/automate-runs/`.
+
+| Case | Result | Time | Model calls | Tokens in / out | Cost (Sonnet 5.5 list price) |
+|------|--------|------|-------------|-----------------|------------------------------|
+| TOOL-4 TC-2 | pass | 59s | 7 | 45,606 / 2,276 | about $0.11 |
+| TOOL-4 TC-4 | pass | 56s | 7 | 45,601 / 2,113 | about $0.11 |
+| TOOL-4 TC-5 | pass | 48s | 6 | 38,548 / 1,677 | about $0.09 |
+
+**3 of 3**, under a minute each, about $0.32 in total. One run only: LLM output varies, so this
+needs QA_EVAL_RUNS-style repeats before it's a firm number. Not measured yet: whether each test
+really checks the expected result (needs a judge validated against my judgments).

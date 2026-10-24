@@ -1,0 +1,29 @@
+{
+  "key": "TOOL-4",
+  "caseId": "TC-5",
+  "file": "tests/TOOL-4-TC-5.spec.ts",
+  "finished": true,
+  "passedRuns": 3,
+  "report": "I wrote `tests/TOOL-4-TC-5.spec.ts`, and it passes in Chromium. I didn't run it in Firefox or WebKit.\n\n- **What it checks:** It selects 'Wrench', then 'MightyCraft Hardware'. It waits for the shop's filter request each time. After the second filter, the response has no products and the list shows none.\n- **Page objects:** I reused `HomePage` (`goto`, `filter`, `productNames`) without changing it. I didn't create any new ones.\n- **Style:** It follows TC-1 and TC-3: tagged `@regression`, with the same waiting on the `QUERY /products` response.\n- **Not checked:** I didn't assert any empty-result message, because the story doesn't specify one.\n- **Extra check:** After step 1 the test also checks that the list matches the 'Wrench' response. I added this as a synchronisation point, so the empty result clearly comes from the combination. It also confirms the 'Wrench' list loaded, but it doesn't assert that 'Wrench' has products.",
+  "trace": [
+    "list_files(\".\")",
+    "list_files(\"tests\")",
+    "list_files(\"pages\")",
+    "read_file(\"playwright.config.ts\")",
+    "read_file(\"tests/TOOL-4-TC-1.spec.ts\")",
+    "read_file(\"tests/TOOL-4-TC-3.spec.ts\")",
+    "list_files(\"test-cases\")",
+    "read_file(\"pages/home-page.ts\")",
+    "read_file(\"test-cases/TOOL-4.md\")",
+    "page_snapshot(\"https://practicesoftwaretesting.com\")",
+    "write_file(\"tests/TOOL-4-TC-5.spec.ts\")",
+    "run_test(\"tests/TOOL-4-TC-5.spec.ts\")"
+  ],
+  "turns": 6,
+  "inputTokens": 38548,
+  "outputTokens": 1677,
+  "seconds": 48,
+  "repo_changes": [
+    "?? tests/TOOL-4-TC-5.spec.ts"
+  ]
+}
