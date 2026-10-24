@@ -1,0 +1,63 @@
+{
+  "id": "10044",
+  "key": "TOOL-7",
+  "summary": "TOOL-7 Filter products",
+  "description": "As a customer, I want to filter the products.\n\n* Filters should narrow down the list correctly.",
+  "status": "To Do",
+  "criteria": [
+    {
+      "id": "AC1",
+      "text": "Filters should narrow down the list correctly."
+    }
+  ],
+  "cases": [
+    {
+      "id": "TC-1",
+      "title": "Applying a single filter narrows the product list correctly",
+      "covers": [
+        "AC1"
+      ],
+      "type": "positive",
+      "preconditions": "The product list page is reachable and contains <a set of products where some match a given filter value and some do not>. At least one filter is available on the product list.",
+      "steps": [
+        "Open the product list page without any filter applied.",
+        "Note the products currently shown in the list.",
+        "Apply a single filter with <a filter value matched by some of the listed products>.",
+        "Compare the resulting list with the products noted in step 2."
+      ],
+      "expected": "The list is narrowed to only the products that match the applied filter value; products that do not match the filter value are no longer shown."
+    },
+    {
+      "id": "TC-2",
+      "title": "Applying two filters at the same time narrows the list to products matching both",
+      "covers": [
+        "AC1"
+      ],
+      "type": "positive",
+      "preconditions": "The product list page is reachable and contains <products that match filter value A only, products that match filter value B only, and at least one product that matches both A and B>. At least two filters are available on the product list.",
+      "steps": [
+        "Open the product list page without any filter applied.",
+        "Apply the first filter with <filter value A>.",
+        "Note the products shown.",
+        "Apply the second filter with <filter value B> while the first filter is still applied.",
+        "Compare the resulting list with the products noted in step 3."
+      ],
+      "expected": "The list shows only the products that match both filter values; products matching only one of the two values are no longer shown."
+    },
+    {
+      "id": "TC-3",
+      "title": "Applying a filter that no product matches",
+      "covers": [
+        "AC1"
+      ],
+      "type": "edge",
+      "preconditions": "The product list page is reachable and contains products, none of which match <a filter value that no product in the list matches>.",
+      "steps": [
+        "Open the product list page without any filter applied.",
+        "Apply a filter with <a filter value that no product in the list matches>.",
+        "Observe the resulting list."
+      ],
+      "expected": "No products are shown in the list, as none match the applied filter. The exact empty-list message or presentation is not specified in the story."
+    }
+  ]
+}

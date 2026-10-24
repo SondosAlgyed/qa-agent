@@ -1,0 +1,129 @@
+{
+  "id": "10040",
+  "key": "TOOL-3",
+  "summary": "TOOL-3  Search for products ",
+  "description": "\nAs a customer, I want to search so I can find a tool quickly.\n\n* A search term matching existing products → only matching products are listed.\n* A term with no matches → an empty state message, no error.\n* Search is case-insensitive.\n* Clearing the search restores the full product list.\n\nSearch matches product names (partial, case-insensitive)",
+  "status": "To Do",
+  "criteria": [
+    {
+      "id": "AC1",
+      "text": "A search term matching existing products → only matching products are listed."
+    },
+    {
+      "id": "AC2",
+      "text": "A term with no matches → an empty state message, no error."
+    },
+    {
+      "id": "AC3",
+      "text": "Search is case-insensitive."
+    },
+    {
+      "id": "AC4",
+      "text": "Clearing the search restores the full product list."
+    },
+    {
+      "id": "AC5",
+      "text": "Search matches product names (partial, case-insensitive)"
+    }
+  ],
+  "cases": [
+    {
+      "id": "TC-1",
+      "title": "Search term matching existing products lists only matching products",
+      "covers": [
+        "AC1"
+      ],
+      "type": "positive",
+      "preconditions": "The product list contains <at least two products whose names contain a common term> and <at least one product whose name does not contain that term>.",
+      "steps": [
+        "Open the product list.",
+        "Note the products currently shown.",
+        "Enter <a term contained in the names of the matching products> in the search field.",
+        "Run the search."
+      ],
+      "expected": "Only the products whose names contain the search term are listed; the non-matching product(s) are not shown."
+    },
+    {
+      "id": "TC-2",
+      "title": "Search term with no matches shows an empty state message",
+      "covers": [
+        "AC2"
+      ],
+      "type": "negative",
+      "preconditions": "The product list contains products, none of whose names contain <a term that matches no product name>.",
+      "steps": [
+        "Open the product list.",
+        "Enter <a term that matches no product name> in the search field.",
+        "Run the search."
+      ],
+      "expected": "No products are listed and an empty state message is displayed (exact text not specified in the story). No error is shown."
+    },
+    {
+      "id": "TC-3",
+      "title": "Search is case-insensitive",
+      "covers": [
+        "AC3",
+        "AC5"
+      ],
+      "type": "positive",
+      "preconditions": "The product list contains <a product whose name contains both upper- and lower-case letters>.",
+      "steps": [
+        "Open the product list.",
+        "Enter <the product name term in all lower case> in the search field and run the search.",
+        "Note the results.",
+        "Clear the search field and enter <the same term in all upper case>, then run the search.",
+        "Note the results."
+      ],
+      "expected": "Both searches return the same result set, including <the product whose name contains the term>, regardless of the letter case used."
+    },
+    {
+      "id": "TC-4",
+      "title": "Partial product name term returns the matching products",
+      "covers": [
+        "AC5",
+        "AC1"
+      ],
+      "type": "positive",
+      "preconditions": "The product list contains <a product whose name contains a term as a fragment, not from the start of the name>.",
+      "steps": [
+        "Open the product list.",
+        "Enter <a fragment of that product's name> in the search field.",
+        "Run the search."
+      ],
+      "expected": "The product whose name contains that fragment is listed; products whose names do not contain the fragment are not listed."
+    },
+    {
+      "id": "TC-5",
+      "title": "Clearing the search restores the full product list",
+      "covers": [
+        "AC4"
+      ],
+      "type": "positive",
+      "preconditions": "The product list contains <several products with different names>.",
+      "steps": [
+        "Open the product list and note the full list of products shown.",
+        "Enter <a term matching only some of the products> in the search field and run the search.",
+        "Confirm the list is filtered.",
+        "Clear the search field."
+      ],
+      "expected": "The full product list is shown again, identical to the list noted in step 1."
+    },
+    {
+      "id": "TC-6",
+      "title": "Clearing the search after a no-match term restores the full product list",
+      "covers": [
+        "AC4",
+        "AC2"
+      ],
+      "type": "edge",
+      "preconditions": "The product list contains <several products with different names>.",
+      "steps": [
+        "Open the product list and note the full list of products shown.",
+        "Enter <a term that matches no product name> in the search field and run the search.",
+        "Observe the empty state message.",
+        "Clear the search field."
+      ],
+      "expected": "After clearing, the full product list is shown again, identical to the list noted in step 1, with no error."
+    }
+  ]
+}

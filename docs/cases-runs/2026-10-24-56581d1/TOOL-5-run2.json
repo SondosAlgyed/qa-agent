@@ -1,0 +1,87 @@
+{
+  "id": "10042",
+  "key": "TOOL-5",
+  "summary": "TOOL-5  Product sorting",
+  "description": "As a customer, I want to sort the products.\n\n* Sorting should work properly.",
+  "status": "To Do",
+  "criteria": [
+    {
+      "id": "AC1",
+      "text": "Sorting should work properly."
+    }
+  ],
+  "cases": [
+    {
+      "id": "TC-1",
+      "title": "Products are sorted when a sort option is applied",
+      "covers": [
+        "AC1"
+      ],
+      "type": "positive",
+      "preconditions": "The product list is displayed and contains <several products with differing values for the attribute being sorted>. <a sort option available in the product list> is known to the tester.",
+      "steps": [
+        "Open the product list.",
+        "Note the order of the products shown before sorting.",
+        "Apply <a sort option available in the product list>."
+      ],
+      "expected": "The product list is re-ordered according to the applied sort option; the products appear in the correct order for that option. The exact sort options and their ordering rules are not specified in the story."
+    },
+    {
+      "id": "TC-2",
+      "title": "Switching from one sort option to another re-sorts the list",
+      "covers": [
+        "AC1"
+      ],
+      "type": "positive",
+      "preconditions": "The product list is displayed and contains <several products with differing values for the attributes being sorted>. At least two sort options are available.",
+      "steps": [
+        "Open the product list.",
+        "Apply <a first sort option available in the product list> and note the resulting order.",
+        "Apply <a second, different sort option available in the product list>."
+      ],
+      "expected": "The list is re-sorted according to the second sort option, replacing the order produced by the first option. The exact sort options and their ordering rules are not specified in the story."
+    },
+    {
+      "id": "TC-3",
+      "title": "Sorting a list that contains no products",
+      "covers": [
+        "AC1"
+      ],
+      "type": "edge",
+      "preconditions": "A product list view that currently shows no products (for example <a category or search result with zero products>).",
+      "steps": [
+        "Open the product list so that no products are shown.",
+        "Apply <a sort option available in the product list>."
+      ],
+      "expected": "No error occurs and the empty list is still displayed. The exact behaviour and any message for an empty list are not specified in the story."
+    },
+    {
+      "id": "TC-4",
+      "title": "Sorting a list that contains a single product",
+      "covers": [
+        "AC1"
+      ],
+      "type": "edge",
+      "preconditions": "A product list view that currently shows exactly one product (for example <a category or search result with exactly one product>).",
+      "steps": [
+        "Open the product list so that one product is shown.",
+        "Apply <a sort option available in the product list>."
+      ],
+      "expected": "No error occurs and the single product remains displayed. The exact behaviour for a single-item list is not specified in the story."
+    },
+    {
+      "id": "TC-5",
+      "title": "Sorting products that have equal values for the sorted attribute",
+      "covers": [
+        "AC1"
+      ],
+      "type": "edge",
+      "preconditions": "The product list is displayed and contains <at least two products with identical values for the attribute being sorted>.",
+      "steps": [
+        "Open the product list.",
+        "Apply <the sort option matching the attribute where the products have identical values>."
+      ],
+      "expected": "The list is sorted without error and the products with identical values appear together in the sorted order. The tie-breaking rule is not specified in the story."
+    }
+  ]
+}

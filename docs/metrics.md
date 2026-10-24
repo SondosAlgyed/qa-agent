@@ -225,3 +225,20 @@ target repo, has the tag, ran its test before finishing. Raw outputs: `docs/auto
 **3 of 3**, under a minute each, about $0.32 in total. One run only: LLM output varies, so this
 needs QA_EVAL_RUNS-style repeats before it's a firm number. Not measured yet: whether each test
 really checks the expected result (needs a judge validated against my judgments).
+
+### Cases v3 (`56581d1`), 2026-10-24, 3 runs per story
+
+One new rule (8): if the story doesn't name the test data, write a placeholder in angle brackets
+instead of inventing real-looking examples. Found by qa automate: TOOL-4's test cases said 'Laptops'
+and 'BrandX', which don't exist in Toolshop. The example in the rule is unrelated to any golden story.
+
+| Version | Count check | Coverage | Placeholders `<...>` | "e.g." examples |
+|---------|-------------|----------|------------------------|-----------------|
+| v2-b | 24 of 24 | 24 of 24 | 0 | 35 |
+| v3 | 24 of 24 | 24 of 24 | 302 | 16 |
+
+Counted by a script over all 24 runs of each. Read by hand: v3's remaining "e.g." now wrap
+placeholders ("e.g. <7-character password>"), not invented names. TOOL-4 v3 steps say
+"Select the category <category A>". Data the story does give is kept: TOOL-2 still uses the
+8-character limit and the exact under-18 message in all 3 runs.
+Raw outputs: `docs/cases-runs/2026-10-24-56581d1/`.

@@ -1,0 +1,61 @@
+{
+  "id": "10042",
+  "key": "TOOL-5",
+  "summary": "TOOL-5  Product sorting",
+  "description": "As a customer, I want to sort the products.\n\n* Sorting should work properly.",
+  "status": "To Do",
+  "criteria": [
+    {
+      "id": "AC1",
+      "text": "Sorting should work properly."
+    }
+  ],
+  "cases": [
+    {
+      "id": "TC-1",
+      "title": "Products are sorted when a sort option is applied",
+      "covers": [
+        "AC1"
+      ],
+      "type": "positive",
+      "preconditions": "The shop is reachable and a product list page containing <at least 3 products with differing values for the sort attribute> is displayed. The available sort options are not specified in the story, so the tester uses <a sort option offered by the application>.",
+      "steps": [
+        "Open the product list page.",
+        "Note the order of the displayed products.",
+        "Apply <a sort option offered by the application>.",
+        "Review the order of the products shown after the sort is applied."
+      ],
+      "expected": "The products are displayed in the order that corresponds to the selected sort option, i.e. sorting works properly. The exact sort options, the resulting order and any confirmation message are not specified in the story."
+    },
+    {
+      "id": "TC-2",
+      "title": "Changing the sort option re-sorts the product list",
+      "covers": [
+        "AC1"
+      ],
+      "type": "positive",
+      "preconditions": "The shop is reachable and a product list page containing <at least 3 products with differing values for the sort attributes> is displayed. The application offers <at least two different sort options>.",
+      "steps": [
+        "Open the product list page.",
+        "Apply <the first sort option offered by the application> and note the resulting order.",
+        "Apply <a second, different sort option offered by the application>.",
+        "Review the order of the products shown."
+      ],
+      "expected": "The product list is re-sorted according to the newly selected sort option; the previously applied sorting is no longer in effect. The exact sort options and resulting order are not specified in the story."
+    },
+    {
+      "id": "TC-3",
+      "title": "Applying sorting to a product list with no products",
+      "covers": [
+        "AC1"
+      ],
+      "type": "edge",
+      "preconditions": "The shop is reachable and <a product list page that contains no products (for example an empty category or a search with no results)> can be opened.",
+      "steps": [
+        "Open <a product list page that contains no products>.",
+        "Apply <a sort option offered by the application>."
+      ],
+      "expected": "The application stays usable and no error occurs; the empty list is still shown. The exact behaviour and any message for an empty list are not specified in the story."
+    }
+  ]
+}

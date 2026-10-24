@@ -1,0 +1,143 @@
+{
+  "id": "10045",
+  "key": "TOOL-8",
+  "summary": "TOOL-8 Manage the shopping cart",
+  "description": "As a customer, I want to change my cart before checking out.\n\n* Increasing the quantity of an item updates that line's total and the cart total.\n* Removing an item removes it from the list and updates the total.\n* Removing the last item shows an empty cart message.\n* Cart contents persist after a page refresh.",
+  "status": "To Do",
+  "criteria": [
+    {
+      "id": "AC1",
+      "text": "Increasing the quantity of an item updates that line's total and the cart total."
+    },
+    {
+      "id": "AC2",
+      "text": "Removing an item removes it from the list and updates the total."
+    },
+    {
+      "id": "AC3",
+      "text": "Removing the last item shows an empty cart message."
+    },
+    {
+      "id": "AC4",
+      "text": "Cart contents persist after a page refresh."
+    }
+  ],
+  "cases": [
+    {
+      "id": "TC-1",
+      "title": "Increasing an item's quantity updates the line total and the cart total",
+      "covers": [
+        "AC1"
+      ],
+      "type": "positive",
+      "preconditions": "Logged in as a customer with a cart containing <an item with a known unit price and quantity 1>.",
+      "steps": [
+        "Open the shopping cart page.",
+        "Note the item's line total and the cart total.",
+        "Increase the quantity of that item by 1.",
+        "Observe the item's line total and the cart total."
+      ],
+      "expected": "The line total for that item is updated to reflect the new quantity, and the cart total is updated accordingly."
+    },
+    {
+      "id": "TC-2",
+      "title": "Increasing the quantity of one item in a multi-item cart updates only that line and the cart total",
+      "covers": [
+        "AC1"
+      ],
+      "type": "edge",
+      "preconditions": "Logged in as a customer with a cart containing <at least two different items, each with quantity 1>.",
+      "steps": [
+        "Open the shopping cart page.",
+        "Note the line total of each item and the cart total.",
+        "Increase the quantity of the first item by 1.",
+        "Observe the line totals of both items and the cart total."
+      ],
+      "expected": "The first item's line total is updated for the new quantity, the other item's line total is unchanged, and the cart total is updated."
+    },
+    {
+      "id": "TC-3",
+      "title": "Removing an item from a cart with several items removes the line and updates the total",
+      "covers": [
+        "AC2"
+      ],
+      "type": "positive",
+      "preconditions": "Logged in as a customer with a cart containing <at least two different items>.",
+      "steps": [
+        "Open the shopping cart page.",
+        "Note the items listed and the cart total.",
+        "Remove one of the items.",
+        "Observe the item list and the cart total."
+      ],
+      "expected": "The removed item no longer appears in the cart list, the remaining item(s) are still listed, and the cart total is updated."
+    },
+    {
+      "id": "TC-4",
+      "title": "Removing the last item shows the empty cart message",
+      "covers": [
+        "AC3"
+      ],
+      "type": "edge",
+      "preconditions": "Logged in as a customer with a cart containing exactly <one item>.",
+      "steps": [
+        "Open the shopping cart page.",
+        "Remove the only item in the cart.",
+        "Observe the cart page."
+      ],
+      "expected": "The item is removed from the list and an empty cart message is shown (exact message text not specified in the story)."
+    },
+    {
+      "id": "TC-5",
+      "title": "Removing items one by one until the cart is empty shows the empty cart message",
+      "covers": [
+        "AC2",
+        "AC3"
+      ],
+      "type": "edge",
+      "preconditions": "Logged in as a customer with a cart containing <exactly two different items>.",
+      "steps": [
+        "Open the shopping cart page.",
+        "Remove the first item and observe the list and cart total.",
+        "Remove the remaining item.",
+        "Observe the cart page."
+      ],
+      "expected": "After the first removal, that item is gone from the list and the cart total is updated; after removing the remaining item, the list is empty and an empty cart message is shown (exact message text not specified in the story)."
+    },
+    {
+      "id": "TC-6",
+      "title": "Cart contents persist after a page refresh",
+      "covers": [
+        "AC4"
+      ],
+      "type": "positive",
+      "preconditions": "Logged in as a customer with a cart containing <at least two items with known quantities>.",
+      "steps": [
+        "Open the shopping cart page.",
+        "Note the items, their quantities and the cart total.",
+        "Refresh the page in the browser.",
+        "Observe the cart contents."
+      ],
+      "expected": "The same items with the same quantities are still in the cart and the cart total is unchanged."
+    },
+    {
+      "id": "TC-7",
+      "title": "Cart changes persist after a page refresh",
+      "covers": [
+        "AC4",
+        "AC1",
+        "AC2"
+      ],
+      "type": "edge",
+      "preconditions": "Logged in as a customer with a cart containing <at least two items, each with quantity 1>.",
+      "steps": [
+        "Open the shopping cart page.",
+        "Increase the quantity of the first item by 1.",
+        "Remove the second item.",
+        "Note the remaining items, quantities and cart total.",
+        "Refresh the page in the browser.",
+        "Observe the cart contents."
+      ],
+      "expected": "After the refresh the cart shows the first item with the increased quantity, the removed item is still absent, and the line total and cart total match the values noted before the refresh."
+    }
+  ]
+}

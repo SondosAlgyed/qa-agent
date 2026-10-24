@@ -1,0 +1,77 @@
+{
+  "id": "10044",
+  "key": "TOOL-7",
+  "summary": "TOOL-7 Filter products",
+  "description": "As a customer, I want to filter the products.\n\n* Filters should narrow down the list correctly.",
+  "status": "To Do",
+  "criteria": [
+    {
+      "id": "AC1",
+      "text": "Filters should narrow down the list correctly."
+    }
+  ],
+  "cases": [
+    {
+      "id": "TC-1",
+      "title": "Applying a single filter narrows the product list to matching products",
+      "covers": [
+        "AC1"
+      ],
+      "type": "positive",
+      "preconditions": "The product list is displayed with at least one filter available, and <a filter value that matches some but not all products in the list> is known.",
+      "steps": [
+        "Open the product list and note the products shown before filtering.",
+        "Apply the filter <a filter value that matches some but not all products in the list>.",
+        "Review the product list after the filter is applied."
+      ],
+      "expected": "The list is narrowed: only products matching the applied filter value are shown, and products that do not match are no longer listed."
+    },
+    {
+      "id": "TC-2",
+      "title": "Applying more than one filter narrows the list to products matching all of them",
+      "covers": [
+        "AC1"
+      ],
+      "type": "positive",
+      "preconditions": "The product list is displayed with at least two filters available, and <two filter values that together match at least one product> are known.",
+      "steps": [
+        "Open the product list.",
+        "Apply the first filter <filter value 1> and note the resulting list.",
+        "Apply the second filter <filter value 2> without removing the first one.",
+        "Review the product list."
+      ],
+      "expected": "The list is narrowed further: only products matching both applied filter values are shown; products matching only one of the two are no longer listed."
+    },
+    {
+      "id": "TC-3",
+      "title": "Removing an applied filter restores the products that were filtered out",
+      "covers": [
+        "AC1"
+      ],
+      "type": "positive",
+      "preconditions": "The product list is displayed and <a filter value that matches some but not all products in the list> is known.",
+      "steps": [
+        "Open the product list and note the products shown before filtering.",
+        "Apply the filter <a filter value that matches some but not all products in the list>.",
+        "Remove / clear the applied filter.",
+        "Review the product list."
+      ],
+      "expected": "The list returns to showing the products that were listed before the filter was applied."
+    },
+    {
+      "id": "TC-4",
+      "title": "Applying a filter that matches no products",
+      "covers": [
+        "AC1"
+      ],
+      "type": "edge",
+      "preconditions": "The product list is displayed and <a filter value that matches no product in the list> is known.",
+      "steps": [
+        "Open the product list.",
+        "Apply the filter <a filter value that matches no product in the list>.",
+        "Review the product list."
+      ],
+      "expected": "No products are shown, since none match the applied filter. The exact message or empty-state shown is not specified in the story."
+    }
+  ]
+}

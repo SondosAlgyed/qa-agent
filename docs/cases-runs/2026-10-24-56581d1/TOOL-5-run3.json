@@ -1,0 +1,48 @@
+{
+  "id": "10042",
+  "key": "TOOL-5",
+  "summary": "TOOL-5  Product sorting",
+  "description": "As a customer, I want to sort the products.\n\n* Sorting should work properly.",
+  "status": "To Do",
+  "criteria": [
+    {
+      "id": "AC1",
+      "text": "Sorting should work properly."
+    }
+  ],
+  "cases": [
+    {
+      "id": "TC-1",
+      "title": "Products are sorted correctly for each available sorting option",
+      "covers": [
+        "AC1"
+      ],
+      "type": "positive",
+      "preconditions": "Access to the product listing page with <a product category/search result containing several products with differing values for each sortable attribute>. The sorting options available in the application are known to the tester (the story does not specify them).",
+      "steps": [
+        "Open the product listing page showing <a product category/search result containing several products>.",
+        "Note the products currently displayed and their relevant attribute values.",
+        "Select the first available sorting option.",
+        "Compare the resulting order of products against the expected order for that option.",
+        "Repeat steps 3-4 for every remaining sorting option offered by the application."
+      ],
+      "expected": "For each sorting option, the products are re-ordered according to that option and the resulting order is correct. The exact set of sorting options, their labels and the sort direction are not specified in the story."
+    },
+    {
+      "id": "TC-2",
+      "title": "Sorting applied to a list with no products or a single product",
+      "covers": [
+        "AC1"
+      ],
+      "type": "edge",
+      "preconditions": "Access to the product listing page that can show <a category/search result returning zero products> and <a category/search result returning exactly one product>.",
+      "steps": [
+        "Open the product listing page for <a category/search result returning zero products>.",
+        "Apply any available sorting option.",
+        "Open the product listing page for <a category/search result returning exactly one product>.",
+        "Apply any available sorting option."
+      ],
+      "expected": "Sorting is applied without error: the empty list stays empty and the single-product list still shows that one product. The exact behaviour and any message for an empty list are not specified in the story."
+    }
+  ]
+}
