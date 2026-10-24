@@ -205,10 +205,14 @@ Cost below = tokens × list price for Sonnet 5.5 ($2 / 1M input, $10 / 1M output
 |------|-----------|--------------------------|------|-------------|-----------------|------|
 | 2026-10-23 | TOOL-4 TC-1 | 3 of 3 | not measured yet | not measured yet | not measured yet | – |
 | 2026-10-23 | TOOL-4 TC-3 | 3 of 3 | 1m 1s | 8 | 64,443 / 3,447 | about $0.16 |
+| 2026-10-24 | TOOL-8 TC-2 | 3 of 3 | 1m 59s | 12 | 123,498 / 4,240 | about $0.29 |
 
 Notes: TC-1 ran before the test case was reviewed: it said 'Laptops' (invented by qa cases), the agent
 used 'Pliers' and reported the mismatch instead of hiding it. TC-3 ran on the reviewed file; it reused the
 `HomePage` page object written in the TC-1 run, and reported what it doesn't check.
+TOOL-8 TC-2 (cart, a different page): it created a `CartPage` page object, built its own cart through
+the UI (no shared data), deleted its own debug file, and reported an accessibility problem in the app:
+the remove button is an icon-only link with no accessible name, so `getByRole` can't find it.
 
 ### Automate eval (`evals/test_automate.py`), 2026-10-24, prompt v1 (`343cfab`), 1 run
 
