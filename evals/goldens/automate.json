@@ -1,0 +1,47 @@
+[
+  {
+    "key": "TOOL-4",
+    "case": "TC-2",
+    "input": {
+      "test_case": "## TC-2: Filtering by two categories shows products from both\n- Covers: AC2\n- Type: positive\n- Preconditions: The product catalogue page is open with no filters applied. The catalogue contains products in at least three different categories (e.g. 'Pliers', 'Hammer', 'Wrench').\n\nSteps:\n1. Select the category filter 'Pliers'.\n2. Additionally select the category filter 'Hammer'.\n\nExpected: Products from both 'Pliers' and 'Hammer' appear in the list; products from categories that are not selected (e.g. 'Wrench') are not shown."
+    },
+    "expected": {
+      "page_object": "HomePage",
+      "tag": "@regression"
+    },
+    "human": {
+      "notes": "Two categories: the story says products from both appear (OR).",
+      "labeled_by": "Test cases reviewed by me (real Toolshop data). Expected checks agreed in the automate eval design."
+    }
+  },
+  {
+    "key": "TOOL-4",
+    "case": "TC-4",
+    "input": {
+      "test_case": "## TC-4: Unchecking all filters restores the full product list\n- Covers: AC4\n- Type: positive\n- Preconditions: The product catalogue page is open and the full unfiltered list of products is known. The catalogue contains products in several categories and brands.\n\nSteps:\n1. Select the category filter 'Pliers' and the brand filter 'ForgeFlex Tools' and observe that the list is narrowed.\n2. Uncheck the category filter 'Pliers'.\n3. Uncheck the brand filter 'ForgeFlex Tools' so that no filters remain selected.\n\nExpected: The full product list returns, matching the unfiltered catalogue observed before any filter was applied."
+    },
+    "expected": {
+      "page_object": "HomePage",
+      "tag": "@regression"
+    },
+    "human": {
+      "notes": "More steps: filter, then uncheck everything; the full list must return.",
+      "labeled_by": "Test cases reviewed by me (real Toolshop data). Expected checks agreed in the automate eval design."
+    }
+  },
+  {
+    "key": "TOOL-4",
+    "case": "TC-5",
+    "input": {
+      "test_case": "## TC-5: Category and brand combination with no matching products\n- Covers: AC3\n- Type: edge\n- Preconditions: The product catalogue page is open with no filters applied. The catalogue contains a category 'Wrench' and a brand 'MightyCraft Hardware', but no product that is both in 'Wrench' and of brand 'MightyCraft Hardware'.\n\nSteps:\n1. Select the category filter 'Wrench'.\n2. Select the brand filter 'MightyCraft Hardware'.\n\nExpected: No products are shown, since only products matching both the category and the brand should appear. The exact wording/appearance of any empty-result message is not specified in the story."
+    },
+    "expected": {
+      "page_object": "HomePage",
+      "tag": "@regression"
+    },
+    "human": {
+      "notes": "Edge case: Wrench + MightyCraft Hardware has no products (checked with the API on 2026-10-23).",
+      "labeled_by": "Test cases reviewed by me (real Toolshop data). Expected checks agreed in the automate eval design."
+    }
+  }
+]
