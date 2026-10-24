@@ -210,7 +210,7 @@ Notes: TC-1 ran before the test case was reviewed: it said 'Laptops' (invented b
 used 'Pliers' and reported the mismatch instead of hiding it. TC-3 ran on the reviewed file; it reused the
 `HomePage` page object written in the TC-1 run, and reported what it doesn't check.
 
-### Automate eval (`evals/test_automate.py`), 2026-10-23, prompt v1 (`343cfab`), 1 run
+### Automate eval (`evals/test_automate.py`), 2026-10-24, prompt v1 (`343cfab`), 1 run
 
 Goldens: `evals/goldens/automate.json`, 3 reviewed TOOL-4 cases with no hand-written test.
 Checks: passes 3 runs (the eval runs it, one worker), imports HomePage, only new files in the
