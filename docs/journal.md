@@ -146,3 +146,15 @@
   a "run test" tool is a "run any code" tool, so the file limits could be bypassed with
   `import fs` or an import from `../..`. `runTest` now checks every file the agent wrote
   first. It's a guard, not a sandbox; full isolation needs a container.
+- Second session (2026-10-24): the whole flow ran once, end to end. `qa cases` drafted TOOL-4's
+  test cases with invented data ("Laptops", "BrandX"); I reviewed them with real Toolshop
+  categories and brands (checked with the API, so the "no results" case really has none).
+- `qa automate` with Sonnet 5.5: TOOL-4 TC-3 in about a minute, 8 model calls, about $0.16,
+  3 of 3. It reused the page object from the previous run and listed what its test doesn't check.
+- I reviewed the agent's code like a PR: renamed a misleading method, removed a stale comment,
+  replaced a duplicated locator. Then the tests failed when 6 ran in parallel, and passed one by
+  one: the demo server can't take the load. A flakiness risk, not a code bug.
+- First automate eval: 3 of 3 on reviewed cases with no hand-written test, each checked by the
+  eval itself (3 runs, page object reused, only new files, tag, ran its test). One run only.
+- The agent also read my private CLAUDE.md in the target repo, so files git ignores are now
+  hidden from it.

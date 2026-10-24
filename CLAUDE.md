@@ -144,10 +144,19 @@ the same way as TypeScript (new concepts explained the first time they appear).
    with the numeric issueId); the field names so far come from third-party examples, not the
    official docs. If it still fails, contact SmartBear support with the exact error.
    Then: should --push go to Zephyr instead of a comment, and delete the TOOL-1 comment?
-2. `qa automate`: build it following the agreed design below, one small step at a time.
-   Done so far: src/automate/repo.ts `TargetRepo` (resolve = the boundary check, readFile,
-   listFiles, writeFile: new files + rewriting its own, runTest: only its own files, fixed command,
-   no shell; checked for real on toolshop-tests) + unit tests (`npm run test:unit`, node:test, 9 pass).
+2. `qa automate`: works end to end (see the design below). Done: `TargetRepo` (src/automate/repo.ts:
+   resolve = the boundary check; read/list hide files git ignores, except test-results; write new
+   files + rewrite its own; delete its own; runTest only its own files, fixed command, no shell,
+   and it first checks the agent's code: only @playwright/test and in-project imports, no require,
+   eval, process, file://; a guard, not a sandbox), page_snapshot (accessibility tree, app origin
+   only), provider-neutral agent types in LLMProvider + Claude adapter, the loop (agent.ts, trace,
+   turn limit, tokens), prompt v1 (343cfab, 8 rules, never weaken a failing check), the command
+   (+ --json), config `repo`, `appUrl`, `llm.agentModel` (Sonnet 5.5 for the agent). 15 unit tests.
+   Real runs: TOOL-4 TC-1 and TC-3 written, reviewed by me, committed in toolshop-tests.
+   Eval (evals/test_automate.py, 3 reviewed TOOL-4 cases): 3/3, under a minute and ~$0.11 each.
+   Open: repeat the eval runs; a G-Eval "the test really checks the expected result" (validate
+   against my judgments first); qa cases invents example test data ("Laptops") → cases prompt v3;
+   tests fail when 6 run in parallel against the demo server (one worker is fine).
 
 ## `qa automate` design (agreed 2026-10-22)
 - Command: `qa automate <key> <TC-id>`, e.g. `qa automate TOOL-1 TC-2`. One test case, chosen by
