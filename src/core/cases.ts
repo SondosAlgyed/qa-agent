@@ -23,6 +23,10 @@ Rules:
 7. Each test case stands alone: give it its own preconditions, and never depend on another
    test case having run first.
 
+8. If the story doesn't name the test data a step needs (names, items, accounts, values), don't
+   invent real-looking examples. Write a placeholder in angle brackets that says what is needed,
+   for example <a supplier with at least two open invoices>, so the tester fills in real data.
+
 There is no target number of test cases. Write what the criteria need, and no more.
 Number the test cases TC-1, TC-2, ... In "covers", list the IDs of the criteria each case checks.`;
 
