@@ -158,3 +158,14 @@
   eval itself (3 runs, page object reused, only new files, tag, ran its test). One run only.
 - The agent also read my private CLAUDE.md in the target repo, so files git ignores are now
   hidden from it.
+- Cases prompt v3: one rule, placeholders like <category A> instead of invented examples.
+  The eval stayed at 24/24 over 3 runs; a script counted placeholders 0 → 302 and "e.g." examples
+  35 → 16 (the rest now wrap placeholders). Data the story gives was kept (TOOL-2's 8-character
+  limit and exact message). A flaw found by one tool (automate), fixed in another (cases), measured.
+- A second page: TOOL-8's cart. The agent created CartPage, built its own cart through the UI,
+  deleted its debug file, worked in money as cents, and reported that the remove button has no
+  accessible name, so getByRole can't find it: an accessibility bug in the app.
+- Reviewing its tests, a pattern: it repeats helpers (addToCart, the filter wait) instead of
+  moving them into page objects, because it may not edit existing files. A prompt idea for later:
+  suggest the refactor in the report.
+- Zephyr: a third fresh token still gets "Unknown token". Stopped there; it's for SmartBear support.

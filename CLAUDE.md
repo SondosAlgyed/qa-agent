@@ -154,9 +154,14 @@ the same way as TypeScript (new concepts explained the first time they appear).
    (+ --json), config `repo`, `appUrl`, `llm.agentModel` (Sonnet 5.5 for the agent). 15 unit tests.
    Real runs: TOOL-4 TC-1 and TC-3 written, reviewed by me, committed in toolshop-tests.
    Eval (evals/test_automate.py, 3 reviewed TOOL-4 cases): 3/3, under a minute and ~$0.11 each.
+   Second page: TOOL-8 TC-2 (cart) 3/3, ~2 min, ~$0.29: created CartPage, built its own cart (no
+   shared data), cleaned up its debug file, and found an accessibility issue in the app (the
+   remove button has no accessible name). All agent tests reviewed by me and pushed.
+   Cases prompt v3 (56581d1): placeholders instead of invented test data; 24/24 over 3 runs.
    Open: repeat the eval runs; a G-Eval "the test really checks the expected result" (validate
-   against my judgments first); qa cases invents example test data ("Laptops") → cases prompt v3;
-   tests fail when 6 run in parallel against the demo server (one worker is fine).
+   against my judgments first); tests fail when 6 run in parallel against the demo server (one
+   worker is fine); the agent repeats helpers (addToCart, the products QUERY wait) instead of
+   suggesting a page-object refactor; Zephyr: 3 tokens all "Unknown token" → SmartBear support.
 
 ## `qa automate` design (agreed 2026-10-22)
 - Command: `qa automate <key> <TC-id>`, e.g. `qa automate TOOL-1 TC-2`. One test case, chosen by
