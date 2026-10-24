@@ -96,13 +96,16 @@ program
   .description("Write a Playwright test for one reviewed test case, run it, and fix it")
   .argument("<key>", "story key, e.g. TOOL-4")
   .argument("<case>", "test case ID from test-cases/<key>.md, e.g. TC-1")
-  .action(async (key: string, caseId: string) => {
+  .option("--json", "print the result as JSON (for scripts and evals)")
+  .action(async (key: string, caseId: string, options: { json?: boolean }) => {
     const config = await loadConfig();
     if (!config.appUrl) {
       throw new QaError('qa automate needs appUrl in qa.config.ts (the app under test).');
     }
     const llm = createLLMProvider(config);
-    console.log(`Automating ${key} ${caseId}... (the agent reads the project, writes the test, runs it)`);
+    if (!options.json) {
+      console.log(`Automating ${key} ${caseId}... (the agent reads the project, writes the test, runs it)`);
+    }
 
     const result = await automateTestCase({
       llm,
@@ -112,6 +115,12 @@ program
       caseId,
       maxTurns: Number(process.env.AGENT_MAX_TURNS ?? 15),
     });
+
+    if (options.json) {
+      console.log(JSON.stringify({ key, caseId, ...result }, null, 2));
+      if (result.passedRuns < 3) process.exitCode = 1;
+      return;
+    }
 
     console.log(`\nTools used (${result.trace.length}): ${result.trace.join(" -> ")}`);
     console.log(`\nAgent's report:\n${result.report}`);
