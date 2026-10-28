@@ -1,0 +1,29 @@
+{
+  "key": "TOOL-4",
+  "caseId": "TC-4",
+  "file": "tests/TOOL-4-TC-4.spec.ts",
+  "finished": true,
+  "passedRuns": 3,
+  "report": "The test is in `tests/TOOL-4-TC-4.spec.ts`, tagged `@regression`, and it passed in Chromium. I did not run it in Firefox or WebKit, which the config also enables.\n\n- **Page object:** I reused `HomePage` (`goto`, `filter`, `productNames`) unchanged. I didn't need to create any new page objects.\n- **What it checks:**\n  - It records the unfiltered product names.\n  - It selects Pliers and then ForgeFlex Tools, and checks the list is narrowed.\n  - It unchecks Pliers and then ForgeFlex Tools, and confirms both boxes are unchecked.\n  - It checks the product names equal the original unfiltered list, in the same order.\n- **Waiting:** like the TC-1 and TC-3 tests, it waits on the shop's `QUERY /products` responses. It does not wait on a response for the last uncheck. It relies on the list assertion retrying until the full list is back.\n- **Unsure:** \"full product list\" is only the products on the first page, which is what the page shows unfiltered. The test does not check later pages. The order comparison would also fail if the shop returned the unfiltered list in a different order between loads. It passed, so that didn't happen in this run.",
+  "trace": [
+    "list_files(\".\")",
+    "list_files(\"tests\")",
+    "read_file(\"playwright.config.ts\")",
+    "read_file(\"tests/TOOL-4-TC-1.spec.ts\")",
+    "read_file(\"tests/TOOL-4-TC-3.spec.ts\")",
+    "read_file(\"fixtures.ts\")",
+    "list_files(\"pages\")",
+    "list_files(\"test-cases\")",
+    "read_file(\"pages/home-page.ts\")",
+    "read_file(\"test-cases/TOOL-4.md\")",
+    "write_file(\"tests/TOOL-4-TC-4.spec.ts\")",
+    "run_test(\"tests/TOOL-4-TC-4.spec.ts\")"
+  ],
+  "turns": 6,
+  "inputTokens": 31090,
+  "outputTokens": 2150,
+  "seconds": 49,
+  "repo_changes": [
+    "?? tests/TOOL-4-TC-4.spec.ts"
+  ]
+}

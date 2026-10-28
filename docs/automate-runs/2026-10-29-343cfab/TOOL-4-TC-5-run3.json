@@ -1,0 +1,30 @@
+{
+  "key": "TOOL-4",
+  "caseId": "TC-5",
+  "file": "tests/TOOL-4-TC-5.spec.ts",
+  "finished": true,
+  "passedRuns": 3,
+  "report": "The test is in `tests/TOOL-4-TC-5.spec.ts` and passes in Chromium. I did not run it in Firefox or WebKit.\n\n- **Page objects:** I reused `HomePage` (`goto()`, `filter(name)`, `productNames`) and left it unchanged. I didn't need to create a new one.\n- **What the test does:**\n  - It selects 'Wrench' and checks that the list matches the products returned for that category. This also confirms that Wrench has products of its own.\n  - It then selects 'MightyCraft Hardware' and checks that the shop returns no products and that no product names are shown.\n  - It follows the style of TC-1 and TC-3: the `@regression` tag, and waiting for the `QUERY /products` response.\n- **Empty-result message:** The story doesn't specify one, so the test doesn't check for it.\n- **Test data:** The test assumes no product is both in 'Wrench' and of brand 'MightyCraft Hardware'. If someone adds one to the catalogue, it will fail.",
+  "trace": [
+    "list_files(\".\")",
+    "list_files(\"tests\")",
+    "read_file(\"playwright.config.ts\")",
+    "read_file(\"tests/TOOL-4-TC-1.spec.ts\")",
+    "read_file(\"tests/TOOL-4-TC-3.spec.ts\")",
+    "list_files(\"pages\")",
+    "read_file(\"fixtures.ts\")",
+    "list_files(\"test-cases\")",
+    "read_file(\"pages/home-page.ts\")",
+    "read_file(\"test-cases/TOOL-4.md\")",
+    "page_snapshot(\"https://practicesoftwaretesting.com\")",
+    "write_file(\"tests/TOOL-4-TC-5.spec.ts\")",
+    "run_test(\"tests/TOOL-4-TC-5.spec.ts\")"
+  ],
+  "turns": 6,
+  "inputTokens": 40763,
+  "outputTokens": 1711,
+  "seconds": 50,
+  "repo_changes": [
+    "?? tests/TOOL-4-TC-5.spec.ts"
+  ]
+}

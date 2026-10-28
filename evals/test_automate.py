@@ -12,6 +12,7 @@ from run_cli import REPO_ROOT, TOOL_DIR
 GOLDENS_FILE = Path(__file__).parent / "goldens" / "automate.json"
 GOLDENS = json.loads(GOLDENS_FILE.read_text(encoding="utf-8"))
 PROMPT_FILE = "src/automate/prompt.ts"
+RUNS = range(1, int(os.environ.get("QA_EVAL_RUNS", "1")) + 1)
 # The tester's project the agent works in (same as repo in qa.config.ts)
 TARGET = Path(os.environ.get("QA_TARGET_REPO", REPO_ROOT.parent / "toolshop-tests")).resolve()
 
@@ -65,8 +66,9 @@ def passes_three_times(test_file: str) -> bool:
     return result.returncode == 0
 
 
+@pytest.mark.parametrize("run", RUNS, ids=lambda run: f"run{run}")
 @pytest.mark.parametrize("case", GOLDENS, ids=lambda case: f"{case['key']}-{case['case']}")
-def test_automate(case):
+def test_automate(case, run):
     key, case_id = case["key"], case["case"]
     assert read_test_case(key, case_id) == case["input"]["test_case"], "The test case changed. Update the golden first."
     assert status() == [], "The target repo has uncommitted changes. Commit or stash them first."
@@ -77,7 +79,7 @@ def test_automate(case):
 
         RUN_DIR.mkdir(parents=True, exist_ok=True)
         saved = {**result, "repo_changes": changes}
-        (RUN_DIR / f"{key}-{case_id}.json").write_text(json.dumps(saved, indent=2, ensure_ascii=False), encoding="utf-8")
+        (RUN_DIR / f"{key}-{case_id}-run{run}.json").write_text(json.dumps(saved, indent=2, ensure_ascii=False), encoding="utf-8")
         print(f"\n{key} {case_id}: {result['seconds']}s, {result['turns']} calls, "
               f"{result['inputTokens']} in / {result['outputTokens']} out")
 

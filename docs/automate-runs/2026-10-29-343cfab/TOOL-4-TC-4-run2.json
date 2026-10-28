@@ -1,0 +1,30 @@
+{
+  "key": "TOOL-4",
+  "caseId": "TC-4",
+  "file": "tests/TOOL-4-TC-4.spec.ts",
+  "finished": true,
+  "passedRuns": 3,
+  "report": "The test is written and passes in Chromium. I did not run it in Firefox or WebKit.\n\n- **File:** `tests/TOOL-4-TC-4.spec.ts`, titled \"Unchecking all filters restores the full product list\" and tagged `@regression`.\n- **Page objects:** I reused `HomePage` (`goto`, `productNames`, `filter(name)`) unchanged and created no new ones.\n- **What it checks:**\n  - It records the unfiltered product names.\n  - It selects Pliers and ForgeFlex Tools and confirms the list is narrowed to what the shop returns.\n  - It unchecks Pliers and confirms the brand filter is still checked.\n  - It unchecks ForgeFlex Tools and confirms the list equals the original unfiltered list.\n- **Style:** It follows TC-1 and TC-3, including their handling of the shop's `QUERY` `/products` request.\n- **Unsure about:**\n  - The \"full list\" is the first page of the paginated catalogue, which is what the home page shows. The test doesn't check the other pages.\n  - The test assumes the catalogue order is stable. A different order would fail the comparison.",
+  "trace": [
+    "list_files(\".\")",
+    "list_files(\"tests\")",
+    "read_file(\"playwright.config.ts\")",
+    "read_file(\"tests/TOOL-4-TC-1.spec.ts\")",
+    "read_file(\"tests/TOOL-4-TC-3.spec.ts\")",
+    "read_file(\"fixtures.ts\")",
+    "list_files(\"pages\")",
+    "list_files(\"test-cases\")",
+    "read_file(\"pages/home-page.ts\")",
+    "read_file(\"test-cases/TOOL-4.md\")",
+    "page_snapshot(\"https://practicesoftwaretesting.com\")",
+    "write_file(\"tests/TOOL-4-TC-4.spec.ts\")",
+    "run_test(\"tests/TOOL-4-TC-4.spec.ts\")"
+  ],
+  "turns": 7,
+  "inputTokens": 47922,
+  "outputTokens": 2043,
+  "seconds": 59,
+  "repo_changes": [
+    "?? tests/TOOL-4-TC-4.spec.ts"
+  ]
+}

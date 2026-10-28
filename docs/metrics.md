@@ -230,6 +230,28 @@ target repo, has the tag, ran its test before finishing. Raw outputs: `docs/auto
 needs QA_EVAL_RUNS-style repeats before it's a firm number. Not measured yet: whether each test
 really checks the expected result (needs a judge validated against my judgments).
 
+### Automate eval, 2026-10-29, prompt v1 (`343cfab`), 3 runs per case
+
+Same goldens and checks as above, with `QA_EVAL_RUNS=3` (the eval now saves each run as
+`<KEY>-<TC>-run<N>.json`, so repeats no longer overwrite each other). Time = the agent's own run,
+before the eval's 3 runs of the test. Whole eval: 10m 45s. Raw outputs: `docs/automate-runs/2026-10-29-343cfab/`.
+
+| Case | Run | Result | Time | Model calls | Tokens in / out | Cost (Sonnet 5.5 list price) |
+|------|-----|--------|------|-------------|-----------------|------------------------------|
+| TOOL-4 TC-2 | 1 | pass | 69s | 6 | 41,506 / 2,193 | about $0.10 |
+| TOOL-4 TC-2 | 2 | pass | 45s | 6 | 36,698 / 2,101 | about $0.09 |
+| TOOL-4 TC-2 | 3 | pass | 47s | 6 | 41,120 / 1,956 | about $0.10 |
+| TOOL-4 TC-4 | 1 | pass | 49s | 6 | 31,090 / 2,150 | about $0.08 |
+| TOOL-4 TC-4 | 2 | pass | 59s | 7 | 47,922 / 2,043 | about $0.12 |
+| TOOL-4 TC-4 | 3 | pass | 49s | 7 | 47,895 / 2,008 | about $0.12 |
+| TOOL-4 TC-5 | 1 | pass | 44s | 6 | 40,663 / 1,648 | about $0.10 |
+| TOOL-4 TC-5 | 2 | pass | 63s | 6 | 40,631 / 1,805 | about $0.10 |
+| TOOL-4 TC-5 | 3 | pass | 50s | 6 | 40,763 / 1,711 | about $0.10 |
+
+**9 of 9**, 44–69s per run, about $0.91 in total. All three cases are on one page (product
+filters, `HomePage`), so this says nothing yet about other pages; TOOL-8 TC-2 (cart) has one run only.
+Still not measured: whether each test really checks the expected result.
+
 ### Cases v3 (`56581d1`), 2026-10-24, 3 runs per story
 
 One new rule (8): if the story doesn't name the test data, write a placeholder in angle brackets

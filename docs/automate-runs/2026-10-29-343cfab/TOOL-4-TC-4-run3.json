@@ -1,0 +1,30 @@
+{
+  "key": "TOOL-4",
+  "caseId": "TC-4",
+  "file": "tests/TOOL-4-TC-4.spec.ts",
+  "finished": true,
+  "passedRuns": 3,
+  "report": "I wrote `tests/TOOL-4-TC-4.spec.ts`, and it passed in Chromium. I didn't run it in Firefox or WebKit.\n\n- **Page objects:** I reused the existing `HomePage` (`goto`, `filter(name)`, `productNames`) and didn't change it. No new page objects were needed.\n- **Style:** The test follows `TOOL-4-TC-3`. It uses the `@regression` tag and waits on the shop's `QUERY /products` responses after each check.\n- **Checks:**\n  - It records the unfiltered product names first.\n  - It checks Pliers and ForgeFlex Tools, then confirms the list matches the API response for the combined filter and differs from the unfiltered list.\n  - It unchecks both filters, confirms the checkboxes are cleared, and confirms the list matches the original unfiltered names, in the same order.\n- **Open question:** The catalogue is paginated (5 pages), so \"full list\" here means the first page of results, which is what the page shows. That is enough to show the filters are cleared, but it doesn't compare the other pages or the total count.",
+  "trace": [
+    "list_files(\".\")",
+    "list_files(\"tests\")",
+    "read_file(\"playwright.config.ts\")",
+    "read_file(\"tests/TOOL-4-TC-1.spec.ts\")",
+    "read_file(\"tests/TOOL-4-TC-3.spec.ts\")",
+    "read_file(\"fixtures.ts\")",
+    "list_files(\"pages\")",
+    "list_files(\"test-cases\")",
+    "read_file(\"pages/home-page.ts\")",
+    "read_file(\"test-cases/TOOL-4.md\")",
+    "page_snapshot(\"https://practicesoftwaretesting.com\")",
+    "write_file(\"tests/TOOL-4-TC-4.spec.ts\")",
+    "run_test(\"tests/TOOL-4-TC-4.spec.ts\")"
+  ],
+  "turns": 7,
+  "inputTokens": 47895,
+  "outputTokens": 2008,
+  "seconds": 49,
+  "repo_changes": [
+    "?? tests/TOOL-4-TC-4.spec.ts"
+  ]
+}
