@@ -169,3 +169,18 @@
   moving them into page objects, because it may not edit existing files. A prompt idea for later:
   suggest the refactor in the report.
 - Zephyr: a third fresh token still gets "Unknown token". Stopped there; it's for SmartBear support.
+
+## 2026-10-29 — Automate eval repeated, LinkedIn post
+
+- The automate eval saved every run under the same name, so repeats would overwrite each other.
+  It now takes `QA_EVAL_RUNS` like the other two evals and saves `<KEY>-<TC>-run<N>.json`.
+- First try stopped at the clean-repo check: toolshop-tests still had a TC-2 test left over from
+  an interrupted run, plus the IDE's `.idea/` folder. The check did its job: the eval deletes new
+  files at the end, so it would have deleted mine. `.idea/` now goes in `.git/info/exclude`
+  (my machine only), not `.gitignore`.
+- 3 runs per case: 9 of 9, 44–69s and about $0.10 each. Still one page only (product filters).
+- Pushed about 60 commits that were only local; the repo link in my post would have shown the
+  project without `qa cases` and `qa automate`.
+- For the post's screenshot I re-ran the old "Laptops" draft for real instead of mocking the
+  output (the first run was never saved). The agent said the same thing again: no such category,
+  used 'Pliers', the test case should be fixed. toolshop-tests restored afterwards.
