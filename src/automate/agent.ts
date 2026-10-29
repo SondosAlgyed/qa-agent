@@ -1,3 +1,7 @@
+import { mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import { tmpdir } from "node:os";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
 import type { LLMProvider, ToolCall, ToolDefinition, ToolResult } from "../llm/types.js";
 import { QaError } from "../core/errors.js";
 import type { TargetRepo } from "./repo.js";
@@ -51,6 +55,9 @@ export async function runAgent(options: {
   maxTurns: number;
 }): Promise<AgentResult> {
   const { llm, repo, appUrl, system, task, maxTurns } = options;
+  if (!llm.startAgent && llm.runHostedAgent) {
+    return runHosted(options);
+  }
   if (!llm.startAgent) {
     throw new QaError("The configured LLM provider doesn't support agents (tool use), which qa automate needs.");
   }
@@ -73,7 +80,7 @@ export async function runAgent(options: {
     }
     const results: ToolResult[] = [];
     for (const call of turn.toolCalls) {
-      trace.push(`${call.name}(${JSON.stringify(call.input.path ?? call.input.url ?? "")})`);
+      trace.push(toolTrace(call));
       results.push(await runTool(call, repo, appUrl));
     }
     turn = await ask(results);
@@ -81,9 +88,51 @@ export async function runAgent(options: {
   return { finished: true, text: turn.text, trace, ...totals };
 }
 
+// The provider runs the loop and calls our tools through mcp-server.ts, which writes the
+// trace to a file and enforces the limit. It counts tool calls, not model calls: past runs
+// made about 2 tool calls per model call, so maxTurns × 3 leaves the same room.
+async function runHosted(options: Parameters<typeof runAgent>[0]): Promise<AgentResult> {
+  const { llm, repo, appUrl, system, task, maxTurns } = options;
+  const traceDir = mkdtempSync(path.join(tmpdir(), "qa-agent-"));
+  const traceFile = path.join(traceDir, "trace.txt");
+  writeFileSync(traceFile, "");
+  // qa runs through tsx, so the server does too
+  const result = await llm.runHostedAgent!(system, task, {
+    command: process.execPath,
+    args: [
+      "--import", import.meta.resolve("tsx"),
+      fileURLToPath(new URL("./mcp-server.ts", import.meta.url)),
+      repo.root, appUrl, traceFile, String(maxTurns * 3),
+    ],
+  }).catch((error) => {
+    rmSync(traceDir, { recursive: true, force: true });
+    throw error;
+  });
+  const lines = readFileSync(traceFile, "utf-8").split("\n").filter(Boolean);
+  rmSync(traceDir, { recursive: true, force: true });
+  // Only our MCP server writes the trace, so it's a safe record of what the agent wrote
+  for (const line of lines) {
+    const written = /^write_file\((".*")\)$/.exec(line);
+    if (written) repo.rememberWritten(JSON.parse(written[1]!));
+  }
+  return {
+    finished: !lines.includes("LIMIT"),
+    text: result.text,
+    trace: lines.filter((line) => line !== "LIMIT"),
+    turns: result.turns,
+    inputTokens: result.inputTokens,
+    outputTokens: result.outputTokens,
+  };
+}
+
+// One line of the trace, e.g. read_file("pages/home-page.ts")
+export function toolTrace(call: ToolCall): string {
+  return `${call.name}(${JSON.stringify(call.input.path ?? call.input.url ?? "")})`;
+}
+
 // Our code runs every tool, through TargetRepo's limits. A refused or failed
 // tool goes back as an error result, so the model can try something else.
-async function runTool(call: ToolCall, repo: TargetRepo, appUrl: string): Promise<ToolResult> {
+export async function runTool(call: ToolCall, repo: TargetRepo, appUrl: string): Promise<ToolResult> {
   const input = call.input as { path?: string; content?: string; url?: string };
   try {
     let output: string;

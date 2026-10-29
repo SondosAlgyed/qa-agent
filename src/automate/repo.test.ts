@@ -114,3 +114,20 @@ test("deletes only files it created", async () => {
   assert.deepEqual(await repo.listFiles("tests"), []);
   await assert.rejects(repo.deleteFile("pages/login-page.ts"), /only delete files you created/);
 });
+
+test("remembers a file the agent wrote through another process", async () => {
+  const repo = await makeRepo();
+  // Our MCP server's TargetRepo wrote it, not this one
+  await new TargetRepo(repo.root).writeFile("tests/new.spec.ts", "// new");
+  await assert.rejects(repo.deleteFile("tests/new.spec.ts"), /not written by you/);
+  repo.rememberWritten("tests/new.spec.ts");
+  await repo.deleteFile("tests/new.spec.ts");
+});
+
+test("rememberWritten keeps the same limits", async () => {
+  const repo = await makeRepo();
+  assert.throws(() => repo.rememberWritten("../outside.txt"), /outside the project/);
+  // A file that doesn't exist is not remembered
+  repo.rememberWritten("tests/missing.spec.ts");
+  await assert.rejects(repo.deleteFile("tests/missing.spec.ts"), /not written by you/);
+});

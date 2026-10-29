@@ -1,0 +1,27 @@
+{
+  "key": "TOOL-4",
+  "caseId": "TC-4",
+  "file": "tests/TOOL-4-TC-4.spec.ts",
+  "finished": true,
+  "passedRuns": 3,
+  "report": "The test is written and passes in Chromium. I haven't run it in Firefox or WebKit, though the config lists both.\n\n- **File:** `tests/TOOL-4-TC-4.spec.ts`, titled \"Unchecking all filters restores the full product list\" and tagged `@regression`.\n- **Page objects:** I reused `HomePage` (`goto`, `productNames`, `filter(name)`) without changing it, and created none.\n- **What it checks:**\n  - It records the unfiltered product names first.\n  - It selects 'Pliers' and 'ForgeFlex Tools' and confirms the list narrows to the shop's response and is shorter than the unfiltered list.\n  - It unchecks both filters and confirms both boxes are unchecked.\n  - It confirms the list matches the original unfiltered names, in the same order.\n- **Waits:** It waits on the shop's `QUERY /products` response after each filter change, like the TC-1 and TC-3 tests.\n- **Unsure about:** \"Full product list\" is taken as the first page of results that the home page shows. The test doesn't compare against products on later pages.",
+  "trace": [
+    "list_files(\".\")",
+    "list_files(\"tests\")",
+    "read_file(\"playwright.config.ts\")",
+    "read_file(\"tests/TOOL-4-TC-1.spec.ts\")",
+    "read_file(\"tests/TOOL-4-TC-3.spec.ts\")",
+    "read_file(\"fixtures.ts\")",
+    "list_files(\"pages\")",
+    "read_file(\"pages/home-page.ts\")",
+    "write_file(\"tests/TOOL-4-TC-4.spec.ts\")",
+    "run_test(\"tests/TOOL-4-TC-4.spec.ts\")"
+  ],
+  "turns": 11,
+  "inputTokens": 32452,
+  "outputTokens": 1815,
+  "seconds": 43,
+  "repo_changes": [
+    "?? tests/TOOL-4-TC-4.spec.ts"
+  ]
+}

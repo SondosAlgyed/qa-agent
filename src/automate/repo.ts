@@ -1,4 +1,5 @@
 import { execFile } from "node:child_process";
+import { existsSync } from "node:fs";
 import { mkdir, readdir, readFile, unlink, writeFile } from "node:fs/promises";
 import path from "node:path";
 
@@ -85,6 +86,13 @@ export class TargetRepo {
     }
     await unlink(full);
     this.written.delete(full);
+  }
+
+  // For files the agent wrote through another process (our MCP server): this
+  // TargetRepo didn't see the write, but must still let qa run and check them
+  rememberWritten(requested: string): void {
+    const full = this.resolve(requested);
+    if (existsSync(full)) this.written.add(full);
   }
 
   // Runs one test file the agent wrote, with a fixed command (no shell), and

@@ -277,6 +277,31 @@ before the eval's 3 runs of the test. Whole eval: 10m 45s. Raw outputs: `docs/au
 filters, `HomePage`), so this says nothing yet about other pages; TOOL-8 TC-2 (cart) has one run only.
 Still not measured: whether each test really checks the expected result.
 
+### Automate eval on claude-code (subscription), 2026-10-29, prompt v1 (`343cfab`), 3 runs per case
+
+Same goldens, checks and agent model (Sonnet 5.5). Claude Code runs the loop; its only tools are
+ours, through `src/automate/mcp-server.ts`. Raw outputs: `docs/automate-runs/2026-10-29-343cfab-claude-code/`.
+"Model calls" here is the CLI's `num_turns`, which counts differently from the API adapter's
+calls (about 11–12 here vs 6–7 there for the same work), so don't compare the two columns.
+Tokens include cached input.
+
+| Case | Run | Result | Time | Model calls (CLI) | Tokens in / out |
+|------|-----|--------|------|-------------------|-----------------|
+| TOOL-4 TC-2 | 1 | pass | 40s | 12 | 48,703 / 2,066 |
+| TOOL-4 TC-2 | 2 | pass | 41s | 12 | 48,729 / 2,030 |
+| TOOL-4 TC-2 | 3 | pass | 40s | 11 | 32,217 / 1,746 |
+| TOOL-4 TC-4 | 1 | pass | 42s | 11 | 32,150 / 1,718 |
+| TOOL-4 TC-4 | 2 | pass | 43s | 11 | 32,452 / 1,815 |
+| TOOL-4 TC-4 | 3 | pass | 44s | 11 | 32,548 / 1,856 |
+| TOOL-4 TC-5 | 1 | pass | 42s | 12 | 41,903 / 1,724 |
+| TOOL-4 TC-5 | 2 | pass | 36s | 11 | 31,913 / 1,526 |
+| TOOL-4 TC-5 | 3 | pass | 41s | 12 | 41,743 / 1,605 |
+
+**9 of 9**, the same as on the API, 36–44s per run (API: 44–69s). No API cost; it counts against
+the subscription's usage limits. Before this run, a bug: qa's own 3-run check said 0 of 3 because
+the test was written by the MCP server's process, so qa's process refused to run it. Fixed by
+reading the files the agent wrote from the trace (`rememberWritten`).
+
 ### Cases v3 (`56581d1`), 2026-10-24, 3 runs per story
 
 One new rule (8): if the story doesn't name the test data, write a placeholder in angle brackets

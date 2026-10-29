@@ -7,7 +7,7 @@ from pathlib import Path
 
 import pytest
 
-from run_cli import REPO_ROOT, TOOL_DIR
+from run_cli import LABEL, REPO_ROOT, TOOL_DIR
 
 GOLDENS_FILE = Path(__file__).parent / "goldens" / "automate.json"
 GOLDENS = json.loads(GOLDENS_FILE.read_text(encoding="utf-8"))
@@ -28,7 +28,7 @@ def prompt_version() -> str:
     return f"{commit}-dirty" if changed else commit
 
 
-RUN_DIR = REPO_ROOT / "docs" / "automate-runs" / f"{date.today()}-{prompt_version()}"
+RUN_DIR = REPO_ROOT / "docs" / "automate-runs" / f"{date.today()}-{prompt_version()}{LABEL}"
 
 
 def status() -> list[str]:

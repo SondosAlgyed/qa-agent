@@ -14,10 +14,11 @@ export interface ClaudeLLMConfig {
   agentModel?: string;
 }
 
-// Claude through the claude CLI (the user's subscription, no API key). No agents yet.
+// Claude through the claude CLI (the user's subscription, no API key)
 export interface ClaudeCodeLLMConfig {
   type: "claude-code";
   model?: string;
+  agentModel?: string;
 }
 
 export interface QaConfig {

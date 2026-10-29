@@ -137,6 +137,13 @@ the same way as TypeScript (new concepts explained the first time they appear).
       Blocked: ZEPHYR_API_TOKEN (.env, from Personal settings → Apps → Zephyr API Access Tokens)
       gets 401 "Unknown token" on https://api.zephyrscale.smartbear.com/v2/projects, US and EU,
       although it's fresh, issued for our site, and valid to 2027. Maybe a new-install delay.
+- [x] No API cost (2026-10-29): `llm.type: "claude-code"` (src/llm/claude-code.ts) runs the claude
+      CLI on my subscription; ANTHROPIC_API_KEY removed from .env on purpose (don't bring it back).
+      review/cases: one call, --json-schema. automate: Claude Code runs the loop, but its only tools
+      are ours through an MCP server (src/automate/mcp-server.ts: trace + tool-call limit);
+      --restricted, not --safe-mode (that turns MCP off). Evals on it, 3 runs: cases 24/24, review
+      24/24 verdicts, automate 9/9. Only paid part left: the GPT judge (OPENAI_API_KEY).
+      Evals take QA_EVAL_LABEL (e.g. claude-code) for the run folder name.
 
 ## Next steps (in order)
 1. Zephyr: retry the token. If it works, write ZephyrTestCaseStore against the real API, one
@@ -158,7 +165,8 @@ the same way as TypeScript (new concepts explained the first time they appear).
    shared data), cleaned up its debug file, and found an accessibility issue in the app (the
    remove button has no accessible name). All agent tests reviewed by me and pushed.
    Cases prompt v3 (56581d1): placeholders instead of invented test data; 24/24 over 3 runs.
-   Open: repeat the eval runs; a G-Eval "the test really checks the expected result" (validate
+   Eval repeated 2026-10-29: 9/9 on the API and 9/9 on claude-code.
+   Open: a G-Eval "the test really checks the expected result" (validate
    against my judgments first); tests fail when 6 run in parallel against the demo server (one
    worker is fine); the agent repeats helpers (addToCart, the products QUERY wait) instead of
    suggesting a page-object refactor; Zephyr: 3 tokens all "Unknown token" → SmartBear support.
@@ -217,9 +225,12 @@ the same way as TypeScript (new concepts explained the first time they appear).
 6. Part 3: `triage`, `report`, MCP server, evals in CI, npm publish.
 
 ## Cleanup still needed
-- tsconfig.json: trailing comma after "types": ["node"]
-- .env has unused leftovers (CLAUDE_MODEL, AGENT_MAX_TURNS, BASE_URL); the model is
-  set in qa.config.ts (llm.model).
+- Zephyr trial: $10/month after the trial. Cancel it before it ends if Zephyr stays blocked.
+- No unit tests yet for ClaudeCodeProvider and mcp-server.ts (only real runs).
+- claude CLI gets the system prompt as an argument; Windows limits argument length. Use
+  --system-prompt-file if a prompt grows large.
+- Folder consistency (after the interview): review and cases live in src/core/, automate has
+  its own folder. Give every command its own folder: src/review/, src/cases/, src/automate/.
 
 ## Roadmap
 - Part 1: interfaces, config, CLI skeleton, Jira + Markdown adapters, `review`, then an

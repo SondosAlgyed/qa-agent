@@ -6,7 +6,7 @@ from pathlib import Path
 
 import pytest
 
-from run_cli import REPO_ROOT, TOOL_DIR, run_cases
+from run_cli import LABEL, REPO_ROOT, TOOL_DIR, run_cases
 
 GOLDENS_FILE = Path(__file__).parent / "goldens" / "cases.json"
 GOLDENS = json.loads(GOLDENS_FILE.read_text(encoding="utf-8"))
@@ -25,7 +25,7 @@ def prompt_version() -> str:
     return f"{commit}-dirty" if changed else commit
 
 
-RUN_DIR = REPO_ROOT / "docs" / "cases-runs" / f"{date.today()}-{prompt_version()}"
+RUN_DIR = REPO_ROOT / "docs" / "cases-runs" / f"{date.today()}-{prompt_version()}{LABEL}"
 
 
 @pytest.mark.parametrize("run", RUNS, ids=lambda run: f"run{run}")

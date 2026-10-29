@@ -184,3 +184,22 @@
 - For the post's screenshot I re-ran the old "Laptops" draft for real instead of mocking the
   output (the first run was never saved). The agent said the same thing again: no such category,
   used 'Pliers', the test case should be fixed. toolshop-tests restored afterwards.
+- No more paying for the API: a second Claude adapter, `claude-code`, runs the `claude` CLI on my
+  subscription. review and cases were easy (one call each; structured output through
+  `--json-schema`). Same results as the API: cases 24/24, review 24/24 verdicts, judge within noise.
+- automate was the hard part. Claude Code runs the agent loop itself, with its own tools (Bash,
+  Read...), which have none of our limits: it could read the goldens, `.env`, or change my tests.
+  So our tools became an MCP server (`mcp-server.ts`, same TOOLS, same runTool) and Claude Code
+  gets only those. Tested: `.env` and `../qa-agent/evals/...` were refused by our own code.
+- CLI lessons: `--safe-mode` also turns off MCP servers (the model then wrote fake tool calls as
+  text); `--restricted` works. `--bare` needs an API key. There's no `--max-turns`, so the MCP
+  server enforces the limit and writes the trace.
+- A bug only a real run showed: qa's own 3-run check said 0 of 3. TargetRepo remembers what the
+  agent wrote in memory, and the MCP server is a different process. Now qa reads the written files
+  from the trace. After the fix: 9 of 9, about 40s each, no API cost.
+- Same-day eval folders overwrote the API runs (same date + prompt), so evals now take
+  `QA_EVAL_LABEL`. Also: temp folders cleaned up after each call (72 had piled up), a 10-minute
+  timeout on `claude`.
+- A manual `qa review TOOL-3` after the evals said "Not ready"; the golden says "Ready with
+  questions", and all 3 eval runs agreed with the golden. One flip in about 4 runs: a borderline
+  story, worth watching.

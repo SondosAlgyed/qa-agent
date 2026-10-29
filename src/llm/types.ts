@@ -40,8 +40,24 @@ export interface AgentConversation {
   next(results: ToolResult[]): Promise<AgentTurn>;
 }
 
+// For providers that run the agent loop themselves (the claude CLI): they call our
+// tools through an MCP server we start, so our code still runs every tool.
+export interface McpServerCommand {
+  command: string;
+  args: string[];
+}
+
+export interface HostedAgentResult {
+  text: string; // the model's last words
+  turns: number;
+  inputTokens: number;
+  outputTokens: number;
+}
+
 export interface LLMProvider {
   complete(system: string, prompt: string, options?: CompleteOptions): Promise<string>;
-  // Optional: a provider without tool use can still do review and cases
+  // Optional: a provider without tool use can still do review and cases.
+  // An agent needs one of these two: we run the loop, or the provider does.
   startAgent?(system: string, task: string, tools: ToolDefinition[]): AgentConversation;
+  runHostedAgent?(system: string, task: string, server: McpServerCommand): Promise<HostedAgentResult>;
 }

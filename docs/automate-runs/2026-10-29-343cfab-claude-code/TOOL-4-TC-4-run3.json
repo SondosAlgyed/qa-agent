@@ -1,0 +1,27 @@
+{
+  "key": "TOOL-4",
+  "caseId": "TC-4",
+  "file": "tests/TOOL-4-TC-4.spec.ts",
+  "finished": true,
+  "passedRuns": 3,
+  "report": "The test is written and passing, so I'm wrapping up with the report.\n\n**File:** `tests/TOOL-4-TC-4.spec.ts`. It's tagged `@regression` and passed in Chromium. I didn't run it in Firefox or WebKit.\n\n**Page objects:** I reused `HomePage` (`goto`, `productNames`, `filter()`) and changed nothing. I didn't need to create a new one.\n\n**What it checks:**\n- It records the unfiltered product list.\n- It selects Pliers and ForgeFlex Tools, then confirms the list is narrower and matches the filtered response.\n- It unchecks Pliers, then ForgeFlex Tools, and confirms both checkboxes are unchecked.\n- It confirms the final list equals the original unfiltered list, in the same order.\n\n**Things I'm unsure about:**\n- It compares the first page of products only, which is what the catalogue shows by default. That's all the other tests in the project compare too.\n- It assumes the product order is the same before and after filtering. If the shop ever returns an unstable order, the final check could fail even though the right products are shown.",
+  "trace": [
+    "list_files(\".\")",
+    "list_files(\"tests\")",
+    "read_file(\"playwright.config.ts\")",
+    "read_file(\"tests/TOOL-4-TC-1.spec.ts\")",
+    "read_file(\"tests/TOOL-4-TC-3.spec.ts\")",
+    "list_files(\"pages\")",
+    "read_file(\"fixtures.ts\")",
+    "read_file(\"pages/home-page.ts\")",
+    "write_file(\"tests/TOOL-4-TC-4.spec.ts\")",
+    "run_test(\"tests/TOOL-4-TC-4.spec.ts\")"
+  ],
+  "turns": 11,
+  "inputTokens": 32548,
+  "outputTokens": 1856,
+  "seconds": 44,
+  "repo_changes": [
+    "?? tests/TOOL-4-TC-4.spec.ts"
+  ]
+}

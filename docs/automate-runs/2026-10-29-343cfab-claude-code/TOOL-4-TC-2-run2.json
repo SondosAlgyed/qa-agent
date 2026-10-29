@@ -1,0 +1,28 @@
+{
+  "key": "TOOL-4",
+  "caseId": "TC-2",
+  "file": "tests/TOOL-4-TC-2.spec.ts",
+  "finished": true,
+  "passedRuns": 3,
+  "report": "The test is written and passing, so I'm only writing the final report now.\n\n**File:** `tests/TOOL-4-TC-2.spec.ts`. It passes in Chromium.\n\n**Page objects:** I reused `HomePage` (`goto`, `filter`, `productNames`) and didn't change it. I didn't need to create any new ones.\n\n**What the test checks:**\n- It selects Pliers, then Hammer, and waits for the shop's `QUERY /products` response after each selection. This is the same approach as TC-1 and TC-3.\n- Both checkboxes stay checked.\n- Every returned product is in Pliers or Hammer, and both categories are present.\n- The visible list matches the returned products exactly.\n- No returned product is in Wrench.\n\n**Unsure about:**\n- The \"Wrench is not shown\" check uses the API response data. It doesn't look for Wrench product names on the page, because the on-page list matches the response exactly. If you'd rather check the page text, I can add that.\n- The catalogue is paginated. The test only covers the first page of filtered results, which is enough to show both categories at the moment. If the Pliers or Hammer products ever stop fitting that way, the \"both categories present\" check could fail.",
+  "trace": [
+    "list_files(\".\")",
+    "list_files(\"tests\")",
+    "page_snapshot(\"https://practicesoftwaretesting.com\")",
+    "read_file(\"tests/TOOL-4-TC-1.spec.ts\")",
+    "read_file(\"tests/TOOL-4-TC-3.spec.ts\")",
+    "list_files(\"pages\")",
+    "read_file(\"playwright.config.ts\")",
+    "read_file(\"fixtures.ts\")",
+    "read_file(\"pages/home-page.ts\")",
+    "write_file(\"tests/TOOL-4-TC-2.spec.ts\")",
+    "run_test(\"tests/TOOL-4-TC-2.spec.ts\")"
+  ],
+  "turns": 12,
+  "inputTokens": 48729,
+  "outputTokens": 2030,
+  "seconds": 41,
+  "repo_changes": [
+    "?? tests/TOOL-4-TC-2.spec.ts"
+  ]
+}

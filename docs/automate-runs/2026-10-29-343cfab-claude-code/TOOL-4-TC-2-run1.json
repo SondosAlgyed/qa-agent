@@ -1,0 +1,28 @@
+{
+  "key": "TOOL-4",
+  "caseId": "TC-2",
+  "file": "tests/TOOL-4-TC-2.spec.ts",
+  "finished": true,
+  "passedRuns": 3,
+  "report": "The test passes, so I'm writing up the result.\n\n**File:** `tests/TOOL-4-TC-2.spec.ts`. It passed in Chromium, and I didn't run it in Firefox or WebKit.\n\n**Page objects:** I reused `HomePage` (`goto`, `filter`, `productNames`) and didn't change it or create a new one.\n\n**What the test does:**\n- It selects 'Pliers', then 'Hammer', and waits for the shop's filter request after each one. It follows the style of `TOOL-4-TC-1` and `TOOL-4-TC-3`.\n- It checks that both checkboxes stay checked.\n- It checks that the products returned include both 'Pliers' and 'Hammer' and contain no 'Wrench' or any other category.\n- It checks that the visible list matches the returned products exactly.\n\n**Things to be aware of:**\n- The \"not shown\" check covers every category outside the two selected, with 'Wrench' named explicitly. It works from the returned data, not by looking for specific Wrench product names on screen.\n- The list only shows the first page, so the page-level check only covers the products on that page. If the combined results run past one page, the returned data still covers the whole result, but I didn't check how many pages there are.",
+  "trace": [
+    "list_files(\".\")",
+    "list_files(\"tests\")",
+    "page_snapshot(\"https://practicesoftwaretesting.com\")",
+    "read_file(\"tests/TOOL-4-TC-1.spec.ts\")",
+    "read_file(\"tests/TOOL-4-TC-3.spec.ts\")",
+    "list_files(\"pages\")",
+    "read_file(\"fixtures.ts\")",
+    "read_file(\"playwright.config.ts\")",
+    "read_file(\"pages/home-page.ts\")",
+    "write_file(\"tests/TOOL-4-TC-2.spec.ts\")",
+    "run_test(\"tests/TOOL-4-TC-2.spec.ts\")"
+  ],
+  "turns": 12,
+  "inputTokens": 48703,
+  "outputTokens": 2066,
+  "seconds": 40,
+  "repo_changes": [
+    "?? tests/TOOL-4-TC-2.spec.ts"
+  ]
+}

@@ -12,7 +12,7 @@ export function createLLMProvider(config: QaConfig): LLMProvider {
   }
 
   if (llm.type === "claude-code") {
-    return new ClaudeCodeProvider(llm.model);
+    return new ClaudeCodeProvider(llm.model, llm.agentModel);
   }
 
   return new ClaudeProvider({

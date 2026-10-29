@@ -7,7 +7,7 @@ from pathlib import Path
 import pytest
 
 from judges import grounded_blocking, judge_blocking
-from run_cli import REPO_ROOT, TOOL_DIR, run_review
+from run_cli import LABEL, REPO_ROOT, TOOL_DIR, run_review
 
 GOLDENS_FILE = Path(__file__).parent / "goldens" / "review.json"
 GOLDENS = json.loads(GOLDENS_FILE.read_text(encoding="utf-8"))
@@ -26,7 +26,7 @@ def prompt_version() -> str:
     return f"{commit}-dirty" if changed else commit
 
 
-RUN_DIR = REPO_ROOT / "docs" / "review-runs" / f"{date.today()}-{prompt_version()}"
+RUN_DIR = REPO_ROOT / "docs" / "review-runs" / f"{date.today()}-{prompt_version()}{LABEL}"
 
 
 @pytest.mark.parametrize("run", RUNS, ids=lambda run: f"run{run}")
