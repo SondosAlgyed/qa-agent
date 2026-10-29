@@ -185,6 +185,26 @@ the same way as TypeScript (new concepts explained the first time they appear).
   result (validate against my judgments). Use test cases with no existing hand-written test
   (TOOL-4 filters, TOOL-2 registration, TOOL-8 removing an item), so it can't copy one.
 
+## Eval Monitor / `qa ui` design (agreed 2026-10-29)
+- Architecture: CLI + local web UI (same pattern as `playwright test --ui`).
+  `qa ui` starts a server; the browser page calls it; the server calls the same plain
+  functions as the CLI. No duplicated logic. The CLI stays (CI needs it).
+- Server safety: listens on 127.0.0.1 only; rejects requests whose Origin is not its own page.
+  Keys and .env stay on the server side; the browser never sees them.
+- The server is not an agent tool: the dashboard may read eval results, the agent never.
+- Numbers on the dashboard come only from saved runs, never typed in or estimated
+  (the mockup's numbers are hard-coded; the real page must read them).
+- Process: design each page as an artifact first, agree on it, then build it in the repo,
+  one component at a time.
+- Page 1 (Providers): choose Local / Subscription / API for two roles, tool and judge.
+  Data-route diagram, rule-based advisor, config preview.
+  Mockup v2: https://claude.ai/artifact/UxaYNtaMLGsWPkyZxNShRT
+  Subscription option waits for a check of Anthropic's current terms.
+- Open: how the judge setting reaches evals/judges.py (Python); where this work sits
+  in "Next steps" (before or after Zephyr and automate).
+- Rejected: desktop app (heavy install), cloud app (accounts, keys, security),
+  VS Code extension only (ties users to one editor).
+
 ## Later steps (continuing the list above)
 3. `qa run --smoke | --regression`.
 4. Better evaluation: synthetic goldens → Prompt Alignment → review prompt v4.
