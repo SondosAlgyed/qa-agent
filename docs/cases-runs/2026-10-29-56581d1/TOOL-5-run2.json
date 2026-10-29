@@ -1,0 +1,62 @@
+{
+  "id": "10042",
+  "key": "TOOL-5",
+  "summary": "TOOL-5  Product sorting",
+  "description": "As a customer, I want to sort the products.\n\n* Sorting should work properly.",
+  "status": "To Do",
+  "criteria": [
+    {
+      "id": "AC1",
+      "text": "Sorting should work properly."
+    }
+  ],
+  "cases": [
+    {
+      "id": "TC-1",
+      "title": "Applying a sort option orders the product list by that option",
+      "covers": [
+        "AC1"
+      ],
+      "type": "positive",
+      "preconditions": "The product list page is reachable and shows <at least three products whose values differ for the sort option being tested>. At least one sort option is available on the product list.",
+      "steps": [
+        "Open the product list page.",
+        "Note the products shown and their values for <the sort option to be tested>.",
+        "Select <a sort option available in the product list> from the sorting control.",
+        "Observe the order of the products in the list."
+      ],
+      "expected": "The products are displayed sorted by the selected sort option. The direction of the sort and any ordering of equal values are not specified in the story."
+    },
+    {
+      "id": "TC-2",
+      "title": "Changing from one sort option to another re-sorts the list",
+      "covers": [
+        "AC1"
+      ],
+      "type": "positive",
+      "preconditions": "The product list page is reachable and shows <at least three products whose order differs between the two sort options being tested>. At least two sort options are available on the product list.",
+      "steps": [
+        "Open the product list page.",
+        "Select <a first sort option available in the product list> and note the resulting product order.",
+        "Select <a second, different sort option available in the product list>.",
+        "Observe the order of the products in the list."
+      ],
+      "expected": "The list is re-sorted and the products are displayed sorted by the second selected sort option, not by the first one."
+    },
+    {
+      "id": "TC-3",
+      "title": "Sorting a product list that contains a single product",
+      "covers": [
+        "AC1"
+      ],
+      "type": "edge",
+      "preconditions": "The product list page is reachable and shows exactly one product (for example by using <a filter or category that matches only one product>). At least one sort option is available on the product list.",
+      "steps": [
+        "Open the product list page so that exactly one product is shown.",
+        "Select <a sort option available in the product list> from the sorting control.",
+        "Observe the list."
+      ],
+      "expected": "Sorting is applied without breaking the list: the single product is still displayed. No further behaviour for a single-product list is specified in the story."
+    }
+  ]
+}

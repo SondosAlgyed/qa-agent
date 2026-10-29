@@ -1,0 +1,59 @@
+{
+  "id": "10044",
+  "key": "TOOL-7",
+  "summary": "TOOL-7 Filter products",
+  "description": "As a customer, I want to filter the products.\n\n* Filters should narrow down the list correctly.",
+  "status": "To Do",
+  "criteria": [
+    {
+      "id": "AC1",
+      "text": "Filters should narrow down the list correctly."
+    }
+  ],
+  "cases": [
+    {
+      "id": "TC-1",
+      "title": "Applying a filter narrows the product list to matching products",
+      "covers": [
+        "AC1"
+      ],
+      "type": "positive",
+      "preconditions": "Product list page is open and shows products, including <at least one product that matches the filter value to be used> and <at least one product that does not match that filter value>.",
+      "steps": [
+        "Note the products currently shown in the list.",
+        "Apply the filter <a filter available on the product list> with the value <a filter value matched by at least one product>.",
+        "Review the resulting product list."
+      ],
+      "expected": "The list is narrowed to only the products matching the applied filter; the non-matching products noted in step 1 are no longer listed."
+    },
+    {
+      "id": "TC-2",
+      "title": "A filter value with no matching products",
+      "covers": [
+        "AC1"
+      ],
+      "type": "edge",
+      "preconditions": "Product list page is open and shows products; <a filter value that no product matches> is known.",
+      "steps": [
+        "Apply the filter <a filter available on the product list> with the value <a filter value that no product matches>.",
+        "Review the resulting product list."
+      ],
+      "expected": "No products are listed, since no product matches the filter. Any message or empty-state shown is not specified in the story."
+    },
+    {
+      "id": "TC-3",
+      "title": "Two filters applied together narrow the list further",
+      "covers": [
+        "AC1"
+      ],
+      "type": "edge",
+      "preconditions": "Product list page is open and shows products; <two filters available on the product list> and values such that <at least one product matches both values> and <at least one product matches only the first value>.",
+      "steps": [
+        "Apply the first filter with <a value matched by at least one product> and note the resulting list.",
+        "Without clearing the first filter, apply the second filter with <a value matched by only some of the products from step 1>.",
+        "Review the resulting product list."
+      ],
+      "expected": "The list is narrowed further to only the products matching both filter values; the products from step 1 that do not match the second value are no longer listed."
+    }
+  ]
+}

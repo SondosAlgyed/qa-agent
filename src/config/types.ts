@@ -14,9 +14,15 @@ export interface ClaudeLLMConfig {
   agentModel?: string;
 }
 
+// Claude through the claude CLI (the user's subscription, no API key). No agents yet.
+export interface ClaudeCodeLLMConfig {
+  type: "claude-code";
+  model?: string;
+}
+
 export interface QaConfig {
   tracker: JiraTrackerConfig | TicketSystem;
-  llm: ClaudeLLMConfig | LLMProvider;
+  llm: ClaudeLLMConfig | ClaudeCodeLLMConfig | LLMProvider;
   // The tester's project (tests, page objects, test-cases/). Default: the folder qa runs in.
   repo?: string;
   // The app under test. qa automate's agent may only open pages from here.

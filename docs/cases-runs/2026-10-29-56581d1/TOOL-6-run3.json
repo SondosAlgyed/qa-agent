@@ -1,0 +1,31 @@
+{
+  "id": "10043",
+  "key": "TOOL-6",
+  "summary": "TOOL-6 Checkout",
+  "description": "As a customer, I want to complete my order.\n\n* The user can finish checkout and see a confirmation.",
+  "status": "To Do",
+  "criteria": [
+    {
+      "id": "AC1",
+      "text": "The user can finish checkout and see a confirmation."
+    }
+  ],
+  "cases": [
+    {
+      "id": "TC-1",
+      "title": "User finishes checkout and sees a confirmation",
+      "covers": [
+        "AC1"
+      ],
+      "type": "positive",
+      "preconditions": "A user account exists and is logged in: <a user account that can place an order>. The cart contains <at least one purchasable item>. Any data the checkout form requires is available to the tester: <the details the checkout form asks for>.",
+      "steps": [
+        "Open the cart containing <at least one purchasable item>.",
+        "Start checkout.",
+        "Fill in whatever the checkout form asks for, using <the details the checkout form asks for>.",
+        "Finish checkout by confirming the order."
+      ],
+      "expected": "Checkout completes and a confirmation is shown to the user. The exact wording and contents of the confirmation are not specified in the story."
+    }
+  ]
+}

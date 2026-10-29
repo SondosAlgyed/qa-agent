@@ -1,0 +1,9 @@
+{
+  "id": "10043",
+  "key": "TOOL-6",
+  "summary": "TOOL-6 Checkout",
+  "description": "As a customer, I want to complete my order.\n\n* The user can finish checkout and see a confirmation.",
+  "status": "To Do",
+  "verdict": "Not ready",
+  "review": "Verdict: Not ready — the single criterion describes an outcome (\"finish checkout and see a confirmation\") without any of the steps, inputs, or success conditions needed to build or test it.\n\n1. **Checkout flow and required inputs undefined** (Blocking, Gap): What steps and fields make up checkout (shipping address, delivery option, contact details), and which are mandatory versus optional?\n2. **Payment is not specified at all** (Blocking, Gap): Does \"complete my order\" include taking payment in this story, and if so which methods and what is the expected behaviour on authorisation success?\n3. **No verifiable definition of \"finish checkout\"** (Blocking, Testability): What must be true after the confirmation appears — an order record created with a status, the cart emptied, stock decremented — so a tester can pass or fail the criterion?\n4. **Failure paths missing** (Question, Gap): What should the user see and what happens to the cart and order when payment is declined or required fields are invalid?\n5. **Entry conditions not stated** (Question, Gap): Can a guest check out or is sign-in required, and what happens if the cart is empty or an item became unavailable between cart and checkout?\n6. **Confirmation content undefined** (Question, Ambiguity): What must the confirmation show (order number, items, totals, delivery estimate) and is it a page, modal, or inline state?\n\nOut of scope:\n- Confirmation email — \"see a confirmation\" could be read as including an email receipt, but the criterion only mentions what the user sees.\n- Order history / order tracking — a created order implies a place to view it later, which this story does not describe."
+}

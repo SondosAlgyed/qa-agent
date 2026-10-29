@@ -1,0 +1,9 @@
+{
+  "id": "10044",
+  "key": "TOOL-7",
+  "summary": "TOOL-7 Filter products",
+  "description": "As a customer, I want to filter the products.\n\n* Filters should narrow down the list correctly.",
+  "status": "To Do",
+  "verdict": "Not ready",
+  "review": "Verdict: Not ready — the story never says which attributes can be filtered or what \"correctly\" means, so nothing can be implemented or verified as stated.\n\n1. **Filterable attributes undefined** (Blocking, Gap/Testability): Which product attributes are filterable (e.g. category, price range, brand, availability), where do their selectable values come from, and what is the exact expected result set for each so \"narrows down correctly\" can be given a pass/fail?\n2. **Combining multiple filters** (Question, Ambiguity): When a customer selects several filters, or several values within one filter, are they combined with AND or OR?\n3. **No matching products** (Question, Gap): What should the customer see when a filter combination returns zero products, and can they recover from it?\n4. **Clearing or changing filters** (Question, Gap): Can a customer remove a single filter or reset all of them, and must active filters be visible while applied?\n5. **Interaction with existing list behaviour** (Question, Gap): How do filters interact with pagination and sort order — does applying a filter reset to page one and keep the current sort, and do filters survive navigating to a product and back or reloading the page?\n\nOut of scope:\n- Product search by keyword — \"filter the products\" could be read as including a search box, but the story only mentions narrowing the list.\n- Sorting the product list — closely tied to the same list screen, but never mentioned in the story."
+}

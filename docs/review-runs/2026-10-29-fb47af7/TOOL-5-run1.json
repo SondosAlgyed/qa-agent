@@ -1,0 +1,9 @@
+{
+  "id": "10042",
+  "key": "TOOL-5",
+  "summary": "TOOL-5  Product sorting",
+  "description": "As a customer, I want to sort the products.\n\n* Sorting should work properly.",
+  "status": "To Do",
+  "verdict": "Not ready",
+  "review": "Verdict: Not ready — the story never says what sort options exist, so \"sorting should work properly\" cannot be implemented or verified.\n\n1. **Sort options undefined** (Blocking, Gap/Testability): Exactly which sort criteria and directions must be offered (e.g. price low→high, price high→low, name A→Z, newest, rating), and what counts as \"properly\" for each?\n2. **Scope of the sorted set is unclear** (Blocking, Ambiguity): Does sorting re-order the entire product result set on the server, or only the items currently visible on the page when the list is paginated?\n3. **Default sort state** (Question, Gap): What order is the product list in before the customer chooses anything, and is that default shown as a selected option?\n4. **Where sorting is available** (Question, Gap): Which screens does this apply to — category listing, search results, promotions — and where is the sort control placed?\n5. **Persistence of the selection** (Question, Gap): Must the chosen sort survive page reload, back navigation, and applying or changing filters, or does it reset to default?\n6. **Ties and missing values** (Question, Gap): How are products ordered when the sort field is equal or absent (no rating, no price, out-of-stock items), and is the ordering stable across reloads?\n7. **Empty and single-item lists** (Question, Gap): What is expected when the list has zero or one product — is the sort control hidden, disabled, or shown as normal?\n\nOut of scope:\n- Filtering and search — \"sort the products\" sits on the same product listing where customers would expect to narrow results too."
+}

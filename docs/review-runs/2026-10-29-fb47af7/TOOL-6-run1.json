@@ -1,0 +1,9 @@
+{
+  "id": "10043",
+  "key": "TOOL-6",
+  "summary": "TOOL-6 Checkout",
+  "description": "As a customer, I want to complete my order.\n\n* The user can finish checkout and see a confirmation.",
+  "status": "To Do",
+  "verdict": "Not ready",
+  "review": "Verdict: Not ready — the single acceptance criterion does not define what checkout consists of or what \"finished\" means, so it cannot be implemented or verified as stated.\n\n1. **Checkout steps and required inputs undefined** (Blocking, Gap): What must the customer provide and see before the order can be placed (shipping address, delivery option, payment method, order summary with totals), and which of these are in scope for this story?\n2. **\"Finish checkout\" has no verifiable outcome** (Blocking, Testability): What system state proves success — an order record created with a status, the cart emptied, stock decremented — and what identifier (e.g. order number) must be available afterwards?\n3. **Payment/order submission failure path** (Question, Gap): What should happen when payment is declined or order submission fails — does the customer stay on the checkout page with entered data preserved, and can they retry?\n4. **Invalid cart state at checkout** (Question, Gap): What happens if the cart is empty, or an item becomes unavailable or changes price between the cart and the confirmation?\n5. **Guest vs authenticated checkout** (Question, Ambiguity): \"As a customer\" — must the user be logged in to check out, or is guest checkout supported in this story?\n6. **Confirmation content and delivery** (Question, Gap): What exactly does the confirmation show (order number, items, totals, delivery estimate), is it a page or a modal, and is a confirmation email part of this story?"
+}

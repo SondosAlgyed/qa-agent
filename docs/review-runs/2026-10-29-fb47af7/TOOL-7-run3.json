@@ -1,0 +1,9 @@
+{
+  "id": "10044",
+  "key": "TOOL-7",
+  "summary": "TOOL-7 Filter products",
+  "description": "As a customer, I want to filter the products.\n\n* Filters should narrow down the list correctly.",
+  "status": "To Do",
+  "verdict": "Not ready",
+  "review": "Verdict: Not ready — the story names no filter criteria and its only acceptance criterion (\"narrow down the list correctly\") has no definable pass/fail.\n\n1. **No filter attributes defined** (Blocking, Gap): Which product attributes can be filtered on (category, price range, brand, rating, availability), and what is the input control and value set for each?\n2. **\"Narrow down the list correctly\" is not verifiable** (Blocking, Testability): What is the exact expected result set for a given filter selection — can you provide concrete examples (input filter, expected products shown/hidden)?\n3. **Combining filters undefined** (Blocking, Ambiguity): When multiple filters are active, are they combined with AND or OR, and how do multiple values within one filter (e.g. two categories) combine?\n4. **No-results state undefined** (Question, Gap): What should the customer see when a filter combination matches zero products, and how do they recover (clear/reset filters)?\n5. **Filter persistence and clearing** (Question, Gap): Must active filters survive pagination, sorting, page reload or back-navigation, and is there a \"clear all\" control?\n6. **Interaction with pagination/sorting/result count** (Question, Gap): Does filtering reset to page 1, keep the current sort order, and is a visible count of matching products required?\n7. **Applying trigger** (Question, Ambiguity): Do filters apply immediately on selection or only after an \"Apply\" button is pressed?\n\nOut of scope:\n- Free-text product search — \"filter the products\" could be read as including a search box.\n- Sorting the product list — closely tied to the same list screen but not mentioned in the story."
+}

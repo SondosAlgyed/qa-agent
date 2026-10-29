@@ -1,0 +1,192 @@
+{
+  "id": "10007",
+  "key": "TOOL-2",
+  "summary": " TOOL-2 Customer registration ",
+  "description": "As a new visitor, I want to create an account so I can place orders.\n\n* All required fields filled with valid data → account created and the user can sign in with it.\n* An already-registered email → a clear error, and no duplicate account.\n* Invalid email format or a password below the minimum length → inline validation errors.\n* A customer under 18 years old cannot register.\n** Required fields: first name, last name, date of birth, email, password.\n** Password must be at least 8 characters.\n** Age is calculated from date of birth; under 18 → \"You must be at least 18 years old.\"",
+  "status": "To Do",
+  "criteria": [
+    {
+      "id": "AC1",
+      "text": "All required fields filled with valid data → account created and the user can sign in with it."
+    },
+    {
+      "id": "AC2",
+      "text": "An already-registered email → a clear error, and no duplicate account."
+    },
+    {
+      "id": "AC3",
+      "text": "Invalid email format or a password below the minimum length → inline validation errors."
+    },
+    {
+      "id": "AC4",
+      "text": "A customer under 18 years old cannot register."
+    }
+  ],
+  "cases": [
+    {
+      "id": "TC-1",
+      "title": "Register with all required fields filled with valid data",
+      "covers": [
+        "AC1"
+      ],
+      "type": "positive",
+      "preconditions": "The registration page is open. <an email address that is not already registered> is available.",
+      "steps": [
+        "Enter a first name and a last name.",
+        "Enter a date of birth of <an applicant aged 18 or older>.",
+        "Enter the email address that is not already registered.",
+        "Enter a password of at least 8 characters.",
+        "Submit the registration form."
+      ],
+      "expected": "The account is created (the exact confirmation wording is not specified in the story)."
+    },
+    {
+      "id": "TC-2",
+      "title": "Sign in with the newly registered account",
+      "covers": [
+        "AC1"
+      ],
+      "type": "positive",
+      "preconditions": "An account has been created through the registration form with all required fields valid; its email address and password are known to the tester.",
+      "steps": [
+        "Open the sign-in page.",
+        "Enter the email address and password used at registration.",
+        "Submit the sign-in form."
+      ],
+      "expected": "The user is signed in with the registered account."
+    },
+    {
+      "id": "TC-3",
+      "title": "Register with an already-registered email address",
+      "covers": [
+        "AC2"
+      ],
+      "type": "negative",
+      "preconditions": "<an email address belonging to an existing registered customer> is known.",
+      "steps": [
+        "Open the registration page.",
+        "Enter a first name, a last name and a date of birth of an applicant aged 18 or older.",
+        "Enter the email address of the existing registered customer.",
+        "Enter a password of at least 8 characters.",
+        "Submit the registration form."
+      ],
+      "expected": "A clear error is shown (the exact text is not specified in the story) and no duplicate account is created for that email address."
+    },
+    {
+      "id": "TC-4",
+      "title": "Invalid email format shows an inline validation error",
+      "covers": [
+        "AC3"
+      ],
+      "type": "negative",
+      "preconditions": "The registration page is open.",
+      "steps": [
+        "Enter a first name, a last name and a date of birth of an applicant aged 18 or older.",
+        "Enter <a string that is not a valid email format, for example one with no \"@\"> in the email field.",
+        "Enter a password of at least 8 characters.",
+        "Attempt to submit the registration form."
+      ],
+      "expected": "An inline validation error is shown on the email field (the exact text is not specified in the story) and no account is created."
+    },
+    {
+      "id": "TC-5",
+      "title": "Password below the minimum length shows an inline validation error",
+      "covers": [
+        "AC3"
+      ],
+      "type": "negative",
+      "preconditions": "The registration page is open. <an email address that is not already registered> is available.",
+      "steps": [
+        "Enter a first name, a last name and a date of birth of an applicant aged 18 or older.",
+        "Enter the email address that is not already registered.",
+        "Enter a password of 7 characters.",
+        "Attempt to submit the registration form."
+      ],
+      "expected": "An inline validation error is shown on the password field (the exact text is not specified in the story) and no account is created."
+    },
+    {
+      "id": "TC-6",
+      "title": "Password of exactly 8 characters is accepted",
+      "covers": [
+        "AC3",
+        "AC1"
+      ],
+      "type": "edge",
+      "preconditions": "The registration page is open. <an email address that is not already registered> is available.",
+      "steps": [
+        "Enter a first name, a last name and a date of birth of an applicant aged 18 or older.",
+        "Enter the email address that is not already registered.",
+        "Enter a password of exactly 8 characters.",
+        "Submit the registration form."
+      ],
+      "expected": "No password-length validation error is shown and the account is created."
+    },
+    {
+      "id": "TC-7",
+      "title": "Applicant under 18 cannot register",
+      "covers": [
+        "AC4"
+      ],
+      "type": "negative",
+      "preconditions": "The registration page is open. <an email address that is not already registered> is available.",
+      "steps": [
+        "Enter a first name and a last name.",
+        "Enter a date of birth that gives an age under 18 as calculated from today's date.",
+        "Enter the email address that is not already registered.",
+        "Enter a password of at least 8 characters.",
+        "Attempt to submit the registration form."
+      ],
+      "expected": "The message \"You must be at least 18 years old.\" is shown and no account is created."
+    },
+    {
+      "id": "TC-8",
+      "title": "Date of birth one day before the 18th birthday is rejected",
+      "covers": [
+        "AC4"
+      ],
+      "type": "edge",
+      "preconditions": "The registration page is open. <an email address that is not already registered> is available.",
+      "steps": [
+        "Enter a first name and a last name.",
+        "Enter a date of birth exactly 18 years ago minus one day, so the 18th birthday falls tomorrow.",
+        "Enter the email address that is not already registered.",
+        "Enter a password of at least 8 characters.",
+        "Attempt to submit the registration form."
+      ],
+      "expected": "Registration is refused with the message \"You must be at least 18 years old.\" and no account is created."
+    },
+    {
+      "id": "TC-9",
+      "title": "Date of birth exactly on the 18th birthday is accepted",
+      "covers": [
+        "AC4",
+        "AC1"
+      ],
+      "type": "edge",
+      "preconditions": "The registration page is open. <an email address that is not already registered> is available.",
+      "steps": [
+        "Enter a first name and a last name.",
+        "Enter a date of birth exactly 18 years ago today.",
+        "Enter the email address that is not already registered.",
+        "Enter a password of at least 8 characters.",
+        "Submit the registration form."
+      ],
+      "expected": "No age error is shown, because the applicant is not under 18, and the account is created."
+    },
+    {
+      "id": "TC-10",
+      "title": "A required field left empty",
+      "covers": [
+        "AC1"
+      ],
+      "type": "negative",
+      "preconditions": "The registration page is open. <an email address that is not already registered> is available.",
+      "steps": [
+        "Leave <one of the required fields: first name, last name, date of birth, email, password> empty.",
+        "Fill every other required field with valid data.",
+        "Attempt to submit the registration form."
+      ],
+      "expected": "The account is not created because a required field is missing (the exact message or behaviour is not specified in the story)."
+    }
+  ]
+}

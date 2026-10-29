@@ -1,0 +1,75 @@
+{
+  "id": "10042",
+  "key": "TOOL-5",
+  "summary": "TOOL-5  Product sorting",
+  "description": "As a customer, I want to sort the products.\n\n* Sorting should work properly.",
+  "status": "To Do",
+  "criteria": [
+    {
+      "id": "AC1",
+      "text": "Sorting should work properly."
+    }
+  ],
+  "cases": [
+    {
+      "id": "TC-1",
+      "title": "Products are ordered correctly by the selected sort option",
+      "covers": [
+        "AC1"
+      ],
+      "type": "positive",
+      "preconditions": "Access to <the product list screen that offers sorting>, which shows <at least 3 products whose values for the chosen sort option differ>.",
+      "steps": [
+        "Open the product list screen.",
+        "Note the sort options offered.",
+        "Select <one sort option offered by the product list>.",
+        "Read the product order shown, from first to last."
+      ],
+      "expected": "The products are displayed ordered according to the selected sort option. The exact option names, direction and any ordering of equal values are not specified in the story."
+    },
+    {
+      "id": "TC-2",
+      "title": "Changing the sort option re-orders the products",
+      "covers": [
+        "AC1"
+      ],
+      "type": "positive",
+      "preconditions": "Access to <the product list screen that offers sorting>, which shows <at least 3 products whose values differ for both sort options used below>; at least two sort options are offered.",
+      "steps": [
+        "Open the product list screen.",
+        "Select <a first sort option offered by the product list> and note the product order.",
+        "Select <a second, different sort option offered by the product list>.",
+        "Read the product order shown, from first to last."
+      ],
+      "expected": "The product order is updated to match the second sort option; the order from the first option is no longer applied."
+    },
+    {
+      "id": "TC-3",
+      "title": "Sorting a product list that contains a single product",
+      "covers": [
+        "AC1"
+      ],
+      "type": "edge",
+      "preconditions": "Access to <a product list screen that offers sorting and currently shows exactly one product>.",
+      "steps": [
+        "Open the product list screen showing exactly one product.",
+        "Select <one sort option offered by the product list>."
+      ],
+      "expected": "The single product is still listed and no error occurs. Nothing further is specified in the story."
+    },
+    {
+      "id": "TC-4",
+      "title": "Sorting a product list that contains no products",
+      "covers": [
+        "AC1"
+      ],
+      "type": "edge",
+      "preconditions": "Access to <a product list screen that offers sorting and currently shows no products>.",
+      "steps": [
+        "Open the product list screen with no products in it.",
+        "Select <one sort option offered by the product list>."
+      ],
+      "expected": "No error occurs and the list remains empty. The exact behaviour and any message for an empty list is not specified in the story."
+    }
+  ]
+}

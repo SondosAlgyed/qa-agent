@@ -1,0 +1,61 @@
+{
+  "id": "10044",
+  "key": "TOOL-7",
+  "summary": "TOOL-7 Filter products",
+  "description": "As a customer, I want to filter the products.\n\n* Filters should narrow down the list correctly.",
+  "status": "To Do",
+  "criteria": [
+    {
+      "id": "AC1",
+      "text": "Filters should narrow down the list correctly."
+    }
+  ],
+  "cases": [
+    {
+      "id": "TC-1",
+      "title": "Applying a single filter narrows the product list",
+      "covers": [
+        "AC1"
+      ],
+      "type": "positive",
+      "preconditions": "Product list page is reachable. <a filter that matches some but not all products in the list> is available, and the tester knows which products match <the matching filter value>.",
+      "steps": [
+        "Open the product list page and note the products shown.",
+        "Apply the filter using <the matching filter value>.",
+        "Review the resulting product list."
+      ],
+      "expected": "The list is narrowed to only the products that match the filter value; products that do not match are no longer listed."
+    },
+    {
+      "id": "TC-2",
+      "title": "Applying two filters together narrows the list further",
+      "covers": [
+        "AC1"
+      ],
+      "type": "positive",
+      "preconditions": "Product list page is reachable. <two different filters that can be applied at the same time> exist, with <values that together match at least one product>.",
+      "steps": [
+        "Open the product list page.",
+        "Apply the first filter and note the resulting list.",
+        "Apply the second filter in addition to the first.",
+        "Review the resulting product list."
+      ],
+      "expected": "The list shows only products matching both filter values - a subset of (or equal to) the result after the first filter alone; no product that fails either filter is listed."
+    },
+    {
+      "id": "TC-3",
+      "title": "Filter value that matches no products",
+      "covers": [
+        "AC1"
+      ],
+      "type": "edge",
+      "preconditions": "Product list page is reachable. <a filter value that matches no product in the catalogue> is known.",
+      "steps": [
+        "Open the product list page.",
+        "Apply the filter using <the filter value that matches no product>.",
+        "Review the resulting product list."
+      ],
+      "expected": "No products are listed, since none match the filter. The exact empty-result message or screen is not specified in the story."
+    }
+  ]
+}

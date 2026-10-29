@@ -1,0 +1,103 @@
+{
+  "id": "10041",
+  "key": "TOOL-4",
+  "summary": "TOOL-4 Filter products by category and brand",
+  "description": "As a customer, I want to filter so I can narrow down the catalogue.\n\n* Selecting one category → only products from that category appear.\n* Selecting two categories → products from both appear.\n* Combining a category and a brand → only products matching both appear.\n* Unchecking all filters → the full list returns.",
+  "status": "To Do",
+  "criteria": [
+    {
+      "id": "AC1",
+      "text": "Selecting one category → only products from that category appear."
+    },
+    {
+      "id": "AC2",
+      "text": "Selecting two categories → products from both appear."
+    },
+    {
+      "id": "AC3",
+      "text": "Combining a category and a brand → only products matching both appear."
+    },
+    {
+      "id": "AC4",
+      "text": "Unchecking all filters → the full list returns."
+    }
+  ],
+  "cases": [
+    {
+      "id": "TC-1",
+      "title": "Selecting one category shows only that category's products",
+      "covers": [
+        "AC1"
+      ],
+      "type": "positive",
+      "preconditions": "Catalogue page open with no filters applied; <a category that contains at least two products> exists, and at least one product outside that category exists.",
+      "steps": [
+        "Note the products listed with no filters applied.",
+        "Select the category <the chosen category>.",
+        "Review the resulting product list."
+      ],
+      "expected": "Only products from the selected category appear; products belonging to other categories are no longer listed."
+    },
+    {
+      "id": "TC-2",
+      "title": "Selecting two categories shows products from both",
+      "covers": [
+        "AC2"
+      ],
+      "type": "positive",
+      "preconditions": "Catalogue page open with no filters applied; <two categories that each contain at least one product> exist, plus at least one product in a third category.",
+      "steps": [
+        "Select the first category <category A>.",
+        "Also select the second category <category B>.",
+        "Review the resulting product list."
+      ],
+      "expected": "Products from both selected categories appear in the list; products from neither category are not listed."
+    },
+    {
+      "id": "TC-3",
+      "title": "Combining a category and a brand shows only products matching both",
+      "covers": [
+        "AC3"
+      ],
+      "type": "positive",
+      "preconditions": "Catalogue page open with no filters applied; <a category and a brand that share at least one product>, plus a product in that category from a different brand, and a product of that brand in a different category.",
+      "steps": [
+        "Select the category <the chosen category>.",
+        "Select the brand <the chosen brand>.",
+        "Review the resulting product list."
+      ],
+      "expected": "Only products that are in the selected category and of the selected brand appear; the same-category/other-brand product and the same-brand/other-category product are not listed."
+    },
+    {
+      "id": "TC-4",
+      "title": "Unchecking all filters returns the full list",
+      "covers": [
+        "AC4"
+      ],
+      "type": "positive",
+      "preconditions": "Catalogue page open; <a category and a brand that each have at least one product> exist; the unfiltered full product list is known.",
+      "steps": [
+        "Record the full product list with no filters applied.",
+        "Select the category <the chosen category> and the brand <the chosen brand> and confirm the list is narrowed.",
+        "Uncheck the category filter.",
+        "Uncheck the brand filter so no filters remain selected."
+      ],
+      "expected": "The full product list returns — the same products as recorded in step 1."
+    },
+    {
+      "id": "TC-5",
+      "title": "Category and brand combination with no matching products",
+      "covers": [
+        "AC3"
+      ],
+      "type": "edge",
+      "preconditions": "Catalogue page open with no filters applied; <a category and a brand that have no product in common> exist.",
+      "steps": [
+        "Select the category <the chosen category>.",
+        "Select the brand <the brand with no product in that category>.",
+        "Review the resulting product list."
+      ],
+      "expected": "No products are listed, since only products matching both filters appear. Any empty-result message or wording is not specified in the story."
+    }
+  ]
+}

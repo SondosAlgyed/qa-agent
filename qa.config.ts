@@ -7,9 +7,9 @@ const config: QaConfig = {
     projectKey: "TOOL",
   },
   llm: {
-    type: "claude",
+    type: "claude-code",
     // review and cases stay on the default model (their eval results were measured with it)
-    agentModel: "claude-sonnet-5-5",
+    // agentModel: "claude-sonnet-5-5",
   },
   // While developing, qa runs from qa-agent and works on the demo test project
   repo: "../toolshop-tests",

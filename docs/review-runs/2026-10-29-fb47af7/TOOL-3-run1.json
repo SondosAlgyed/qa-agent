@@ -1,0 +1,9 @@
+{
+  "id": "10040",
+  "key": "TOOL-3",
+  "summary": "TOOL-3  Search for products ",
+  "description": "\nAs a customer, I want to search so I can find a tool quickly.\n\n* A search term matching existing products → only matching products are listed.\n* A term with no matches → an empty state message, no error.\n* Search is case-insensitive.\n* Clearing the search restores the full product list.\n\nSearch matches product names (partial, case-insensitive)",
+  "status": "To Do",
+  "verdict": "Ready with questions",
+  "review": "Verdict: Ready with questions — the matching rules and empty state are implementable and verifiable; the open points only affect precise expected results.\n\n1. **Search trigger not defined** (Question, Ambiguity): Is the list filtered as the user types, or only on pressing Enter / a search button — and does clearing the field restore the list immediately or require re-submitting?\n2. **Empty state message content** (Question, Gap): What exact text should be shown when nothing matches, and where does it appear relative to the product list?\n3. **Whitespace and special-character handling** (Question, Gap): Should leading/trailing spaces be trimmed, what happens for a whitespace-only term, and how are multi-word terms treated (whole phrase vs all words anywhere in the name)?\n4. **Interaction with the existing product list view** (Question, Gap): If the product list is paginated, sorted or filtered, should searching reset to page one and keep the other criteria applied?\n\nOut of scope:\n- Search over description, category, brand or SKU — \"I want to search so I can find a tool quickly\" could suggest broader matching, but the criteria limit it to product names.\n- Typo tolerance, synonyms, autocomplete suggestions — \"find a tool quickly\" might imply assisted search, which no criterion covers."
+}

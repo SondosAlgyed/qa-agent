@@ -93,6 +93,31 @@ same thing) but not in TOOL-6/7. Out of scope items fell 40%, but the section st
 about half the reviews; the single v3-c run's "4 of 8" was luck. The judge-score gain is close
 to the noise level and is not evidence on its own.
 
+### Provider: Claude Code CLI vs API, 3 runs each (2026-10-29)
+
+Same prompts (review v3-c `fb47af7`, cases v3 `56581d1`), same model (`claude-opus-5`); only the
+call changed: `llm.type: "claude-code"` runs `claude -p` on my subscription instead of the API
+(no tools, structured output through `--json-schema`). Judge unchanged (gpt-5.5-2026-04-23).
+API numbers: the v3-c column above and Cases v3 below. Counts come from the saved reviews, by code.
+Raw outputs: `docs/review-runs/2026-10-29-fb47af7/`, `docs/cases-runs/2026-10-29-56581d1/`.
+
+| Measure | API | Claude Code |
+|---------|-----|-------------|
+| Cases: count + coverage | 24 of 24 | 24 of 24 |
+| Review: verdicts correct | 24 of 24 | 24 of 24 |
+| Judge, mean of 9 scores (TOOL-5/6/7 × 3) | 0.94 | 0.89 |
+| Judge, lowest score | 0.5 | 0.5 |
+| Blocking per run, TOOL-5 | 2, 2, 1 | 2, 1, 4 |
+| Blocking per run, TOOL-6 | 3, 3, 3 | 2, 3, 3 |
+| Blocking per run, TOOL-7 | 3, 3, 3 | 1, 1, 3 |
+| Reviews with Out of scope | 13 of 24 | 15 of 24 |
+| Out of scope items, total | 26 | 31 |
+
+**Conclusion:** no change in what the plain assertions measure. The judge's lower mean comes from
+TOOL-5 runs 1 and 3 (0.5 each): Blocking findings about pagination scope and default sort, the
+known borderline finding. Within the noise seen before (0.6 and 1.0 for the same prompt). Time:
+about 20–26s per call. Cost: none on the API; it counts against the subscription's usage limits.
+
 ## Judge validation: "Grounded Blocking findings"
 
 The judge scores the saved v2 reviews (`docs/review-runs/2026-09-30-v2/`) that I judged by hand.

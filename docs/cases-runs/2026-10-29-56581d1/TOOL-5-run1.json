@@ -1,0 +1,62 @@
+{
+  "id": "10042",
+  "key": "TOOL-5",
+  "summary": "TOOL-5  Product sorting",
+  "description": "As a customer, I want to sort the products.\n\n* Sorting should work properly.",
+  "status": "To Do",
+  "cases": [
+    {
+      "id": "TC-1",
+      "title": "Each available sorting option sorts the product list",
+      "covers": [
+        "AC1"
+      ],
+      "type": "positive",
+      "preconditions": "A customer can reach a product list that offers sorting. The list contains <enough products to make an order visible, e.g. at least 5 products with differing values for each sortable attribute>.",
+      "steps": [
+        "Open the product list as a customer.",
+        "Note the sorting options the product list offers.",
+        "Select the first sorting option.",
+        "Read the products in the order they are now displayed and check the order against the selected sorting option.",
+        "Repeat steps 3-4 for every remaining sorting option offered."
+      ],
+      "expected": "For every sorting option, the products are displayed in the order that option describes, with no product missing, duplicated or added. The exact set of sorting options and the order each one produces is not specified in the story."
+    },
+    {
+      "id": "TC-2",
+      "title": "Switching from one sorting option to another re-sorts the list",
+      "covers": [
+        "AC1"
+      ],
+      "type": "positive",
+      "preconditions": "A customer can reach a product list that offers at least two sorting options. The list contains <enough products to make an order visible, e.g. at least 5 products with differing values for each sortable attribute>.",
+      "steps": [
+        "Open the product list as a customer.",
+        "Select one sorting option and note the resulting order of products.",
+        "Without reloading the page, select a different sorting option.",
+        "Read the products in the order they are now displayed."
+      ],
+      "expected": "The list is re-sorted according to the newly selected sorting option, and no remnant of the previously applied order remains; the same products are still listed, with none missing, duplicated or added."
+    },
+    {
+      "id": "TC-3",
+      "title": "Sorting a product list that contains no products",
+      "covers": [
+        "AC1"
+      ],
+      "type": "edge",
+      "preconditions": "A customer can reach a product list that offers sorting and that currently shows no products, e.g. <a category or search term with no matching products>.",
+      "steps": [
+        "Open the product list that shows no products as a customer.",
+        "Select each sorting option the product list offers, one after another."
+      ],
+      "expected": "Sorting is applied without an error: the list remains empty and the page stays usable. The story does not describe any message or specific behaviour for an empty list (not specified in the story)."
+    }
+  ],
+  "criteria": [
+    {
+      "id": "AC1",
+      "text": "Sorting should work properly."
+    }
+  ]
+}

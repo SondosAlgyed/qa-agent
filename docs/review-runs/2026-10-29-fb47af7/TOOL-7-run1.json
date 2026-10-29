@@ -1,0 +1,9 @@
+{
+  "id": "10044",
+  "key": "TOOL-7",
+  "summary": "TOOL-7 Filter products",
+  "description": "As a customer, I want to filter the products.\n\n* Filters should narrow down the list correctly.",
+  "status": "To Do",
+  "verdict": "Not ready",
+  "review": "Verdict: Not ready — the story never states which attributes can be filtered, so \"narrow down correctly\" cannot be implemented or verified.\n\n1. **No filter criteria defined** (Blocking, Gap/Testability): Which product attributes are filterable (category, price range, brand, availability, rating...), what input control does each use, and what exact result set counts as \"narrowed down correctly\" for each?\n2. **Combining multiple filters undefined** (Question, Ambiguity): When several filters are active, are they combined with AND across attributes and OR within a single attribute's values, and can multiple values of one filter be selected at once?\n3. **No match / empty result behaviour** (Question, Gap): What should the customer see when a filter combination returns zero products, and can filters still be changed from that state?\n4. **Clearing and resetting filters** (Question, Gap): Can a customer remove an individual filter and clear all filters at once, and what is the default unfiltered state?\n5. **Interaction with sorting and pagination** (Question, Gap): When a filter is applied, does the list reset to page one, keep the current sort order, and does the displayed product count update?\n6. **Filter state persistence** (Question, Gap): Should active filters survive page refresh, back navigation, or opening a product and returning (e.g. reflected in the URL)?"
+}

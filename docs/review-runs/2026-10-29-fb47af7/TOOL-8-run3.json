@@ -1,0 +1,9 @@
+{
+  "id": "10045",
+  "key": "TOOL-8",
+  "summary": "TOOL-8 Manage the shopping cart",
+  "description": "As a customer, I want to change my cart before checking out.\n\n* Increasing the quantity of an item updates that line's total and the cart total.\n* Removing an item removes it from the list and updates the total.\n* Removing the last item shows an empty cart message.\n* Cart contents persist after a page refresh.",
+  "status": "To Do",
+  "verdict": "Ready with questions",
+  "review": "Verdict: Ready with questions — the stated criteria are implementable and verifiable, but several expected results need pinning down before test design.\n\n1. **Quantity changes other than increase** (Question, Gap): How does a customer change quantity (stepper, editable field, other), is decreasing allowed, and does reducing to 0 remove the line or is 1 the minimum?\n2. **Upper limit on quantity** (Question, Gap): Is there a maximum quantity per line (stock availability or a fixed cap), and what should happen when the customer tries to exceed it?\n3. **Definition of \"cart total\"** (Question, Ambiguity): Does the cart total shown here mean the item subtotal only, or does it also include tax, shipping and any discounts that must recalculate on each change?\n4. **Scope of persistence** (Question, Ambiguity): Beyond page refresh, must the cart survive browser close, a new session, login/logout, and does it apply to guests as well as signed-in customers?\n5. **Empty cart presentation** (Question, Gap): What exact text should the empty cart message show, where does it appear, and does the cart total / checkout action stay visible or disappear?\n6. **Confirmation on remove** (Question, Gap): Does removing an item require a confirmation step, and is any undo or \"restore item\" behaviour expected?"
+}

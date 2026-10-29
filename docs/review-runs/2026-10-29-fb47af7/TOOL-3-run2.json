@@ -1,0 +1,9 @@
+{
+  "id": "10040",
+  "key": "TOOL-3",
+  "summary": "TOOL-3  Search for products ",
+  "description": "\nAs a customer, I want to search so I can find a tool quickly.\n\n* A search term matching existing products → only matching products are listed.\n* A term with no matches → an empty state message, no error.\n* Search is case-insensitive.\n* Clearing the search restores the full product list.\n\nSearch matches product names (partial, case-insensitive)",
+  "status": "To Do",
+  "verdict": "Ready with questions",
+  "review": "Verdict: Ready with questions — the core search behaviour is implementable and testable, but trigger and input-edge details need confirming for precise expected results.\n\n1. **Search trigger not defined** (Question, Ambiguity): Does the result list update as the customer types (and if so, with what debounce), or only on pressing Enter / a Search button?\n2. **Empty or whitespace-only term** (Question, Gap): What should happen when the term is empty or only spaces — treated the same as \"cleared\" (full list) or as a no-match empty state?\n3. **Meaning of \"partial\" match** (Question, Ambiguity): Is the match a plain substring of the whole product name (so \"ham dri\" would not match \"Hammer Drill\"), or are multiple words matched independently?\n4. **Empty state message not specified** (Question, Gap): What exact text should the no-results message show, and should the search term be echoed in it?\n5. **How the search is cleared** (Question, Gap): Does \"clearing the search\" mean deleting the text in the field, a dedicated clear/reset control, or both?"
+}

@@ -1,0 +1,9 @@
+{
+  "id": "10043",
+  "key": "TOOL-6",
+  "summary": "TOOL-6 Checkout",
+  "description": "As a customer, I want to complete my order.\n\n* The user can finish checkout and see a confirmation.",
+  "status": "To Do",
+  "verdict": "Not ready",
+  "review": "Verdict: Not ready — the single criterion states only that checkout \"can be finished\", leaving the actual steps, inputs and resulting order behaviour undefined and unverifiable.\n\n1. **Checkout flow and required inputs undefined** (Blocking, Gap): What steps and data make up checkout (shipping address, delivery option, payment details, review step) and which fields are mandatory before the order can be placed?\n2. **Outcome of \"completing\" an order unspecified** (Blocking, Testability): What must be true after confirmation — is an order record created with an order number, is the cart emptied, is stock decremented, is a confirmation email sent?\n3. **Payment handling in or out of scope** (Blocking, Ambiguity): Does this story include taking a real payment (and via which provider/methods), or is checkout completed without any payment step?\n4. **Failed payment / submission error path** (Question, Gap): What should the user see and what state should the order be in if payment is declined or the order submission fails?\n5. **Guest vs. authenticated checkout** (Question, Ambiguity): Can a customer check out without an account, or is login required before reaching checkout?\n6. **Invalid cart at checkout time** (Question, Gap): What happens if the cart is empty, or an item becomes out of stock or changes price between cart and order placement?\n7. **Confirmation screen content** (Question, Gap): What exactly must the confirmation show (order number, items, totals, delivery estimate) for a tester to assert on?"
+}

@@ -1,0 +1,108 @@
+{
+  "id": "10040",
+  "key": "TOOL-3",
+  "summary": "TOOL-3  Search for products ",
+  "description": "\nAs a customer, I want to search so I can find a tool quickly.\n\n* A search term matching existing products → only matching products are listed.\n* A term with no matches → an empty state message, no error.\n* Search is case-insensitive.\n* Clearing the search restores the full product list.\n\nSearch matches product names (partial, case-insensitive)",
+  "status": "To Do",
+  "criteria": [
+    {
+      "id": "AC1",
+      "text": "A search term matching existing products → only matching products are listed."
+    },
+    {
+      "id": "AC2",
+      "text": "A term with no matches → an empty state message, no error."
+    },
+    {
+      "id": "AC3",
+      "text": "Search is case-insensitive."
+    },
+    {
+      "id": "AC4",
+      "text": "Clearing the search restores the full product list."
+    },
+    {
+      "id": "AC5",
+      "text": "Search matches product names (partial, case-insensitive)"
+    }
+  ],
+  "cases": [
+    {
+      "id": "TC-1",
+      "title": "Search term matching existing products lists only matching products",
+      "covers": [
+        "AC1"
+      ],
+      "type": "positive",
+      "preconditions": "The product list contains <several products, at least one of which matches the search term and at least one of which does not>.",
+      "steps": [
+        "Open the product list and note the full set of products shown.",
+        "Enter <a term contained in the name of at least one product, but not all> in the search field.",
+        "Run the search."
+      ],
+      "expected": "Only the products whose names match the search term are listed; the non-matching products are not shown."
+    },
+    {
+      "id": "TC-2",
+      "title": "Search term with no matches shows an empty state message and no error",
+      "covers": [
+        "AC2"
+      ],
+      "type": "negative",
+      "preconditions": "The product list contains <at least one product>.",
+      "steps": [
+        "Open the product list.",
+        "Enter <a term that matches no product name> in the search field.",
+        "Run the search."
+      ],
+      "expected": "An empty state message is shown (exact wording not specified in the story). No products are listed and no error is shown."
+    },
+    {
+      "id": "TC-3",
+      "title": "Search is case-insensitive",
+      "covers": [
+        "AC3",
+        "AC5"
+      ],
+      "type": "positive",
+      "preconditions": "The product list contains <at least one product whose name matches the chosen term>.",
+      "steps": [
+        "Open the product list.",
+        "Search for <a product name term in lower case> and note the results.",
+        "Clear the search field and search for the same term in UPPER CASE; note the results.",
+        "Clear the search field and search for the same term in MiXeD case; note the results."
+      ],
+      "expected": "All three searches return the same matching products."
+    },
+    {
+      "id": "TC-4",
+      "title": "Clearing the search restores the full product list",
+      "covers": [
+        "AC4"
+      ],
+      "type": "positive",
+      "preconditions": "The product list contains <several products, at least one of which does not match the search term used>.",
+      "steps": [
+        "Open the product list and note the full set of products shown.",
+        "Enter <a term matching some but not all products> in the search field and run the search, so the list is filtered.",
+        "Clear the search field."
+      ],
+      "expected": "The full product list is shown again, matching the list noted in step 1."
+    },
+    {
+      "id": "TC-5",
+      "title": "Partial product name fragment returns the product",
+      "covers": [
+        "AC5"
+      ],
+      "type": "edge",
+      "preconditions": "The product list contains <a product whose name has more than one word or several characters>.",
+      "steps": [
+        "Open the product list and note the exact name of the chosen product.",
+        "Enter only a fragment of that product name (not the whole name, for example the middle characters) in the search field.",
+        "Run the search."
+      ],
+      "expected": "The chosen product is listed; the search matches on a partial product name."
+    }
+  ]
+}
