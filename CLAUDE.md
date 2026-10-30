@@ -137,6 +137,8 @@ the same way as TypeScript (new concepts explained the first time they appear).
       Blocked: ZEPHYR_API_TOKEN (.env, from Personal settings → Apps → Zephyr API Access Tokens)
       gets 401 "Unknown token" on https://api.zephyrscale.smartbear.com/v2/projects, US and EU,
       although it's fresh, issued for our site, and valid to 2027. Maybe a new-install delay.
+      Retried 2026-10-30: still 401 "Unknown token", US and EU. My advice: cancel the trial
+      (Jira → Settings → Apps → Manage apps → Zephyr) unless SmartBear support answers first.
 - [x] No API cost (2026-10-29): `llm.type: "claude-code"` (src/llm/claude-code.ts) runs the claude
       CLI on my subscription; ANTHROPIC_API_KEY removed from .env on purpose (don't bring it back).
       review/cases: one call, --json-schema. automate: Claude Code runs the loop, but its only tools
@@ -144,8 +146,17 @@ the same way as TypeScript (new concepts explained the first time they appear).
       --restricted, not --safe-mode (that turns MCP off). Evals on it, 3 runs: cases 24/24, review
       24/24 verdicts, automate 9/9. Only paid part left: the GPT judge (OPENAI_API_KEY).
       Evals take QA_EVAL_LABEL (e.g. claude-code) for the run folder name.
+      Guard (5ce6575): runClaude removes ANTHROPIC_API_KEY from claude's environment, because
+      with a key claude bills the API instead of the subscription (tested with a fake key).
+      Also: temp folders deleted after each call, 10-minute timeout, 17 unit tests.
+      Check `claude auth status` → authMethod "claude.ai" = subscription.
+- [x] LinkedIn post 2 (qa cases + qa automate) written 2026-10-29. Final text and the
+      "Laptops" screenshot (a real re-run, not a mockup) are saved outside the repo in
+      Documents/Qa_Agent/linkedin/. Rule I follow: every number in a post must already be
+      in docs/metrics.md and pushed. Next post: `qa run`.
 
 ## Next steps (in order)
+0. Waiting on me: cancel the Zephyr trial (or write to SmartBear support).
 1. Zephyr: retry the token. If it works, write ZephyrTestCaseStore against the real API, one
    call at a time (POST /testcases, /testcases/{key}/teststeps, /testcases/{key}/links/issues
    with the numeric issueId); the field names so far come from third-party examples, not the
@@ -169,7 +180,7 @@ the same way as TypeScript (new concepts explained the first time they appear).
    Open: a G-Eval "the test really checks the expected result" (validate
    against my judgments first); tests fail when 6 run in parallel against the demo server (one
    worker is fine); the agent repeats helpers (addToCart, the products QUERY wait) instead of
-   suggesting a page-object refactor; Zephyr: 3 tokens all "Unknown token" → SmartBear support.
+   suggesting a page-object refactor.
 
 ## `qa automate` design (agreed 2026-10-22)
 - Command: `qa automate <key> <TC-id>`, e.g. `qa automate TOOL-1 TC-2`. One test case, chosen by
@@ -207,7 +218,8 @@ the same way as TypeScript (new concepts explained the first time they appear).
 - Page 1 (Providers): choose Local / Subscription / API for two roles, tool and judge.
   Data-route diagram, rule-based advisor, config preview.
   Mockup v2: https://claude.ai/artifact/UxaYNtaMLGsWPkyZxNShRT
-  Subscription option waits for a check of Anthropic's current terms.
+  Subscription option waits for a check of Anthropic's current terms. (The claude-code
+  provider was built 2026-10-29 and is what I use now; that terms check is still open.)
 - Open: how the judge setting reaches evals/judges.py (Python); where this work sits
   in "Next steps" (before or after Zephyr and automate).
 - Rejected: desktop app (heavy install), cloud app (accounts, keys, security),
@@ -268,3 +280,5 @@ Fix these only with new stories to test on (synthetic goldens), not by tuning on
 - The prompt's Out of scope example "lockout on a basic login story" is very close to TOOL-1,
   and TOOL-1 lists lockout. Replace it with an example unrelated to any golden story.
 - Out of scope still appears in about half the reviews; some reasons are weak.
+- TOOL-3 is borderline: a manual run on 2026-10-29 said "Not ready" (golden: "Ready with
+  questions"); the 3 eval runs that day matched the golden.
