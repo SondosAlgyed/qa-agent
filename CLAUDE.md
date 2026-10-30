@@ -218,8 +218,13 @@ the same way as TypeScript (new concepts explained the first time they appear).
 - Page 1 (Providers): choose Local / Subscription / API for two roles, tool and judge.
   Data-route diagram, rule-based advisor, config preview.
   Mockup v2: https://claude.ai/artifact/UxaYNtaMLGsWPkyZxNShRT
-  Subscription option waits for a check of Anthropic's current terms. (The claude-code
-  provider was built 2026-10-29 and is what I use now; that terms check is still open.)
+  Subscription option: terms checked 2026-10-30 on code.claude.com/docs/en/legal-and-compliance.
+  Fine for me: the unmodified claude binary, signed in with my own subscription, for ordinary,
+  individual use; qa never sees or stores the login. Not for others: "developers building
+  products or services ... should use API key authentication", and nobody may route their
+  users' requests through a Pro/Max login. So in the UI and README: Subscription = personal use
+  with your own Claude Code login; teams, CI and anything shared = API key. Heavy unattended
+  eval runs stretch "ordinary, individual usage": keep them occasional.
 - Open: how the judge setting reaches evals/judges.py (Python); where this work sits
   in "Next steps" (before or after Zephyr and automate).
 - Rejected: desktop app (heavy install), cloud app (accounts, keys, security),
