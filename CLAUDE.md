@@ -217,7 +217,7 @@ the same way as TypeScript (new concepts explained the first time they appear).
   one component at a time.
 - Page 1 (Providers): choose Local / Subscription / API for two roles, tool and judge.
   Data-route diagram, rule-based advisor, config preview.
-  Mockup v2: https://claude.ai/artifact/UxaYNtaMLGsWPkyZxNShRT
+  Mockup v3: https://claude.ai/artifact/UxaYNtaMLGsWPkyZxNShRT
   Subscription option: terms checked 2026-10-30 on code.claude.com/docs/en/legal-and-compliance.
   Fine for me: the unmodified claude binary, signed in with my own subscription, for ordinary,
   individual use; qa never sees or stores the login. Not for others: "developers building
