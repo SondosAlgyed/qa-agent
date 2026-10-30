@@ -55,7 +55,10 @@ export function runClaude(system: string, prompt: string, model: string, options
   const cwd = mkdtempSync(path.join(tmpdir(), "qa-claude-"));
 
   return new Promise((resolve, reject) => {
-    const child = spawn("claude", args, { cwd });
+    // With an API key in its environment, claude bills the API instead of the subscription.
+    // qa loads .env into process.env, so remove the key: claude-code must never cost money.
+    const { ANTHROPIC_API_KEY: _, ...env } = process.env;
+    const child = spawn("claude", args, { cwd, env });
     let stdout = "";
     let stderr = "";
     let timedOut = false;
