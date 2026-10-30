@@ -11,8 +11,8 @@ Early development. What works today:
 - `TicketSystem` contract: a small interface for reading stories and posting comments
 - Jira adapter (`JiraTicketSystem`): implements the contract with the Jira Cloud REST API, tested against a real Jira project
 - `LLMProvider` contract + two Claude adapters, chosen with `llm.type` in qa.config.ts (or plug in your own):
-  - `claude-code` (`ClaudeCodeProvider`): runs the `claude` CLI headless, on your Claude Code login (subscription), no API key. Claude Code's own tools, settings and memory are turned off, so the model sees only qa's prompt.
-  - `claude` (`ClaudeProvider`): the Anthropic API, with `ANTHROPIC_API_KEY`.
+  - `claude` (`ClaudeProvider`): the Anthropic API, with `ANTHROPIC_API_KEY`. Use this for teams, CI, and anything shared.
+  - `claude-code` (`ClaudeCodeProvider`): for personal use only. It runs the unmodified `claude` CLI headless, signed in with your own Claude subscription; qa never sees or stores your login. Claude Code's own tools, settings and memory are turned off, so the model sees only qa's prompt. Anthropic's terms allow your own subscription for ordinary, individual use, but products, teams and CI should use an API key ([Claude Code legal and compliance](https://code.claude.com/docs/en/legal-and-compliance)). qa never passes `ANTHROPIC_API_KEY` to `claude`, so this mode always runs on the subscription.
 - Config file (`qa.config.ts`): use the built-in Jira and Claude adapters, or plug in your own
 - `qa review <key>` fetches a story from Jira and asks Claude to review it: a verdict (Ready / Ready with questions / Not ready) plus findings classified as Blocking, Question, or Out of scope, each with a question for the product owner. Add `--json` to get the story, verdict, and review as one JSON object (for scripts and evals). Evaluation results: [docs/metrics.md](docs/metrics.md)
 - `qa cases <key>` writes manual test cases for a story to `test-cases/<KEY>.md`, as a draft for a tester to review: the acceptance criteria numbered AC1, AC2, ..., then test cases (positive, negative, edge) with preconditions, steps, expected result, and which criteria each one covers. Where the story doesn't say what should happen, the case says "not specified in the story" instead of guessing. Add `--json` to print instead of saving. After reviewing the file, `qa cases <key> --push` posts it to the story as a Jira comment (no AI call: only the reviewed file goes to Jira). The model returns structured JSON (a schema enforced by the provider). Saving goes through a `TestCaseStore` contract, so other tools (Zephyr, Xray, TestRail) can be added as adapters.
@@ -44,8 +44,9 @@ Every review is saved to `docs/review-runs/<date>-<prompt commit>/`. Optional se
 
 ## Setup
 
-Requires Node.js 18+, and [Claude Code](https://claude.com/claude-code) installed and logged in once
-(for `llm.type: "claude-code"`). To use the API instead, set `llm.type: "claude"` and add `ANTHROPIC_API_KEY` to `.env`.
+Requires Node.js 18+ and one way to reach Claude:
+- API (teams, CI, shared use): `llm.type: "claude"` in qa.config.ts and `ANTHROPIC_API_KEY` in `.env`.
+- Your own subscription (personal use only): `llm.type: "claude-code"`, with [Claude Code](https://claude.com/claude-code) installed and logged in once. This repo's qa.config.ts uses this.
 
 ```bash
 npm install
