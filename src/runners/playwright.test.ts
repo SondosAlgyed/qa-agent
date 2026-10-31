@@ -33,6 +33,14 @@ test("paths are relative to the repo, tags keep their @", () => {
   assert.deepEqual(byTitle("fails once, then passes").tags, ["@qa-sample", "@smoke"]);
 });
 
+test("the full error and where it failed are kept for triage", () => {
+  const failed = byTitle("always fails");
+  assert.deepEqual(failed.errorAt, { file: "tests/qa-sample.spec.ts", line: 5 });
+  assert.ok(failed.fullError!.split("\n").length > 3);
+  assert.doesNotMatch(failed.fullError!, /\u001b/);
+  assert.equal(byTitle("passes").fullError, undefined);
+});
+
 test("errors are short and have no colour codes", () => {
   const error = byTitle("always fails").error!;
   assert.doesNotMatch(error, /\u001b/);

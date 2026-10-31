@@ -16,6 +16,8 @@ export interface TestOutcome {
   status: TestStatus;
   retries: number; // how many extra attempts it took
   error?: string; // first lines of the error, for failed and flaky tests
+  fullError?: string; // the whole error (capped), for qa triage
+  errorAt?: { file: string; line: number }; // where it failed, e.g. the expect() line
 }
 
 export interface RunResult {

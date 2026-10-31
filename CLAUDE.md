@@ -322,6 +322,8 @@ the same way as TypeScript (new concepts explained the first time they appear).
    triage, and only prints locally (no Jira writes), so it doesn't need the safety evals first.
    Golden set: Toolshop's buggy version is up (https://with-bugs.practicesoftwaretesting.com,
    API https://api-with-bugs.practicesoftwaretesting.com). Design agreed (see below).
+   Done: TestOutcome.fullError (colour-free, capped at 4000 chars) and errorAt (file:line of the
+   failing check, can differ from the test's line); 24 unit tests. Also in qa run --json.
 4. Better evaluation: synthetic goldens → Prompt Alignment → review prompt v4.
    After Part 2, so the Synthesizer serves all three prompts (review, cases, automate).
 5. Safety evals (PII + prompt injection). Before any command that writes AI output to Jira

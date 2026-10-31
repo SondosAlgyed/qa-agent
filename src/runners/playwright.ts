@@ -5,9 +5,14 @@ import { QaError } from "../core/errors.js";
 import type { RunOptions, RunResult, TestOutcome, TestRunner, TestStatus } from "./types.js";
 
 // The parts of Playwright's JSON report (--reporter=json) that we read
+interface PwError {
+  message?: string;
+  location?: { file: string; line: number }; // an absolute path
+}
+
 interface PwResult {
   status: string;
-  errors: { message?: string }[];
+  errors: PwError[];
 }
 
 interface PwTest {
@@ -90,12 +95,17 @@ export class PlaywrightRunner implements TestRunner {
 export function parseReport(report: PwReport, repoRoot: string): RunResult {
   const tests: TestOutcome[] = [];
 
+  // Paths relative to the repo, with "/" on every OS
+  const relative = (file: string) => path.relative(repoRoot, file).split(path.sep).join("/");
+
   const walk = (suite: PwSuite) => {
     for (const spec of suite.specs ?? []) {
-      // Paths relative to the repo, with "/" on every OS
-      const file = path.relative(repoRoot, path.join(report.config.rootDir, spec.file)).split(path.sep).join("/");
+      const file = relative(path.join(report.config.rootDir, spec.file));
       for (const test of spec.tests) {
         const status = STATUS[test.status];
+        // For a flaky test, this is the error of the attempt that failed
+        const error = status === "failed" || status === "flaky" ? firstError(test.results) : undefined;
+        const message = error?.message ? stripColours(error.message) : undefined;
         tests.push({
           title: spec.title,
           file,
@@ -104,7 +114,9 @@ export function parseReport(report: PwReport, repoRoot: string): RunResult {
           project: test.projectName,
           status,
           retries: Math.max(test.results.length - 1, 0),
-          error: status === "failed" || status === "flaky" ? firstError(test.results) : undefined,
+          error: message ? shortError(message) : undefined,
+          fullError: message?.slice(0, MAX_FULL_ERROR),
+          errorAt: error?.location ? { file: relative(error.location.file), line: error.location.line } : undefined,
         });
       }
     }
@@ -124,16 +136,23 @@ export function parseReport(report: PwReport, repoRoot: string): RunResult {
   };
 }
 
-// The first lines of the first error, without colour codes (the JSON keeps them)
-function firstError(results: PwResult[]): string | undefined {
-  const message = results.flatMap((r) => r.errors).find((e) => e.message)?.message;
-  if (!message) return undefined;
-  return stripColours(message)
+// Enough for triage to read the whole assertion and call log, short enough for a prompt
+const MAX_FULL_ERROR = 4000;
+
+function firstError(results: PwResult[]): PwError | undefined {
+  return results.flatMap((r) => r.errors).find((e) => e.message);
+}
+
+// The first lines, for the summary
+function shortError(message: string): string {
+  return message
     .split("\n")
     .filter((line) => line.trim())
     .slice(0, 3)
     .join("\n");
 }
+
+// The JSON report keeps colour codes in messages, even with NO_COLOR
 
 function stripColours(text: string): string {
   return text.replace(/\u001b\[[0-9;]*m/g, "");
