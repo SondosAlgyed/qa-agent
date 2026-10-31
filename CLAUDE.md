@@ -244,6 +244,26 @@ the same way as TypeScript (new concepts explained the first time they appear).
   in "Next steps" (before or after Zephyr and automate).
 - Rejected: desktop app (heavy install), cloud app (accounts, keys, security),
   VS Code extension only (ties users to one editor).
+- Brief (2026-10-31): the main user is any tester who installs qa-agent, not only me. So the UI is
+  a QA workspace; the Eval monitor becomes a "Developer" section, Providers moves to Settings.
+- Core: each Jira story moves through Review → Cases → Script → Run. Each stage is a pair: the AI
+  acts (▶ Review story, ▶ Write cases, ▶ Draft script, ▶ Run script), then I decide (Approve review /
+  cases / draft / script). "Review" names only the AI's action (matches `qa review`).
+  Two ways back: Ask for changes (output wrong); the story changed in Jira (review again; compare
+  Jira's `updated` with the value saved at review time).
+- Jira status → phase, set per team in qa.config.ts: beforeDev / inDev / inTest / done.
+  beforeDev: review (shift-left). inDev: cases + draft the script (not run: the feature isn't there
+  yet). inTest: run the draft; fix script problems, stop on app bugs (never weaken the check).
+  done: nothing needed; optional "regression backlog".
+- Story list: Jira status, one line for where the story is in qa, one next-step button. Filters by
+  Jira status, search, "Needs me only". qa progress comes from repo files (test-cases/<KEY>.md,
+  tests/<KEY>-TC-n.spec.ts), no database. Needs an optional TicketSystem.listStories().
+- Smoke/regression: chosen per case at Approve cases (the AI suggests); becomes the script's tag.
+  Source per team: tags in the code (default) or Zephyr/Xray folders (a TestCaseStore adapter).
+- Test runs page: suite + feature, shows the equivalent command, results, flaky → `qa triage`.
+  Open: should `--regression` also run @smoke tests? (today it doesn't).
+- Design language (colors, fonts, components) is not agreed yet; the mockups' look is a placeholder.
+  Workspace mockup v9 (example data): https://claude.ai/artifact/UNzvmzUNBLkaccwpjQbcks
 
 ## Later steps (continuing the list above)
 3. `qa run --smoke | --regression`: design agreed 2026-10-31 (see below), building now.
