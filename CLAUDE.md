@@ -281,7 +281,8 @@ the same way as TypeScript (new concepts explained the first time they appear).
    config `runner` lets a tester plug in their own TestRunner. Real runs: --smoke chromium 4/4;
    --regression with the repo's settings (3 browsers, parallel) 21/21 in 24s; a temporary
    failing + flaky sample (CI=1 for retries) showed both groups and exit 1, then deleted.
-   Open: unit tests for formatRunSummary; README; then the next LinkedIn post (qa run).
+   formatRunSummary has 2 unit tests (23 unit tests in all). README updated.
+   Next: the LinkedIn post about qa run (numbers must be in docs first).
 4. Better evaluation: synthetic goldens → Prompt Alignment → review prompt v4.
    After Part 2, so the Synthesizer serves all three prompts (review, cases, automate).
 5. Safety evals (PII + prompt injection). Before any command that writes AI output to Jira
