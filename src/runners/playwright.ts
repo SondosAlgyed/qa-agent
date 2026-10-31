@@ -105,7 +105,7 @@ export function parseReport(report: PwReport, repoRoot: string): RunResult {
         const status = STATUS[test.status];
         // For a flaky test, this is the error of the attempt that failed
         const error = status === "failed" || status === "flaky" ? firstError(test.results) : undefined;
-        const message = error?.message ? stripColours(error.message) : undefined;
+        const message = error?.message ? withoutRoot(stripColours(error.message), repoRoot) : undefined;
         tests.push({
           title: spec.title,
           file,
@@ -152,8 +152,14 @@ function shortError(message: string): string {
     .join("\n");
 }
 
-// The JSON report keeps colour codes in messages, even with NO_COLOR
+// Stack traces name files by their full path, which shows the user's folders (and their
+// name). Relative paths say the same and are safe to share or save in a golden file.
+function withoutRoot(message: string, repoRoot: string): string {
+  const root = path.resolve(repoRoot);
+  return message.split(root + path.sep).join("").split(root.split(path.sep).join("/") + "/").join("");
+}
 
+// The JSON report keeps colour codes in messages, even with NO_COLOR
 function stripColours(text: string): string {
   return text.replace(/\u001b\[[0-9;]*m/g, "");
 }
