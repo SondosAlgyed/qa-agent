@@ -271,7 +271,10 @@ the same way as TypeScript (new concepts explained the first time they appear).
    4 unit tests on a real report (fixture: failed, flaky, skipped, passed, describe block).
    Learned from the real JSON: tags come without @, files are relative to testDir, statuses are
    expected/unexpected/flaky/skipped, error messages keep colour codes even with NO_COLOR.
-   Next: the adapter that runs playwright (fixed command, no shell), then the command.
+   PlaywrightRunner (same file): runs the repo's own Playwright (node + cli.js, no shell,
+   --reporter=json --grep <tags>, NO_COLOR, 30-min timeout); exit 1 with a report = a result;
+   no report or 0 tests with errors ("No tests found", broken config) = a QaError. Tried for
+   real: @smoke on chromium 4/4 in 7s. Next: the command (src/run/, cli, exit code).
 4. Better evaluation: synthetic goldens → Prompt Alignment → review prompt v4.
    After Part 2, so the Synthesizer serves all three prompts (review, cases, automate).
 5. Safety evals (PII + prompt injection). Before any command that writes AI output to Jira

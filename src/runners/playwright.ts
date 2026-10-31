@@ -1,5 +1,8 @@
+import { execFile } from "node:child_process";
+import { existsSync } from "node:fs";
 import path from "node:path";
-import type { RunResult, TestOutcome, TestStatus } from "./types.js";
+import { QaError } from "../core/errors.js";
+import type { RunOptions, RunResult, TestOutcome, TestRunner, TestStatus } from "./types.js";
 
 // The parts of Playwright's JSON report (--reporter=json) that we read
 interface PwResult {
@@ -39,6 +42,49 @@ const STATUS: Record<PwTest["status"], TestStatus> = {
   flaky: "flaky",
   skipped: "skipped",
 };
+
+// A whole regression run can be long; this only stops a run that hangs
+const TIMEOUT_MS = 30 * 60 * 1000;
+
+// Runs the project's own Playwright with a fixed command (no shell) and reads
+// its JSON report. The project's config is used as it is: we only add what the
+// user asked for (tags, project, workers).
+export class PlaywrightRunner implements TestRunner {
+  constructor(private readonly root: string) {}
+
+  async run(options: RunOptions): Promise<RunResult> {
+    const cli = path.join(this.root, "node_modules", "@playwright", "test", "cli.js");
+    if (!existsSync(cli)) {
+      throw new QaError(`Playwright isn't installed in ${this.root}. Run "npm install" there first.`);
+    }
+    // A test runs if it has any of the tags. Escaped, because --grep is a regular expression.
+    const grep = options.tags.map((tag) => tag.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")).join("|");
+    const args = [cli, "test", "--reporter=json", "--grep", grep];
+    if (options.project) args.push("--project", options.project);
+    if (options.workers) args.push("--workers", String(options.workers));
+
+    const stdout = await new Promise<string>((resolve, reject) => {
+      execFile(
+        process.execPath,
+        args,
+        { cwd: this.root, timeout: TIMEOUT_MS, maxBuffer: 100 * 1024 * 1024, env: { ...process.env, NO_COLOR: "1" } },
+        // Playwright exits with 1 when a test fails: that's a result, not an error
+        (error, out, err) => {
+          if (out.trim().startsWith("{")) resolve(out);
+          else reject(new QaError(`Playwright didn't produce a report: ${(err || error?.message || "").trim().slice(-500)}`));
+        },
+      );
+    });
+
+    const report = JSON.parse(stdout) as PwReport;
+    const result = parseReport(report, this.root);
+    // e.g. "No tests found", or a broken config: nothing ran, so say why
+    if (result.total === 0 && report.errors.length > 0) {
+      throw new QaError(`No tests ran: ${stripColours(report.errors[0]!.message ?? "unknown error").split("\n")[0]}`);
+    }
+    return result;
+  }
+}
 
 // Turns Playwright's report into our RunResult. No I/O, so it's easy to test.
 export function parseReport(report: PwReport, repoRoot: string): RunResult {
@@ -82,10 +128,13 @@ export function parseReport(report: PwReport, repoRoot: string): RunResult {
 function firstError(results: PwResult[]): string | undefined {
   const message = results.flatMap((r) => r.errors).find((e) => e.message)?.message;
   if (!message) return undefined;
-  return message
-    .replace(/\u001b\[[0-9;]*m/g, "")
+  return stripColours(message)
     .split("\n")
     .filter((line) => line.trim())
     .slice(0, 3)
     .join("\n");
+}
+
+function stripColours(text: string): string {
+  return text.replace(/\u001b\[[0-9;]*m/g, "");
 }
