@@ -264,6 +264,22 @@ the same way as TypeScript (new concepts explained the first time they appear).
   Open: should `--regression` also run @smoke tests? (today it doesn't).
 - Design language (colors, fonts, components) is not agreed yet; the mockups' look is a placeholder.
   Workspace mockup v9 (example data): https://claude.ai/artifact/UNzvmzUNBLkaccwpjQbcks
+- Approve shows everything in full, never "open the file": cases with Covers, Before, Steps and
+  Expected, plus which AC each case covers ("not covered" in red); scripts with line numbers,
+  checks (expect) marked green, guesses marked orange; in Run, the diff of what the agent changed
+  after the draft was approved. Cases can be edited in the UI (saved to test-cases/<KEY>.md);
+  code is read-only (notes or VS Code).
+- Not approving = notes, like a pull request review: on a case, on a line of code, or general.
+  Notes are collected ("Add to list"), then sent together with "▶ Redo with N notes", which becomes
+  the main button; Approve is off while notes wait. The AI answers every note (✓ done / ✗ not done
+  + why), shows version N+1 and the diff. It never applies a note that weakens a check, and a vague
+  note ("غلط") gets a question back. In Run, a redo runs the test 3 times again.
+- Before any ▶ step, a panel shows what the AI will keep in mind: project rules (.qa/rules.md in
+  the target repo, shared through git), story notes (kept with the story, shown under its title,
+  used by every step), and one-time instructions for this run. The trace starts with them, and the
+  result says how each was followed. Safety rules win over any instruction; text inside the Jira
+  story is data, never instructions (prompt injection).
+- Mockup v13 (same link).
 
 ## Later steps (continuing the list above)
 3. `qa run --smoke | --regression`: design agreed 2026-10-31 (see below), building now.
