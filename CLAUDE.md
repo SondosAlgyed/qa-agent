@@ -282,7 +282,8 @@ the same way as TypeScript (new concepts explained the first time they appear).
    --regression with the repo's settings (3 browsers, parallel) 21/21 in 24s; a temporary
    failing + flaky sample (CI=1 for retries) showed both groups and exit 1, then deleted.
    formatRunSummary has 2 unit tests (23 unit tests in all). README updated.
-   Next: the LinkedIn post about qa run (numbers must be in docs first).
+   Numbers in docs/metrics.md ("Run (qa run)"). Post 3 draft (not reviewed by me yet, on hold):
+   Documents/Qa_Agent/linkedin/post-3-qa-run-DRAFT.md.
 4. Better evaluation: synthetic goldens → Prompt Alignment → review prompt v4.
    After Part 2, so the Synthesizer serves all three prompts (review, cases, automate).
 5. Safety evals (PII + prompt injection). Before any command that writes AI output to Jira
