@@ -300,6 +300,11 @@ the same way as TypeScript (new concepts explained the first time they appear).
    formatRunSummary has 2 unit tests (23 unit tests in all). README updated.
    Numbers in docs/metrics.md ("Run (qa run)"). Post 3 draft (not reviewed by me yet, on hold):
    Documents/Qa_Agent/linkedin/post-3-qa-run-DRAFT.md.
+3b. `qa triage` — moved up on 2026-10-31 (my decision), before 4 and 5: it starts from
+   qa run's output while that's fresh, completes the chain review → cases → automate → run →
+   triage, and only prints locally (no Jira writes), so it doesn't need the safety evals first.
+   Golden set: Toolshop's buggy version is up (https://with-bugs.practicesoftwaretesting.com,
+   API https://api-with-bugs.practicesoftwaretesting.com). Design next.
 4. Better evaluation: synthetic goldens → Prompt Alignment → review prompt v4.
    After Part 2, so the Synthesizer serves all three prompts (review, cases, automate).
 5. Safety evals (PII + prompt injection). Before any command that writes AI output to Jira
@@ -307,7 +312,7 @@ the same way as TypeScript (new concepts explained the first time they appear).
    Decided 2026-10-21: `qa cases <key> --push` may post to Jira before the safety evals,
    because it only posts the Markdown file a human has reviewed, never the model's answer
    directly, and it doesn't call the model at all.
-6. Part 3: `triage`, `report`, MCP server, evals in CI, npm publish.
+6. Part 3: `report`, MCP server, evals in CI, npm publish (`triage` moved up, see 3b).
 
 ## Cleanup still needed
 - Zephyr trial: $10/month after the trial. Cancel it before it ends if Zephyr stays blocked.
