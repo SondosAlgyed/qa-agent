@@ -318,3 +318,16 @@ placeholders ("e.g. <7-character password>"), not invented names. TOOL-4 v3 step
 "Select the category <category A>". Data the story does give is kept: TOOL-2 still uses the
 8-character limit and the exact under-18 message in all 3 runs.
 Raw outputs: `docs/cases-runs/2026-10-24-56581d1/`.
+
+## Run (qa run)
+
+No AI, so no eval: correctness is checked by unit tests (6: the report parser on a real
+Playwright report, and the summary) and by real runs on toolshop-tests (4 @smoke, 7 @regression
+tests, 3 browsers in its config).
+
+| Date | Command | Result | Time | Notes |
+|------|---------|--------|------|-------|
+| 2026-10-31 | `qa run --smoke --project chromium` | 4 of 4 passed | 9s | exit 0 |
+| 2026-10-31 | `qa run --regression` (repo's settings: 3 browsers, parallel) | 21 of 21 passed | 24s | exit 0; the demo server held up this time |
+| 2026-10-31 | `qa run --tag qa-sample --project chromium` with CI=1 (retries on) | 1 failed, 1 flaky | 4s | a temporary sample test, deleted after; both groups listed with file:line and error; exit 1 |
+| 2026-10-31 | `qa run --tag nosuchtag` | "No tests ran: Error: No tests found" | – | exit 1, instead of "0 tests, all fine" |
