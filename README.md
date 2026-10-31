@@ -24,6 +24,8 @@ Early development. What works today:
 - Automate eval: run `qa automate` on 3 reviewed test cases that have no hand-written test, and check that each test passes 3 runs (the eval runs it), reuses the existing page object, changes no existing file, is tagged, and that the agent ran its test before finishing. On the API, 3 runs per case: 9 of 9, under 70 seconds and about $0.10 each.
 - The same evals on `claude-code` (subscription): review 24 of 24 verdicts, cases 24 of 24, automate 9 of 9, the same as on the API. Comparison: [docs/metrics.md](docs/metrics.md).
 
+- `qa run --smoke | --regression | --tag <tag>` runs your project's tests by tag with your own Playwright and config, and prints a summary: how many passed, failed, were flaky (failed, then passed on a retry) or skipped, then every failed and flaky test with `file:line`, browser, and the first lines of its error. Add `--project chromium` or `--workers 1` to narrow a run, `--json` for scripts. It exits with code 1 if a test failed, so CI can use it. No AI involved. The runner sits behind a `TestRunner` contract (Playwright adapter built in; plug in your own through `runner` in qa.config.ts).
+
 ## Running the evals
 
 Requires Python 3 and an `OPENAI_API_KEY` in `.env` (for the judge).
@@ -79,6 +81,12 @@ src/
 │   ├── mcp-server.ts # the same tools as an MCP server, for claude-code
 │   ├── prompt.ts     # automate prompt
 │   └── automate.ts   # one test case → one checked Playwright test
+├── runners/
+│   ├── types.ts      # TestRunner contract, RunResult
+│   ├── playwright.ts # Playwright adapter + JSON report parser
+│   └── factory.ts    # picks the test runner
+├── run/
+│   └── run.ts        # qa run summary
 ├── llm/
 │   ├── types.ts      # LLMProvider contract
 │   ├── claude.ts     # Claude adapter (Anthropic API)

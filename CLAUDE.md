@@ -274,7 +274,14 @@ the same way as TypeScript (new concepts explained the first time they appear).
    PlaywrightRunner (same file): runs the repo's own Playwright (node + cli.js, no shell,
    --reporter=json --grep <tags>, NO_COLOR, 30-min timeout); exit 1 with a report = a result;
    no report or 0 tests with errors ("No tests found", broken config) = a QaError. Tried for
-   real: @smoke on chromium 4/4 in 7s. Next: the command (src/run/, cli, exit code).
+   real: @smoke on chromium 4/4 in 7s.
+   The command works (2026-10-31): `qa run --smoke|--regression|--tag <t...> [--project] [--workers]
+   [--json]`; formatRunSummary (src/run/run.ts) lists failed and flaky tests with file:line and
+   the first error lines; exit 1 only if a test failed (flaky passed, so it doesn't fail CI);
+   config `runner` lets a tester plug in their own TestRunner. Real runs: --smoke chromium 4/4;
+   --regression with the repo's settings (3 browsers, parallel) 21/21 in 24s; a temporary
+   failing + flaky sample (CI=1 for retries) showed both groups and exit 1, then deleted.
+   Open: unit tests for formatRunSummary; README; then the next LinkedIn post (qa run).
 4. Better evaluation: synthetic goldens → Prompt Alignment → review prompt v4.
    After Part 2, so the Synthesizer serves all three prompts (review, cases, automate).
 5. Safety evals (PII + prompt injection). Before any command that writes AI output to Jira

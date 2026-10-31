@@ -203,3 +203,17 @@
 - A manual `qa review TOOL-3` after the evals said "Not ready"; the golden says "Ready with
   questions", and all 3 eval runs agreed with the golden. One flip in about 4 runs: a borderline
   story, worth watching.
+
+## 2026-10-31 — `qa run`
+
+- Design first, written into CLAUDE.md: TestRunner contract + Playwright adapter, no AI (the AI
+  part is `qa triage`), exit 1 only when a test fails, flaky tests as their own group.
+- Looked at Playwright's real JSON report before writing the parser, with a temporary sample test
+  (one failing, one flaky, one skipped). It held surprises: tags come without "@", files are
+  relative to testDir, statuses are expected/unexpected/flaky/skipped, errors keep colour codes
+  even with NO_COLOR, describe() blocks nest. A guessed parser would have got most of them wrong.
+- The parser is a pure function, tested on that real report (personal paths removed).
+- "No tests found" comes back as an error inside the report with exit 1: qa says so, instead of
+  "0 tests, all fine".
+- Real runs: --smoke on chromium 4/4; --regression with the repo's own settings, 3 browsers in
+  parallel, 21/21 in 24s (the demo server held up this time).

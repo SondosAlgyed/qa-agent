@@ -1,5 +1,6 @@
 import type { TicketSystem } from "../trackers/types.js";
 import type { LLMProvider } from "../llm/types.js";
+import type { TestRunner } from "../runners/types.js";
 
 export interface JiraTrackerConfig {
   type: "jira";
@@ -28,4 +29,6 @@ export interface QaConfig {
   repo?: string;
   // The app under test. qa automate's agent may only open pages from here.
   appUrl?: string;
+  // How qa run runs the tests. Default: the project's own Playwright.
+  runner?: TestRunner;
 }

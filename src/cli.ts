@@ -10,6 +10,8 @@ import { QaError } from "./core/errors.js";
 import { writeTestCases } from "./core/cases.js";
 import { MarkdownTestCaseStore } from "./stores/markdown.js";
 import { automateTestCase } from "./automate/automate.js";
+import { createTestRunner } from "./runners/factory.js";
+import { formatRunSummary } from "./run/run.js";
 
 dotenv.config({ quiet: true });
 
@@ -132,6 +134,42 @@ program
     if (!result.finished) console.log("The agent hit the turn limit before finishing.");
     if (result.passedRuns < 3) process.exitCode = 1;
   });
+
+program
+  .command("run")
+  .description("Run the project's tests by tag and summarise the results (no AI)")
+  .option("--smoke", "tests tagged @smoke")
+  .option("--regression", "tests tagged @regression")
+  .option("--tag <tag...>", "tests with any of these tags, e.g. --tag @checkout")
+  .option("--project <name>", "only this project from the Playwright config, e.g. chromium")
+  .option("--workers <n>", "how many tests run at once (the repo's config by default)")
+  .option("--json", "print the result as JSON (for scripts and CI)")
+  .action(
+    async (options: { smoke?: boolean; regression?: boolean; tag?: string[]; project?: string; workers?: string; json?: boolean }) => {
+      const tags = [
+        ...(options.smoke ? ["@smoke"] : []),
+        ...(options.regression ? ["@regression"] : []),
+        ...(options.tag ?? []).map((tag) => (tag.startsWith("@") ? tag : `@${tag}`)),
+      ];
+      if (tags.length === 0) {
+        throw new QaError("Choose what to run: --smoke, --regression, or --tag <tag>.");
+      }
+      const workers = options.workers === undefined ? undefined : Number(options.workers);
+      if (workers !== undefined && !(Number.isInteger(workers) && workers > 0)) {
+        throw new QaError(`--workers must be a whole number above 0, not "${options.workers}".`);
+      }
+
+      const config = await loadConfig();
+      const runner = createTestRunner(config);
+      if (!options.json) console.log(`Running ${tags.join(" ")} tests...\n`);
+
+      const result = await runner.run({ tags, project: options.project, workers });
+
+      console.log(options.json ? JSON.stringify({ tags, ...result }, null, 2) : formatRunSummary(result, tags));
+      // CI reads the exit code: a failed test fails the build. Flaky passed, so it doesn't.
+      if (result.failed > 0) process.exitCode = 1;
+    },
+  );
 
 // Expected errors (QaError) print one clear line on stderr and exit with code 1.
 // Anything else is a bug, so it keeps its full stack trace.
