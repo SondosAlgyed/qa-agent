@@ -324,6 +324,11 @@ the same way as TypeScript (new concepts explained the first time they appear).
    API https://api-with-bugs.practicesoftwaretesting.com). Design agreed (see below).
    Done: TestOutcome.fullError (colour-free, capped at 4000 chars) and errorAt (file:line of the
    failing check, can differ from the test's line); 24 unit tests. Also in qa run --json.
+   src/triage/evidence.ts: loadRun (reads run.json, clear errors), gatherEvidence (failed +
+   flaky only; code read through TargetRepo, so a path in run.json can't leave the project),
+   codeAround (±15 numbered lines, failing line marked >), errorHint (locator / network /
+   timeout / assertion / no clear pattern: a hint for the model, not a verdict). 27 unit tests.
+   Next: the prompt + JSON schema, one call per failure.
 4. Better evaluation: synthetic goldens → Prompt Alignment → review prompt v4.
    After Part 2, so the Synthesizer serves all three prompts (review, cases, automate).
 5. Safety evals (PII + prompt injection). Before any command that writes AI output to Jira
