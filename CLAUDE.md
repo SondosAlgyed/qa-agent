@@ -204,6 +204,21 @@ the same way as TypeScript (new concepts explained the first time they appear).
   result (validate against my judgments). Use test cases with no existing hand-written test
   (TOOL-4 filters, TOOL-2 registration, TOOL-8 removing an item), so it can't copy one.
 
+## `qa run` design (agreed 2026-10-31)
+- Command: `qa run --smoke | --regression | --tag <tag>`, optional `--project`, `--workers`,
+  `--json`. Exit code 1 if any test failed (for CI).
+- `TestRunner` contract (src/runners/types.ts) + Playwright adapter (src/runners/playwright.ts),
+  like trackers/. The command's logic in src/run/ (one folder per command).
+- Playwright adapter: fixed command, no shell: `playwright test --grep <tag> --reporter=json`,
+  then parse the JSON. It never changes the repo's config; only what the user passes
+  (--project, --workers).
+- RunResult: total, passed, failed, flaky, skipped, seconds; per test: title, file:line, tags,
+  project, status, retries, first error lines. Flaky (failed, then passed on retry) is its own
+  group: the starting point for `qa triage`.
+- No AI in v1: the summary is plain code. The AI part is `qa triage`, a separate command.
+- Tests: unit tests on the parser with real Playwright JSON, plus real runs on toolshop-tests
+  (4 @smoke, 7 @regression, 3 browsers). No DeepEval: nothing to judge.
+
 ## Eval Monitor / `qa ui` design (agreed 2026-10-29)
 - Architecture: CLI + local web UI (same pattern as `playwright test --ui`).
   `qa ui` starts a server; the browser page calls it; the server calls the same plain
@@ -231,7 +246,7 @@ the same way as TypeScript (new concepts explained the first time they appear).
   VS Code extension only (ties users to one editor).
 
 ## Later steps (continuing the list above)
-3. `qa run --smoke | --regression`.
+3. `qa run --smoke | --regression`: design agreed 2026-10-31 (see below), building now.
 4. Better evaluation: synthetic goldens → Prompt Alignment → review prompt v4.
    After Part 2, so the Synthesizer serves all three prompts (review, cases, automate).
 5. Safety evals (PII + prompt injection). Before any command that writes AI output to Jira
