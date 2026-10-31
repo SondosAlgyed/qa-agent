@@ -219,6 +219,23 @@ the same way as TypeScript (new concepts explained the first time they appear).
 - Tests: unit tests on the parser with real Playwright JSON, plus real runs on toolshop-tests
   (4 @smoke, 7 @regression, 3 browsers). No DeepEval: nothing to judge.
 
+## `qa triage` design (agreed 2026-10-31)
+- Input: a saved `qa run --json` file, not a new run: `qa run --regression --json > run.json`,
+  then `qa triage run.json`. We classify the failures that happened; a re-run could change them
+  (flaky). Fits CI: one run, triage reads its file.
+- Categories: real bug / flaky / broken script / unclear. "unclear" is allowed on purpose,
+  like "not specified in the story" in cases. Each failure gets: category, confidence, reason,
+  the evidence it used, a next step.
+- Evidence gathered by plain code; the model only judges: the full error (TestOutcome gets a
+  full-error field; `error` stays 3 lines), the test's code around the failing line, status and
+  retries (passed on retry = strong flaky signal), error type as a hint (locator not found →
+  likely broken script; expected X got Y → likely bug).
+- One structured-output call per failure (like cases), on the subscription. An agent (page
+  snapshot, page objects) only if this evidence turns out not to be enough.
+- Evals: toolshop-tests against the buggy Toolshop → real bugs; copies with broken locators →
+  broken scripts; retry-dependent tests → flaky. I label every failure myself; the main check is
+  a plain assertion (category == my label).
+
 ## Eval Monitor / `qa ui` design (agreed 2026-10-29)
 - Architecture: CLI + local web UI (same pattern as `playwright test --ui`).
   `qa ui` starts a server; the browser page calls it; the server calls the same plain
@@ -304,7 +321,7 @@ the same way as TypeScript (new concepts explained the first time they appear).
    qa run's output while that's fresh, completes the chain review → cases → automate → run →
    triage, and only prints locally (no Jira writes), so it doesn't need the safety evals first.
    Golden set: Toolshop's buggy version is up (https://with-bugs.practicesoftwaretesting.com,
-   API https://api-with-bugs.practicesoftwaretesting.com). Design next.
+   API https://api-with-bugs.practicesoftwaretesting.com). Design agreed (see below).
 4. Better evaluation: synthetic goldens → Prompt Alignment → review prompt v4.
    After Part 2, so the Synthesizer serves all three prompts (review, cases, automate).
 5. Safety evals (PII + prompt injection). Before any command that writes AI output to Jira
