@@ -77,3 +77,44 @@ export async function triageFailure(e: Evidence, llm: LLMProvider): Promise<Tria
   const answer = await llm.complete(SYSTEM_PROMPT, buildPrompt(e), { jsonSchema: TRIAGE_SCHEMA });
   return JSON.parse(answer) as Triage;
 }
+
+export interface TriagedTest {
+  test: Evidence["test"];
+  triage: Triage;
+}
+
+// One call per failure, one after another (a subscription has usage limits;
+// a run rarely has many failures)
+export async function triageAll(
+  evidence: Evidence[],
+  llm: LLMProvider,
+  onEach?: (done: number, total: number) => void,
+): Promise<TriagedTest[]> {
+  const triaged: TriagedTest[] = [];
+  for (const e of evidence) {
+    triaged.push({ test: e.test, triage: await triageFailure(e, llm) });
+    onEach?.(triaged.length, evidence.length);
+  }
+  return triaged;
+}
+
+// The human-readable report. A plain function, so a UI can reuse it.
+export function formatTriage(triaged: TriagedTest[]): string {
+  if (triaged.length === 0) return "No failed or flaky tests: nothing to triage.";
+  const lines = [`Triaged ${triaged.length} ${triaged.length === 1 ? "failure" : "failures"}:`];
+  triaged.forEach(({ test, triage }, i) => {
+    lines.push(
+      "",
+      `${i + 1}. ${test.file}:${test.line} [${test.project}] ${test.title}`,
+      `   ${triage.category.toUpperCase()} (${triage.confidence} confidence)`,
+      `   Why: ${triage.reason}`,
+      `   Evidence: ${triage.evidence}`,
+      `   Next: ${triage.next_step}`,
+    );
+  });
+  const counts = (["real bug", "broken script", "flaky", "unclear"] as const)
+    .map((c) => `${c} ${triaged.filter((t) => t.triage.category === c).length}`)
+    .join(" · ");
+  lines.push("", counts);
+  return lines.join("\n");
+}

@@ -57,7 +57,9 @@ export function codeAround(source: string, line: number, context = 15): string {
 // A first guess from the error text. Only a hint for the model: e.g. a timeout can be
 // a slow server (flaky) or a missing element (broken script or a real bug).
 export function errorHint(error: string): string {
-  if (/strict mode violation|resolved to \d+ elements|locator\.\w+: Timeout|waiting for (get|locator)|element\(s\) not found/i.test(error)) {
+  // Every expect() call log says "waiting for locator(...)", so that alone means nothing:
+  // a locator problem is an element that was never found, or found more than once
+  if (/strict mode violation|locator\.\w+: Timeout|element\(s\) not found/i.test(error)) {
     return "locator problem: the element wasn't found or matched more than one";
   }
   if (/net::ERR_|ECONNRESET|ECONNREFUSED|socket hang up|50[234]\b/i.test(error)) {

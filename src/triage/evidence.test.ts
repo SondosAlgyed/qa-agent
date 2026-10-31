@@ -21,6 +21,11 @@ test("errorHint recognises the common kinds of Playwright errors", () => {
   assert.match(errorHint("Test timeout of 30000ms exceeded."), /timeout/);
   assert.match(errorHint("Error: expect(received).toBe(expected)\n\nExpected: 3\nReceived: 2"), /assertion/);
   assert.match(errorHint("something else"), /no clear pattern/);
+  // A real toHaveCount failure: its call log mentions the locator, but the locator worked
+  assert.match(
+    errorHint("Error: expect(locator).toHaveCount(expected) failed\n\nLocator:  locator('.card')\nExpected: 7\nReceived: 9\n\nCall log:\n  - waiting for locator('.card')\n    9 × locator resolved to 9 elements"),
+    /assertion/,
+  );
 });
 
 const outcome = (overrides: Partial<TestOutcome>): TestOutcome => ({

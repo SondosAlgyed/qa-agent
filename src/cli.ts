@@ -12,6 +12,9 @@ import { MarkdownTestCaseStore } from "./stores/markdown.js";
 import { automateTestCase } from "./automate/automate.js";
 import { createTestRunner } from "./runners/factory.js";
 import { formatRunSummary } from "./run/run.js";
+import { gatherEvidence, loadRun } from "./triage/evidence.js";
+import { formatTriage, triageAll } from "./triage/triage.js";
+import { TargetRepo } from "./automate/repo.js";
 
 dotenv.config({ quiet: true });
 
@@ -170,6 +173,30 @@ program
       if (result.failed > 0) process.exitCode = 1;
     },
   );
+
+program
+  .command("triage")
+  .description("Classify each failed or flaky test of a saved run: real bug, flaky, broken script, or unclear")
+  .argument("<run-file>", "a file saved with: qa run --regression --json > run.json")
+  .option("--json", "print the result as JSON (for scripts and evals)")
+  .action(async (runFile: string, options: { json?: boolean }) => {
+    const run = await loadRun(runFile);
+    const config = await loadConfig();
+    const evidence = await gatherEvidence(run, new TargetRepo(config.repo ?? "."));
+    const llm = evidence.length > 0 ? createLLMProvider(config) : undefined;
+
+    const triaged = llm
+      ? await triageAll(evidence, llm, (done, total) => {
+          if (!options.json) console.log(`Triaged ${done} of ${total}...`);
+        })
+      : [];
+
+    if (options.json) {
+      console.log(JSON.stringify(triaged, null, 2));
+      return;
+    }
+    console.log(`\n${formatTriage(triaged)}`);
+  });
 
 // Expected errors (QaError) print one clear line on stderr and exit with code 1.
 // Anything else is a bug, so it keeps its full stack trace.

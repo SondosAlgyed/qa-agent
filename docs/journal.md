@@ -217,3 +217,12 @@
   "0 tests, all fine".
 - Real runs: --smoke on chromium 4/4; --regression with the repo's own settings, 3 browsers in
   parallel, 21/21 in 24s (the demo server held up this time).
+- `qa triage` (design moved up, before better evaluation): evidence gathered by plain code
+  (full error, the code around the failing line read through TargetRepo, a hint from the error
+  text), then one structured-output call per failure. Prompt v1 committed on its own (d061cf9).
+- First real try on 3 temporary samples: all "broken script", 53s on the subscription. The run
+  taught three things. My error hint called a toHaveCount failure a "locator problem", because
+  every expect() call log says "waiting for locator": fixed, with a test. The model used things it
+  knew about Toolshop ("the button says Add to cart") although the prompt says evidence only.
+  And my "flaky" sample was not flaky at all: its own code forced a 1ms timeout, so the model was
+  right. Goldens for triage need real causes, not tricks inside the test.
