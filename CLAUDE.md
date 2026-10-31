@@ -247,6 +247,11 @@ the same way as TypeScript (new concepts explained the first time they appear).
 
 ## Later steps (continuing the list above)
 3. `qa run --smoke | --regression`: design agreed 2026-10-31 (see below), building now.
+   Done: TestRunner contract (src/runners/types.ts); parseReport (src/runners/playwright.ts) +
+   4 unit tests on a real report (fixture: failed, flaky, skipped, passed, describe block).
+   Learned from the real JSON: tags come without @, files are relative to testDir, statuses are
+   expected/unexpected/flaky/skipped, error messages keep colour codes even with NO_COLOR.
+   Next: the adapter that runs playwright (fixed command, no shell), then the command.
 4. Better evaluation: synthetic goldens → Prompt Alignment → review prompt v4.
    After Part 2, so the Synthesizer serves all three prompts (review, cases, automate).
 5. Safety evals (PII + prompt injection). Before any command that writes AI output to Jira
