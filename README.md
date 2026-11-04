@@ -25,6 +25,7 @@ Early development. What works today:
 - The same evals on `claude-code` (subscription): review 24 of 24 verdicts, cases 24 of 24, automate 9 of 9, the same as on the API. Comparison: [docs/metrics.md](docs/metrics.md).
 
 - `qa run --smoke | --regression | --tag <tag>` runs your project's tests by tag with your own Playwright and config, and prints a summary: how many passed, failed, were flaky (failed, then passed on a retry) or skipped, then every failed and flaky test with `file:line`, browser, and the first lines of its error. Add `--project chromium` or `--workers 1` to narrow a run, `--json` for scripts. It exits with code 1 if a test failed, so CI can use it. No AI involved. The runner sits behind a `TestRunner` contract (Playwright adapter built in; plug in your own through `runner` in qa.config.ts).
+- `qa triage run.json` classifies every failed or flaky test of a saved run (`qa run --regression --json > run.json`) as a real bug, flaky, a broken script, or unclear, with its confidence, the reason, the error or code line the decision rests on, and a next step. The evidence is gathered by plain code (the full error, including the action that hung on a timeout, and the code around the failing line); the AI only judges, one call per failure. "Unclear" is a valid answer: it says so instead of guessing. The error text and test code are treated as data, never as instructions. Add `--json` for scripts and evals. Not evaluated yet: the eval (8 failures from Toolshop's buggy version, labelled by hand) is written and about to run.
 
 ## Running the evals
 
@@ -36,6 +37,7 @@ evals/.venv/Scripts/python.exe -m pip install -r evals/requirements.txt   # on m
 evals/.venv/Scripts/python.exe -m pytest evals/test_review.py -v -s
 evals/.venv/Scripts/python.exe -m pytest evals/test_cases.py -v
 evals/.venv/Scripts/python.exe -m pytest evals/test_automate.py -s   # needs the target repo committed and clean
+evals/.venv/Scripts/python.exe -m pytest evals/test_triage.py -v     # the failing tests' files must not have changed since labelling
 npm run test:unit                                                     # unit tests for the agent's limits
 ```
 
@@ -87,6 +89,9 @@ src/
 │   └── factory.ts    # picks the test runner
 ├── run/
 │   └── run.ts        # qa run summary
+├── triage/
+│   ├── evidence.ts   # reads run.json, gathers the evidence for each failure
+│   └── triage.ts     # triage prompt, one call per failure, the report
 ├── llm/
 │   ├── types.ts      # LLMProvider contract
 │   ├── claude.ts     # Claude adapter (Anthropic API)
@@ -100,11 +105,13 @@ evals/                # Python evals (never imported by src/)
 ├── goldens/review.json   # 8 stories: Jira snapshot + expected verdict
 ├── goldens/cases.json    # same 8 stories + expected acceptance criteria
 ├── goldens/automate.json # 3 reviewed TOOL-4 test cases + expected page object and tag
+├── goldens/triage.json   # 8 failures on Toolshop's buggy version + my label for each
 ├── run_cli.py        # runs qa review / qa cases --json
 ├── judges.py         # G-Eval judges (Blocking findings, invented requirements)
 ├── test_review.py    # the review eval (pytest)
 ├── test_cases.py     # the cases eval (pytest)
 ├── test_automate.py  # the automate eval (pytest)
+├── test_triage.py    # the triage eval (pytest)
 ├── validate_judge.py        # compares the review judge with my own judgments
 └── validate_cases_judge.py  # compares the cases judge with my own judgments
 ```
