@@ -230,7 +230,11 @@ the same way as TypeScript (new concepts explained the first time they appear).
   browser failed to launch, a locked or expired shared account, missing test data). Flaky stays
   for timing and test isolation (a race, a too-short wait, tests that affect each other). Why: a
   flaky test needs someone to fix the test; an environment failure needs ops or just a re-run, so
-  the two go to different people. Post 3 promises it. Needs prompt v2 and relabelling api.spec.ts:3.
+  the two go to different people. Post 3 promises it. Done: api.spec.ts:3 relabelled environment
+  (7f21bd7, before any v2 run); triage prompt v2 (0ec0f8a) = v1 + environment, nothing else.
+  v1 + page snapshot eval (b38b2e5): real bugs 9/9 (were 2/9), but login 0/6 (the model calls the
+  Not Found page a real bug). Label kept; whether "real bug" should be accepted for login is an
+  open question, to decide on the facts, not on the model's answer.
 - Categories: real bug / flaky / broken script / unclear. "unclear" is allowed on purpose,
   like "not specified in the story" in cases. Each failure gets: category, confidence, reason,
   the evidence it used, a next step.
