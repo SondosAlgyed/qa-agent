@@ -370,3 +370,28 @@ gone when the snapshot is taken (5s later). Cart would need the network (the add
 Also: pytest reported 2 of the 3 runs' first call as a RuntimeError (qa triage failed and was called
 again by the next case); the message was cut from the log, so the cause is unknown. The eval took 23
 minutes. Next: add the page snapshot to the evidence, prompt unchanged, and measure again.
+
+### Prompt v1 + the page snapshot as evidence, 2026-11-04, claude-code, 3 runs
+
+System prompt unchanged (v1 text); the evidence now ends with the page's accessibility tree at the
+failure (`1ff3420`). Run file re-made (`afd56ff`): the 8 failures plus a 9th, api.spec.ts:3 (423
+Locked on a shared demo account, labelled flaky). Raw outputs: `docs/triage-runs/2026-11-04-1ff3420/`.
+No crashes this time. 11 minutes.
+
+| Case | Label | Run 1 | Run 2 | Run 3 | Before (no page) |
+|------|-------|-------|-------|-------|------------------|
+| cart | real bug | ✓ | ✓ | ✓ | 1 of 3 |
+| TOOL-8 TC-2 | real bug | ✓ | ✓ | ✓ | 1 of 3 |
+| search | real bug (or unclear) | ✓ | ✓ | ✓ | 1 of 3 |
+| login ×2 | broken script (or unclear) | real bug ×2 | real bug ×2 | real bug ×2 | 6 of 6 |
+| products-mock, TOOL-4 ×2 | broken script | ✓ ✓ ✓ | ✓ ✓ ✓ | ✓ ✓ ✓ | 9 of 9 |
+| api (new) | flaky | ✓ | broken script | broken script | – |
+
+**The same 8 cases: 18 of 24, as before, but different misses.** Real bugs went from 2 of 9 to 9 of 9.
+Login went from 6 of 6 to 0 of 6: with the page in view, the model sees the server's "Not Found" and
+calls it a real bug (the app broke the login URL). My label says broken script: this version serves
+login at /#/auth/login, so the test opens a URL that doesn't exist here. I had noted it as borderline
+when labelling. I am NOT changing the label after seeing the model's answer; whether to accept
+"real bug" there is a question to decide on the facts, separately. All 9: 19 of 27.
+The flaky case (423, failed on every attempt) was found once; the other two said broken script.
+That case is an environment failure, and the next prompt (v2) gets an environment category.
