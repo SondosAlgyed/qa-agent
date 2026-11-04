@@ -41,6 +41,35 @@ test("the full error and where it failed are kept for triage", () => {
   assert.equal(byTitle("passes").fullError, undefined);
 });
 
+test("a test timeout keeps the action that hung and where", () => {
+  // The shape of a real report for a test that ran out of time (two errors, one located)
+  const timeout: PwReport = {
+    config: { rootDir: "/repo/tests" },
+    errors: [],
+    stats: { duration: 30000 },
+    suites: [{
+      specs: [{
+        title: "logs in", file: "login.spec.ts", line: 3, tags: [],
+        tests: [{
+          projectName: "chromium", status: "unexpected",
+          results: [{
+            status: "timedOut",
+            errors: [
+              { message: "Test timeout of 30000ms exceeded." },
+              { message: "Error: locator.fill: Test timeout of 30000ms exceeded.\nCall log:\n  - waiting for getByRole('textbox', { name: 'Email address' })",
+                location: { file: "/repo/pages/login-page.ts", line: 21 } },
+            ],
+          }],
+        }],
+      }],
+    }],
+  };
+  const hung = parseReport(timeout, path.resolve("/repo")).tests[0]!;
+  assert.match(hung.fullError!, /Test timeout of 30000ms exceeded\.\n\nError: locator\.fill/);
+  assert.match(hung.fullError!, /waiting for getByRole\('textbox', \{ name: 'Email address' \}\)/);
+  assert.deepEqual(hung.errorAt, { file: "pages/login-page.ts", line: 21 });
+});
+
 test("errors are short and have no colour codes", () => {
   const error = byTitle("always fails").error!;
   assert.doesNotMatch(error, /\u001b/);

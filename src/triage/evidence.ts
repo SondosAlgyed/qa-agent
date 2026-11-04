@@ -59,7 +59,9 @@ export function codeAround(source: string, line: number, context = 15): string {
 export function errorHint(error: string): string {
   // Every expect() call log says "waiting for locator(...)", so that alone means nothing:
   // a locator problem is an element that was never found, or found more than once
-  if (/strict mode violation|locator\.\w+: Timeout|element\(s\) not found/i.test(error)) {
+  // "locator.click: Timeout 5000ms exceeded" or, when the whole test ran out of time,
+  // "locator.fill: Test timeout of 30000ms exceeded"
+  if (/strict mode violation|locator\.\w+: (test )?timeout|element\(s\) not found/i.test(error)) {
     return "locator problem: the element wasn't found or matched more than one";
   }
   if (/net::ERR_|ECONNRESET|ECONNREFUSED|socket hang up|50[234]\b/i.test(error)) {

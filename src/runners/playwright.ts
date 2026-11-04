@@ -139,8 +139,17 @@ export function parseReport(report: PwReport, repoRoot: string): RunResult {
 // Enough for triage to read the whole assertion and call log, short enough for a prompt
 const MAX_FULL_ERROR = 4000;
 
+// The errors of the first attempt that failed, as one. A test timeout gives two:
+// "Test timeout of 30000ms exceeded." (no location) and the action that hung, e.g.
+// "locator.fill: ... waiting for getByRole(...)" with its file and line. The second
+// is the useful one, so all messages are kept and the location comes from any of them.
 function firstError(results: PwResult[]): PwError | undefined {
-  return results.flatMap((r) => r.errors).find((e) => e.message);
+  const errors = results.find((r) => r.errors.some((e) => e.message))?.errors ?? [];
+  if (errors.length === 0) return undefined;
+  return {
+    message: errors.map((e) => e.message).filter(Boolean).join("\n\n"),
+    location: errors.find((e) => e.location)?.location,
+  };
 }
 
 // The first lines, for the summary

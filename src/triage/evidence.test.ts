@@ -19,6 +19,8 @@ test("errorHint recognises the common kinds of Playwright errors", () => {
   assert.match(errorHint("Error: strict mode violation: getByText('Pliers') resolved to 2 elements"), /locator/);
   assert.match(errorHint("Error: page.goto: net::ERR_CONNECTION_RESET"), /network/);
   assert.match(errorHint("Test timeout of 30000ms exceeded."), /timeout/);
+  // A test timeout whose hanging action was waiting for an element
+  assert.match(errorHint("Test timeout of 30000ms exceeded.\n\nError: locator.fill: Test timeout of 30000ms exceeded."), /locator/);
   assert.match(errorHint("Error: expect(received).toBe(expected)\n\nExpected: 3\nReceived: 2"), /assertion/);
   assert.match(errorHint("something else"), /no clear pattern/);
   // A real toHaveCount failure: its call log mentions the locator, but the locator worked
