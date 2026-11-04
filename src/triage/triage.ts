@@ -70,6 +70,9 @@ export function buildPrompt(e: Evidence): string {
     "",
     `Code around the failing line (${(t.errorAt ?? t).file}):`,
     e.code,
+    // What the page showed when the test failed: the difference between "the locator is
+    // wrong" and "the app didn't show what it should"
+    ...(t.pageSnapshot ? ["", "The page when the test failed (accessibility tree):", t.pageSnapshot] : []),
   ].join("\n");
 }
 

@@ -70,6 +70,34 @@ test("a test timeout keeps the action that hung and where", () => {
   assert.deepEqual(hung.errorAt, { file: "pages/login-page.ts", line: 21 });
 });
 
+test("the page snapshot of the failed attempt is kept (only its yaml block)", () => {
+  const report: PwReport = {
+    config: { rootDir: "/repo/tests" },
+    errors: [],
+    stats: { duration: 1000 },
+    suites: [{
+      specs: [{
+        title: "searches", file: "search.spec.ts", line: 3, tags: [],
+        tests: [{
+          projectName: "chromium", status: "unexpected",
+          results: [{
+            status: "failed",
+            errors: [{ message: "Error: locator.fill: Test timeout" }],
+            attachments: [{ name: "error-context", path: "/repo/test-results/search/error-context.md" }],
+          }],
+        }],
+      }],
+    }],
+  };
+  // The shape of Playwright's error-context file: instructions, the error, the page, the code
+  const errorContext = "# Instructions\n- Explain why\n\n# Error details\n```\nError: ...\n```\n\n```yaml\n- heading \"Search\" [level=4]\n- textbox [ref=e59]\n```\n\n# Test source\n```ts\ncode\n```";
+  const read = (file: string) => (file === "/repo/test-results/search/error-context.md" ? errorContext : undefined);
+  const parsed = parseReport(report, path.resolve("/repo"), read).tests[0]!;
+  assert.equal(parsed.pageSnapshot, '- heading "Search" [level=4]\n- textbox [ref=e59]');
+  // Without a reader (or a file), there's no snapshot, and nothing breaks
+  assert.equal(parseReport(report, path.resolve("/repo")).tests[0]!.pageSnapshot, undefined);
+});
+
 test("errors are short and have no colour codes", () => {
   const error = byTitle("always fails").error!;
   assert.doesNotMatch(error, /\u001b/);

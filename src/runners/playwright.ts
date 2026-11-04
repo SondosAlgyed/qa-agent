@@ -1,5 +1,5 @@
 import { execFile } from "node:child_process";
-import { existsSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import path from "node:path";
 import { QaError } from "../core/errors.js";
 import type { RunOptions, RunResult, TestOutcome, TestRunner, TestStatus } from "./types.js";
@@ -13,6 +13,8 @@ interface PwError {
 interface PwResult {
   status: string;
   errors: PwError[];
+  // On a failure Playwright saves "error-context": the page's accessibility tree at that moment
+  attachments?: { name: string; path?: string }[];
 }
 
 interface PwTest {
@@ -82,7 +84,15 @@ export class PlaywrightRunner implements TestRunner {
     });
 
     const report = JSON.parse(stdout) as PwReport;
-    const result = parseReport(report, this.root);
+    // The snapshot is copied into the result: Playwright overwrites test-results/ on every run
+    const readSnapshot = (file: string) => {
+      try {
+        return readFileSync(file, "utf8");
+      } catch {
+        return undefined;
+      }
+    };
+    const result = parseReport(report, this.root, readSnapshot);
     // e.g. "No tests found", or a broken config: nothing ran, so say why
     if (result.total === 0 && report.errors.length > 0) {
       throw new QaError(`No tests ran: ${stripColours(report.errors[0]!.message ?? "unknown error").split("\n")[0]}`);
@@ -91,8 +101,13 @@ export class PlaywrightRunner implements TestRunner {
   }
 }
 
-// Turns Playwright's report into our RunResult. No I/O, so it's easy to test.
-export function parseReport(report: PwReport, repoRoot: string): RunResult {
+// Turns Playwright's report into our RunResult. No I/O of its own (the snapshot file is
+// read through readSnapshot), so it's easy to test.
+export function parseReport(
+  report: PwReport,
+  repoRoot: string,
+  readSnapshot: (file: string) => string | undefined = () => undefined,
+): RunResult {
   const tests: TestOutcome[] = [];
 
   // Paths relative to the repo, with "/" on every OS
@@ -104,8 +119,11 @@ export function parseReport(report: PwReport, repoRoot: string): RunResult {
       for (const test of spec.tests) {
         const status = STATUS[test.status];
         // For a flaky test, this is the error of the attempt that failed
-        const error = status === "failed" || status === "flaky" ? firstError(test.results) : undefined;
+        const failedAttempt = status === "failed" || status === "flaky" ? firstFailedAttempt(test.results) : undefined;
+        const error = failedAttempt ? joinErrors(failedAttempt) : undefined;
         const message = error?.message ? withoutRoot(stripColours(error.message), repoRoot) : undefined;
+        const snapshotFile = failedAttempt?.attachments?.find((a) => a.name === "error-context")?.path;
+        const snapshot = snapshotFile ? pageSnapshot(readSnapshot(snapshotFile)) : undefined;
         tests.push({
           title: spec.title,
           file,
@@ -117,6 +135,7 @@ export function parseReport(report: PwReport, repoRoot: string): RunResult {
           error: message ? shortError(message) : undefined,
           fullError: message?.slice(0, MAX_FULL_ERROR),
           errorAt: error?.location ? { file: relative(error.location.file), line: error.location.line } : undefined,
+          pageSnapshot: snapshot,
         });
       }
     }
@@ -139,17 +158,29 @@ export function parseReport(report: PwReport, repoRoot: string): RunResult {
 // Enough for triage to read the whole assertion and call log, short enough for a prompt
 const MAX_FULL_ERROR = 4000;
 
-// The errors of the first attempt that failed, as one. A test timeout gives two:
-// "Test timeout of 30000ms exceeded." (no location) and the action that hung, e.g.
-// "locator.fill: ... waiting for getByRole(...)" with its file and line. The second
-// is the useful one, so all messages are kept and the location comes from any of them.
-function firstError(results: PwResult[]): PwError | undefined {
-  const errors = results.find((r) => r.errors.some((e) => e.message))?.errors ?? [];
-  if (errors.length === 0) return undefined;
+// The first attempt that failed: for a flaky test, the one before the retry that passed
+function firstFailedAttempt(results: PwResult[]): PwResult | undefined {
+  return results.find((r) => r.errors.some((e) => e.message));
+}
+
+// The attempt's errors as one. A test timeout gives two: "Test timeout of 30000ms
+// exceeded." (no location) and the action that hung, e.g. "locator.fill: ... waiting for
+// getByRole(...)" with its file and line. The second is the useful one, so all messages
+// are kept and the location comes from any of them.
+function joinErrors(attempt: PwResult): PwError {
   return {
-    message: errors.map((e) => e.message).filter(Boolean).join("\n\n"),
-    location: errors.find((e) => e.location)?.location,
+    message: attempt.errors.map((e) => e.message).filter(Boolean).join("\n\n"),
+    location: attempt.errors.find((e) => e.location)?.location,
   };
+}
+
+// Playwright's error-context file holds instructions, the error, the page and the code;
+// we keep only the page (its yaml block), capped for the prompt
+const MAX_PAGE_SNAPSHOT = 6000;
+
+function pageSnapshot(errorContext: string | undefined): string | undefined {
+  const page = errorContext?.match(/```yaml\r?\n([\s\S]*?)\r?\n```/)?.[1];
+  return page?.slice(0, MAX_PAGE_SNAPSHOT);
 }
 
 // The first lines, for the summary

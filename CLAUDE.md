@@ -368,7 +368,11 @@ the same way as TypeScript (new concepts explained the first time they appear).
    calls them broken scripts because the evidence lacks the page ("nothing shows the app failed").
    Next: add Playwright's error-context.md (page snapshot at the failure) to the evidence, prompt
    unchanged, measure again. It proves search (unnamed textbox) and login (Not Found page), not
-   cart (the error toast is gone by then; cart needs the network response). 2 qa triage calls crashed (cause cut from the log). Details in metrics.
+   cart (the error toast is gone by then; cart needs the network response).
+   Done (2026-11-04): TestOutcome.pageSnapshot = the yaml block of Playwright's error-context.md for
+   the failed attempt, copied into the run (test-results/ is overwritten each run), capped at 6000
+   chars; parseReport reads it through a readSnapshot function (stays testable). buildPrompt adds it
+   after the code. System prompt unchanged (still v1 text). 33 unit tests. 2 qa triage calls crashed (cause cut from the log). Details in metrics.
 4. Better evaluation: synthetic goldens → Prompt Alignment → review prompt v4.
    After Part 2, so the Synthesizer serves all three prompts (review, cases, automate).
 5. Safety evals (PII + prompt injection). Before any command that writes AI output to Jira

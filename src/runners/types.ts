@@ -18,6 +18,7 @@ export interface TestOutcome {
   error?: string; // first lines of the error, for failed and flaky tests
   fullError?: string; // the whole error (capped), for qa triage
   errorAt?: { file: string; line: number }; // where it failed, e.g. the expect() line
+  pageSnapshot?: string; // the page's accessibility tree when it failed (capped), for qa triage
 }
 
 export interface RunResult {

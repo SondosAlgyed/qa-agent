@@ -28,6 +28,11 @@ test("the prompt has the full error, the hint, and the code where it failed", ()
   assert.match(prompt, /Code around the failing line \(pages\/login-page\.ts\):\n> 21 \|/);
 });
 
+test("the prompt shows the page when the test failed, if Playwright saved it", () => {
+  assert.match(buildPrompt(evidence({ pageSnapshot: '- heading "Search"\n- textbox' })), /The page when the test failed \(accessibility tree\):\n- heading "Search"\n- textbox$/);
+  assert.doesNotMatch(buildPrompt(evidence({})), /The page when the test failed/);
+});
+
 test("the report lists each failure with its verdict, then the counts", () => {
   const triaged: TriagedTest[] = [
     { test: outcome({}), triage: { category: "real bug", confidence: "high", reason: "r1", evidence: "e1", next_step: "n1" } },
