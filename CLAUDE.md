@@ -355,9 +355,13 @@ the same way as TypeScript (new concepts explained the first time they appear).
    'Email address' name. Confirmed by me 2026-11-04 → evals/goldens/triage.json: 3 real bug
    (cart, TOOL-8, search), 5 broken script (TOOL-4 ×2, products-mock, login ×2); login and search
    also accept "unclear" (borderline). Each case keeps a sha256 of its test file.
-   Found: for test timeouts the run keeps only "Test timeout of 30000ms exceeded" with no line;
-   Playwright's other errors (the action that hung) are dropped. Fix before the eval.
-   Then evals/test_triage.py.
+   Found: for test timeouts the run kept only "Test timeout of 30000ms exceeded" with no line;
+   Playwright's second error (the action that hung, with file:line) was dropped. Fixed (4123483):
+   all errors of the failing attempt are kept, errorAt from the located one. The golden run file is
+   being re-made with the fix (it was made with the old parser).
+   evals/test_triage.py written: one qa triage --json call per run covers all 8 cases; per case it
+   checks the test file's hash, then category == my label (or an accepted alternative), and that
+   evidence is quoted. Outputs saved to docs/triage-runs/. Not run yet (waits for the new run file).
 4. Better evaluation: synthetic goldens → Prompt Alignment → review prompt v4.
    After Part 2, so the Synthesizer serves all three prompts (review, cases, automate).
 5. Safety evals (PII + prompt injection). Before any command that writes AI output to Jira
