@@ -331,6 +331,9 @@ tests, 3 browsers in its config).
 | 2026-10-31 | `qa run --regression` (repo's settings: 3 browsers, parallel) | 21 of 21 passed | 24s | exit 0; the demo server held up this time |
 | 2026-10-31 | `qa run --tag qa-sample --project chromium` with CI=1 (retries on) | 1 failed, 1 flaky | 4s | a temporary sample test, deleted after; both groups listed with file:line and error; exit 1 |
 | 2026-10-31 | `qa run --tag nosuchtag` | "No tests ran: Error: No tests found" | – | exit 1, instead of "0 tests, all fine" |
+| 2026-11-04 | `qa run --regression` (now @regression + @smoke: 11 tests, 3 browsers) | 32 of 33 passed | 69s | exit 1; WebKit failed to launch (the machine was busy with the triage eval) |
+| 2026-11-04 | same, machine idle | 32 of 33 passed | 32s | exit 1; api.spec.ts:13 on WebKit: connect ETIMEDOUT to the demo API (environment) |
+| 2026-11-04 | `qa run --tag nosuchtag` with passWithNoTests in the config (restored after) | "No tests ran: Error: No tests found" | – | exit 1; zero tests is now always an error |
 
 ## Triage (qa triage)
 
