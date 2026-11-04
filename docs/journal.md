@@ -226,3 +226,23 @@
   knew about Toolshop ("the button says Add to cart") although the prompt says evidence only.
   And my "flaky" sample was not flaky at all: its own code forced a 1ms timeout, so the model was
   right. Goldens for triage need real causes, not tricks inside the test.
+
+## 2026-11-04 — Triage goldens and the first eval
+
+- Labelling the 8 failures on the buggy Toolshop: I asked Claude to judge, but triage itself runs
+  on Claude, so a label "because Claude thinks so" would test Claude against itself. Instead each
+  label was built on facts probed in both apps with Playwright (the buggy app shows "Oeps, something
+  went wrong." after Add to cart; it sends GET where the tests wait for QUERY; its search box has no
+  name; /auth/login is a 404 there), and I confirmed each one. Two borderline cases also accept
+  "unclear". Each case keeps a hash of its test file, so a changed test can't silently break a label.
+- Labelling showed the evidence was worse than I thought: for 5 of 8 failures the run file said
+  only "Test timeout of 30000ms exceeded". Playwright reports a second error, the action that hung
+  (e.g. waiting for the "Email address" textbox) with its file and line, and the parser dropped it.
+- First eval, prompt v1, 3 runs: 18/24. Every broken script right; real bugs found 2 of 9 times.
+  Each miss called a real bug a broken script, and the reasoning was sound for what it could see:
+  "the locator matched nothing, and nothing shows the app failed". The page wasn't in the evidence.
+- Next attempt changes the evidence, not the prompt: Playwright's error-context.md (the page's
+  accessibility tree at the failure). Checked first: it shows the unnamed search box and the login
+  "Not Found" page, but not the cart's error message, which is gone 5 seconds later. So I expect
+  search and login to improve and cart not to; cart would need the network response.
+- Lesson: when an AI judge is wrong, look at what it was given before changing what it was told.
