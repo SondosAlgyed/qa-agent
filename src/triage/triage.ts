@@ -1,7 +1,7 @@
 import type { LLMProvider } from "../llm/types.js";
 import type { Evidence } from "./evidence.js";
 
-export type Category = "real bug" | "flaky" | "broken script" | "unclear";
+export type Category = "real bug" | "flaky" | "broken script" | "environment" | "unclear";
 
 export interface Triage {
   category: Category;
@@ -17,17 +17,21 @@ Decide the most likely cause of the failure.
 Categories:
 - real bug: the app behaves wrongly. The test's check is reasonable and the app gave a different
   result, or a page or API the test needs is broken.
-- flaky: the failure depends on timing, the environment, or state shared with other tests, not on
-  the app's or the test's code. For example: a timeout on a slow server, a network error, a race.
+- flaky: the failure depends on timing or on how the tests run together, not on the app's or the
+  test's code. For example: a wait that is too short, a race, tests that change data another test
+  uses.
 - broken script: the test itself is wrong or out of date. For example: a locator that no longer
   matches, a wrong expected value, test data that doesn't exist, steps in the wrong order.
+- environment: something outside the app's and the test's code failed. For example: a network or
+  connection error (timeout, refused, DNS), the browser failing to start, a service the test
+  depends on being unavailable or rate-limiting, a shared account that is locked or expired.
 - unclear: the evidence doesn't point to one cause.
 
 Rules:
 1. Decide from the evidence given, nothing else. In "evidence", quote the error line or code line
    your decision rests on.
 2. A test that failed and then passed on a retry is flaky, unless the evidence clearly shows
-   another cause.
+   another cause (an environment failure can also pass on a retry).
 3. The hint is a first guess from the error text alone. Check it against the full error and the
    code; it can be wrong.
 4. A locator that matches nothing usually means the page changed or the locator is wrong (broken
@@ -43,7 +47,7 @@ Rules:
 const TRIAGE_SCHEMA = {
   type: "object",
   properties: {
-    category: { type: "string", enum: ["real bug", "flaky", "broken script", "unclear"] },
+    category: { type: "string", enum: ["real bug", "flaky", "broken script", "environment", "unclear"] },
     confidence: { type: "string", enum: ["high", "medium", "low"] },
     reason: { type: "string" },
     evidence: { type: "string" },
@@ -115,7 +119,7 @@ export function formatTriage(triaged: TriagedTest[]): string {
       `   Next: ${triage.next_step}`,
     );
   });
-  const counts = (["real bug", "broken script", "flaky", "unclear"] as const)
+  const counts = (["real bug", "broken script", "flaky", "environment", "unclear"] as const)
     .map((c) => `${c} ${triaged.filter((t) => t.triage.category === c).length}`)
     .join(" · ");
   lines.push("", counts);

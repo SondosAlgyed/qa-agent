@@ -41,6 +41,6 @@ test("the report lists each failure with its verdict, then the counts", () => {
   const report = formatTriage(triaged);
   assert.match(report, /^Triaged 2 failures:/);
   assert.match(report, /1\. tests\/login\.spec\.ts:3 \[chromium\] logs in\n {3}REAL BUG \(high confidence\)\n {3}Why: r1\n {3}Evidence: e1\n {3}Next: n1/);
-  assert.match(report, /real bug 1 · broken script 0 · flaky 0 · unclear 1$/);
+  assert.match(report, /real bug 1 · broken script 0 · flaky 0 · environment 0 · unclear 1$/);
   assert.equal(formatTriage([]), "No failed or flaky tests: nothing to triage.");
 });
