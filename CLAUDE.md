@@ -153,7 +153,9 @@ the same way as TypeScript (new concepts explained the first time they appear).
 - [x] LinkedIn post 2 (qa cases + qa automate) written 2026-10-29. Final text and the
       "Laptops" screenshot (a real re-run, not a mockup) are saved outside the repo in
       Documents/Qa_Agent/linkedin/. Rule I follow: every number in a post must already be
-      in docs/metrics.md and pushed. Next post: `qa run`.
+      in docs/metrics.md and pushed. Next post: `qa run`. Post 2 published on LinkedIn around
+      2026-10-29 (6 days old on 2026-11-04). Rhythm: about one post a week; post 3 (qa run) next,
+      post 4 (triage: evidence before prompt) after the snapshot eval.
 
 ## Next steps (in order)
 0. Waiting on me: cancel the Zephyr trial (or write to SmartBear support).
