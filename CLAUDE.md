@@ -344,8 +344,18 @@ the same way as TypeScript (new concepts explained the first time they appear).
    the buggy Toolshop, chromium, CI=1 (retries): 8 failed, 3 passed (the API tests hard-code the
    normal API), 0 flaky, 9m18s. Saved as evals/goldens/triage/with-bugs-run.json (paths made
    relative; the parser now strips the repo's full path from stack traces too).
-   Next: I label each of the 8 failures myself, before seeing any model or assistant opinion;
-   then evals/test_triage.py.
+   Labels: on 2026-11-04 I asked Claude to judge. Because triage itself runs on Claude, each
+   label is built on checked facts (the buggy app vs the normal one, probed with Playwright), and
+   I confirm each one. Facts so far: cart + TOOL-8 → the buggy app shows "Oeps, something went
+   wrong." after Add to cart (normal: "Product added to shopping cart."); filters (TOOL-4 TC-1/3) →
+   the buggy app sends GET /products?..., the tests wait for a QUERY request (results same as
+   normal); products-mock → route '**/products' doesn't match GET /products?between=..., so the
+   mock never applies; search → the input has no accessible name (data-test search-query only);
+   login → /auth/login is an Apache 404 there (it uses /#/auth/login) and the inputs have no
+   'Email address' name. Not confirmed by me yet.
+   Found: for test timeouts the run keeps only "Test timeout of 30000ms exceeded" with no line;
+   Playwright's other errors (the action that hung) are dropped. Fix before the eval.
+   Then evals/test_triage.py.
 4. Better evaluation: synthetic goldens → Prompt Alignment → review prompt v4.
    After Part 2, so the Synthesizer serves all three prompts (review, cases, automate).
 5. Safety evals (PII + prompt injection). Before any command that writes AI output to Jira
