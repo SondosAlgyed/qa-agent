@@ -93,9 +93,15 @@ export class PlaywrightRunner implements TestRunner {
       }
     };
     const result = parseReport(report, this.root, readSnapshot);
-    // e.g. "No tests found", or a broken config: nothing ran, so say why
-    if (result.total === 0 && report.errors.length > 0) {
-      throw new QaError(`No tests ran: ${stripColours(report.errors[0]!.message ?? "unknown error").split("\n")[0]}`);
+    // Nothing ran: never report that as a pass. Say why if Playwright did ("No tests found",
+    // a broken config); a config with passWithNoTests says nothing, so name the tags.
+    if (result.total === 0) {
+      const why = report.errors[0]?.message;
+      throw new QaError(
+        why
+          ? `No tests ran: ${stripColours(why).split("\n")[0]}`
+          : `No tests ran: none matched ${options.tags.join(" ")}${options.project ? ` in project ${options.project}` : ""}.`,
+      );
     }
     return result;
   }
