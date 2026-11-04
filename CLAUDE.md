@@ -226,6 +226,11 @@ the same way as TypeScript (new concepts explained the first time they appear).
 - Input: a saved `qa run --json` file, not a new run: `qa run --regression --json > run.json`,
   then `qa triage run.json`. We classify the failures that happened; a re-run could change them
   (flaky). Fits CI: one run, triage reads its file.
+- Decided 2026-11-04: a fifth category, environment (network/DNS errors, server or service down,
+  browser failed to launch, a locked or expired shared account, missing test data). Flaky stays
+  for timing and test isolation (a race, a too-short wait, tests that affect each other). Why: a
+  flaky test needs someone to fix the test; an environment failure needs ops or just a re-run, so
+  the two go to different people. Post 3 promises it. Needs prompt v2 and relabelling api.spec.ts:3.
 - Categories: real bug / flaky / broken script / unclear. "unclear" is allowed on purpose,
   like "not specified in the story" in cases. Each failure gets: category, confidence, reason,
   the evidence it used, a next step.
