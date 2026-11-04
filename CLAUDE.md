@@ -363,6 +363,11 @@ the same way as TypeScript (new concepts explained the first time they appear).
    checks the test file's hash, then category == my label (or an accepted alternative), and that
    evidence is quoted. Outputs saved to docs/triage-runs/. Not run yet (waits for the new run file).
    Unit tests for buildPrompt and formatTriage (31 unit tests in all).
+   Golden run file re-made with the fix (0cfd803): same 8 failures, timeouts now name what hung.
+   Eval, prompt v1, 3 runs (2026-11-04): 18/24. All broken scripts right; real bugs 2 of 9: it
+   calls them broken scripts because the evidence lacks the page ("nothing shows the app failed").
+   Next: add Playwright's error-context.md (page snapshot at the failure) to the evidence, prompt
+   unchanged, measure again. 2 qa triage calls crashed (cause cut from the log). Details in metrics.
 4. Better evaluation: synthetic goldens → Prompt Alignment → review prompt v4.
    After Part 2, so the Synthesizer serves all three prompts (review, cases, automate).
 5. Safety evals (PII + prompt injection). Before any command that writes AI output to Jira

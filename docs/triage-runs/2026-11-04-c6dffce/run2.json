@@ -1,0 +1,210 @@
+[
+  {
+    "test": {
+      "title": "guest can add a product to the cart",
+      "file": "tests/cart.spec.ts",
+      "line": 3,
+      "tags": [
+        "@smoke"
+      ],
+      "project": "chromium",
+      "status": "failed",
+      "retries": 2,
+      "error": "Error: expect(locator).toBeVisible() failed\nLocator: getByText('Product added to shopping cart.')\nExpected: visible",
+      "fullError": "Error: expect(locator).toBeVisible() failed\n\nLocator: getByText('Product added to shopping cart.')\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n  - Expect \"toBeVisible\" getByText('Product added to shopping cart.') with timeout 5000ms\n  - waiting for getByText('Product added to shopping cart.')\n\n\n   6 |   await page.getByRole('heading', { name: 'Combination Pliers' }).click();\n   7 |   await page.getByRole('button', { name: 'Add to cart' }).click();\n>  8 |   await expect(page.getByText('Product added to shopping cart.')).toBeVisible();\n     |                                                                   ^\n   9 |\n  10 |   await page.getByRole('link', { name: 'cart' }).click();\n  11 |   await expect(page.getByRole('cell', { name: 'Combination Pliers', exact: true })).toBeVisible();\n    at tests\\cart.spec.ts:8:67",
+      "errorAt": {
+        "file": "tests/cart.spec.ts",
+        "line": 8
+      }
+    },
+    "triage": {
+      "category": "broken script",
+      "confidence": "medium",
+      "reason": "Deterministic failure on all 3 attempts rules out flakiness. The preceding step `getByRole('button', { name: 'Add to cart' }).click()` succeeded, so the product page and button are intact; only the hard-coded toast string failed to match. `getByText('Product added to shopping cart.')` is a brittle substring match (trailing period included) and most likely no longer matches the app's confirmation text. Secondary possibility: the add-to-cart action genuinely failed so no toast was shown (real bug), but there is no network/console/API error in the evidence supporting that, and the actual cart assertions on lines 10-12 never ran.",
+      "evidence": "\"Locator: getByText('Product added to shopping cart.') / Expected: visible / Error: element(s) not found\" — while the prior line `await page.getByRole('button', { name: 'Add to cart' }).click();` passed without error.",
+      "next_step": "Open the Playwright trace/screenshot for the failed run at the moment after the \"Add to cart\" click and read the actual toast/alert text in the DOM; if a confirmation with different wording is present, update line 8 to match it (or assert the toast's role, e.g. `getByRole('alert')`). If no confirmation element appears at all and the cart stays empty, re-classify as a real bug."
+    }
+  },
+  {
+    "test": {
+      "title": "customer can log in with valid credentials",
+      "file": "tests/login.spec.ts",
+      "line": 3,
+      "tags": [
+        "@smoke"
+      ],
+      "project": "chromium",
+      "status": "failed",
+      "retries": 2,
+      "error": "Test timeout of 30000ms exceeded.\nError: locator.fill: Test timeout of 30000ms exceeded.\nCall log:",
+      "fullError": "Test timeout of 30000ms exceeded.\n\nError: locator.fill: Test timeout of 30000ms exceeded.\nCall log:\n  - waiting for getByRole('textbox', { name: 'Email address' })\n\n\n   at ..\\pages\\login-page.ts:21\n\n  19 |\n  20 |   async login(email: string, password: string) {\n> 21 |     await this.emailInput.fill(email);\n     |                           ^\n  22 |     await this.passwordInput.fill(password);\n  23 |     await this.loginButton.click();\n  24 |   }\n    at LoginPage.login (pages\\login-page.ts:21:27)\n    at tests\\login.spec.ts:4:19",
+      "errorAt": {
+        "file": "pages/login-page.ts",
+        "line": 21
+      }
+    },
+    "triage": {
+      "category": "broken script",
+      "confidence": "medium",
+      "reason": "The test failed identically on all 3 attempts, so it is not timing/environment flakiness. Navigation to '/auth/login' succeeded (no error at line 17); the failure is purely that the accessible-name lookup never resolved: the call log shows only \"waiting for getByRole('textbox', { name: 'Email address' })\". With no 404, console error, or DOM/screenshot evidence that the form should have rendered, rule 4 applies: a locator matching nothing points to the page's label text having changed (e.g. to just \"Email\", or the input losing its label association) rather than an app regression. Residual possibility: the login page rendered empty due to an app bug, which would look the same — hence medium, not high.",
+      "evidence": "Error: locator.fill: Test timeout of 30000ms exceeded. Call log: - waiting for getByRole('textbox', { name: 'Email address' }) — against pages/login-page.ts:10 `this.emailInput = page.getByRole('textbox', { name: 'Email address' });`",
+      "next_step": "Open the Playwright trace/screenshot for this run (or load /auth/login manually and inspect the email field's DOM and accessible name); if the field renders with a different label such as \"Email\", update the locator on pages/login-page.ts:10 to match."
+    }
+  },
+  {
+    "test": {
+      "title": "login fails with a wrong password",
+      "file": "tests/login.spec.ts",
+      "line": 12,
+      "tags": [
+        "@regression"
+      ],
+      "project": "chromium",
+      "status": "failed",
+      "retries": 2,
+      "error": "Test timeout of 30000ms exceeded.\nError: locator.fill: Test timeout of 30000ms exceeded.\nCall log:",
+      "fullError": "Test timeout of 30000ms exceeded.\n\nError: locator.fill: Test timeout of 30000ms exceeded.\nCall log:\n  - waiting for getByRole('textbox', { name: 'Email address' })\n\n\n   at ..\\pages\\login-page.ts:21\n\n  19 |\n  20 |   async login(email: string, password: string) {\n> 21 |     await this.emailInput.fill(email);\n     |                           ^\n  22 |     await this.passwordInput.fill(password);\n  23 |     await this.loginButton.click();\n  24 |   }\n    at LoginPage.login (pages\\login-page.ts:21:27)\n    at tests\\login.spec.ts:13:19",
+      "errorAt": {
+        "file": "pages/login-page.ts",
+        "line": 21
+      }
+    },
+    "triage": {
+      "category": "broken script",
+      "confidence": "medium",
+      "reason": "The test timed out purely waiting for the email field locator to resolve, identically on all 3 attempts, which rules out flakiness. There is no sign the page or API failed to load (no navigation/HTTP error), only that the accessible-name locator 'Email address' matched no element — the typical result of a renamed label or changed markup in the login form, i.e. a stale page object. A real app bug is possible but unsupported: nothing in the evidence shows the field was expected to render and the app failed to render it. The alternative (login page genuinely rendering empty/broken) can't be fully excluded without a trace/screenshot, hence medium confidence.",
+      "evidence": "\"Error: locator.fill: Test timeout of 30000ms exceeded. Call log: - waiting for getByRole('textbox', { name: 'Email address' })\" against the page-object line \"this.emailInput = page.getByRole('textbox', { name: 'Email address' });\"",
+      "next_step": "Open /auth/login manually (or the Playwright trace snapshot for this run) and inspect the email input's accessible name — if it now reads e.g. \"Email\" or lacks a label, update `emailInput` in pages/login-page.ts (and verify the Password/Login locators too)."
+    }
+  },
+  {
+    "test": {
+      "title": "home page shows a message when there are no products",
+      "file": "tests/products-mock.spec.ts",
+      "line": 3,
+      "tags": [
+        "@regression"
+      ],
+      "project": "chromium",
+      "status": "failed",
+      "retries": 2,
+      "error": "Error: expect(locator).toBeVisible() failed\nLocator: getByText('There are no products found.')\nExpected: visible",
+      "fullError": "Error: expect(locator).toBeVisible() failed\n\nLocator: getByText('There are no products found.')\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n  - Expect \"toBeVisible\" getByText('There are no products found.') with timeout 5000ms\n  - waiting for getByText('There are no products found.')\n\n\n   7 |   await page.goto('/');\n   8 |\n>  9 |   await expect(page.getByText('There are no products found.')).toBeVisible();\n     |                                                                ^\n  10 | });\n  11 |\n    at tests\\products-mock.spec.ts:9:64",
+      "errorAt": {
+        "file": "tests/products-mock.spec.ts",
+        "line": 9
+      }
+    },
+    "triage": {
+      "category": "broken script",
+      "confidence": "medium",
+      "reason": "The assertion failed identically on all 3 attempts with \"element(s) not found\", so this is not timing/flakiness. The locator matched nothing, and per the default reading there is no evidence in the error that the empty-state element exists in the current UI and the app failed to show it. Two test-side defects fit: (a) the glob `'**/products'` does not match a products request that carries a query string (e.g. `/products?page=0`), so the mock would silently never intercept, real products would render, and the empty message would legitimately be absent every run — the comment \"it never reaches the server\" is the author's claim, not proof; (b) the hard-coded copy \"There are no products found.\" (exact `getByText` match, including the trailing period) may no longer match the app's wording. A real bug (empty list received but no empty-state rendered) is the main alternative, but nothing here confirms the mock actually took effect.",
+      "evidence": "Error line: `Locator: getByText('There are no products found.')` / `Error: element(s) not found`; code line: `await page.route('**/products', (route) => route.fulfill({ status: 200, json: { data: [] } }));`",
+      "next_step": "Open the Playwright trace for this test and check the Network tab: confirm whether the products request was actually fulfilled by the route handler (look for a request URL with a query string that `**/products` would miss) and, if it was fulfilled, read the rendered DOM to get the app's real empty-state wording. Then fix the route pattern to `'**/products*'` and/or update the expected text."
+    }
+  },
+  {
+    "test": {
+      "title": "search shows only matching products",
+      "file": "tests/search.spec.ts",
+      "line": 3,
+      "tags": [
+        "@smoke"
+      ],
+      "project": "chromium",
+      "status": "failed",
+      "retries": 2,
+      "error": "Test timeout of 30000ms exceeded.\nError: locator.fill: Test timeout of 30000ms exceeded.\nCall log:",
+      "fullError": "Test timeout of 30000ms exceeded.\n\nError: locator.fill: Test timeout of 30000ms exceeded.\nCall log:\n  - waiting for getByRole('textbox', { name: 'Search' })\n\n\n  4 |   await page.goto('/');\n  5 |\n> 6 |   await page.getByRole('textbox', { name: 'Search' }).fill('Pliers');\n    |                                                       ^\n  7 |   const searchResponse = page.waitForResponse('**/products/search**');\n  8 |   await page.getByRole('button', { name: 'Search' }).click();\n  9 |   await searchResponse;\n    at tests\\search.spec.ts:6:55",
+      "errorAt": {
+        "file": "tests/search.spec.ts",
+        "line": 6
+      }
+    },
+    "triage": {
+      "category": "broken script",
+      "confidence": "medium",
+      "reason": "The locator never matched anything for the full 30s (\"waiting for getByRole('textbox', { name: 'Search' })\" with no \"resolved to\" entry), and it failed identically on all 3 attempts, so timing/environment flakiness is excluded. page.goto('/') itself succeeded, so the page and its API are not broken — only this one selector fails. The most likely cause is the role: a search field rendered as <input type=\"search\"> exposes the ARIA role 'searchbox', which getByRole('textbox') does not match (Playwright role matching is exact); an altered accessible name/placeholder is the other variant. Per rule 4, a zero-match locator with no evidence that the element should have rendered is a script defect. I withhold high confidence because a regression that removed the search box from the home page would log the same thing, and no screenshot or trace is available to distinguish the two.",
+      "evidence": "Error: locator.fill: Test timeout of 30000ms exceeded. Call log: - waiting for getByRole('textbox', { name: 'Search' })  —  failing line: `await page.getByRole('textbox', { name: 'Search' }).fill('Pliers');` (note the sibling `getByRole('button', { name: 'Search' })` on line 8 uses the same name, so the role is the differing part)",
+      "next_step": "Open the home page '/' and inspect the search input's HTML: if it is <input type=\"search\">, change the locator to getByRole('searchbox', { name: 'Search' }) (or use the app's stable hook, e.g. page.locator('[data-test=\"search-query\"]')); if the input is still type=\"text\", compare its real accessible name/placeholder against 'Search' and update it. If the input is absent from the DOM entirely, re-triage as a real bug."
+    }
+  },
+  {
+    "test": {
+      "title": "Filtering by a single category shows only that category's products",
+      "file": "tests/TOOL-4-TC-1.spec.ts",
+      "line": 6,
+      "tags": [
+        "@regression"
+      ],
+      "project": "chromium",
+      "status": "failed",
+      "retries": 2,
+      "error": "Test timeout of 30000ms exceeded.\nError: page.waitForResponse: Test timeout of 30000ms exceeded.\n  13 |",
+      "fullError": "Test timeout of 30000ms exceeded.\n\nError: page.waitForResponse: Test timeout of 30000ms exceeded.\n\n  13 |\n  14 |   // Step 2: select the category filter. The shop sends the filter as a QUERY request to /products.\n> 15 |   const filterResponse = page.waitForResponse(\n     |                               ^\n  16 |     (response) => response.request().method() === 'QUERY' && response.url().endsWith('/products'),\n  17 |   );\n  18 |   await homePage.filter(CATEGORY).check();\n    at tests\\TOOL-4-TC-1.spec.ts:15:31",
+      "errorAt": {
+        "file": "tests/TOOL-4-TC-1.spec.ts",
+        "line": 15
+      }
+    },
+    "triage": {
+      "category": "broken script",
+      "confidence": "medium",
+      "reason": "The test never gets past the response predicate because it demands an HTTP method that web shops effectively never use for a category filter. Line 16 requires `response.request().method() === 'QUERY'`; QUERY is an experimental/draft HTTP method, whereas a filter on a product listing is normally sent as a GET (e.g. GET /products?by_category=...) or at most a POST. Since the predicate matched nothing for the full 30s on all 3 attempts, the wait timed out deterministically — a consistent, reproducible mismatch rather than a timing issue, which rules out flakiness. It is also not evidence of a broken app: the page itself loaded fine (line 11's `await expect(homePage.productNames.first()).toBeVisible()` passed and line 12 read the product names), and `homePage.filter(CATEGORY).check()` on line 18 was reached, so the UI and the locator are intact. The most likely cause is a stale/incorrect assumption in the test about the request method (the comment on line 14 asserts \"The shop sends the filter as a QUERY request to /products\", which appears to be wrong or out of date). A secondary possibility is the `endsWith('/products')` URL check failing if the real request carries a query string (e.g. `/products?by_category=1`), in which case `endsWith` would also never match — either way the fault lies in the test's predicate, not the application. I could not inspect pages/home-page.ts or the app's network traffic to confirm the actual method (no shell access in this session), which is why confidence is medium rather than high.",
+      "evidence": "Predicate that never matched: `(response) => response.request().method() === 'QUERY' && response.url().endsWith('/products')` (line 16), producing `Error: page.waitForResponse: Test timeout of 30000ms exceeded.` at `tests\\TOOL-4-TC-1.spec.ts:15:31`. The preceding UI steps succeeded, e.g. line 11 `await expect(homePage.productNames.first()).toBeVisible();`, and the comment on line 14 states the (apparently incorrect) assumption: \"The shop sends the filter as a QUERY request to /products.\"",
+      "next_step": "Re-run the test with `PWDEBUG=1` or add a temporary `page.on('request', r => console.log(r.method(), r.url()))` before line 15 (or open the browser DevTools Network tab and tick the \"Pliers\" filter) to capture the real method and URL of the filter call; then relax the predicate accordingly, e.g. `(response) => response.url().includes('/products') && response.request().method() === 'GET'` — matching on the URL path with `includes` rather than `endsWith` so a query string doesn't break it."
+    }
+  },
+  {
+    "test": {
+      "title": "Combining a category and a brand shows only products matching both",
+      "file": "tests/TOOL-4-TC-3.spec.ts",
+      "line": 11,
+      "tags": [
+        "@regression"
+      ],
+      "project": "chromium",
+      "status": "failed",
+      "retries": 2,
+      "error": "Test timeout of 30000ms exceeded.\nError: page.waitForResponse: Test timeout of 30000ms exceeded.\n  15 |",
+      "fullError": "Test timeout of 30000ms exceeded.\n\nError: page.waitForResponse: Test timeout of 30000ms exceeded.\n\n  15 |\n  16 |   // Step 1: select the category filter.\n> 17 |   const categoryResponse = page.waitForResponse(isProductsQuery);\n     |                                 ^\n  18 |   await homePage.filter(CATEGORY).check();\n  19 |   const categoryBody = await (await categoryResponse).json();\n  20 |   const categoryOnlyNames: string[] = categoryBody.data.map((product: { name: string }) => product.name);\n    at tests\\TOOL-4-TC-3.spec.ts:17:33",
+      "errorAt": {
+        "file": "tests/TOOL-4-TC-3.spec.ts",
+        "line": 17
+      }
+    },
+    "triage": {
+      "category": "broken script",
+      "confidence": "medium",
+      "reason": "The timeout is in the response predicate, not in the app. The click itself succeeded (line 18 `homePage.filter(CATEGORY).check()` did not throw) and the product list had already rendered (line 14 passed), so the page and filter control exist and work. The predicate, however, only accepts a response whose request method is the non-standard `QUERY` and whose URL ends exactly in `/products` — a filter call is normally a GET and normally carries query parameters (`/products?by_category=...`), so the predicate can never match and `waitForResponse` hangs until the 30s timeout. Deterministic failure on all 3 attempts fits a never-matching predicate, not a race. The \"timeout\" hint is only a symptom. A real bug (app sends no request at all on filter selection) is the alternative, but the stale-looking comment \"The shop sends the filter as a QUERY request to /products\" points at an out-of-date test assumption.",
+      "evidence": "Predicate: `response.request().method() === 'QUERY' && response.url().endsWith('/products')`; error: \"Error: page.waitForResponse: Test timeout of 30000ms exceeded.\" at line 17 `const categoryResponse = page.waitForResponse(isProductsQuery);` — while line 14 `await expect(homePage.productNames.first()).toBeVisible()` had already passed.",
+      "next_step": "Open the Playwright trace's Network tab (or run with `DEBUG=pw:api`) for this test, tick the \"Pliers\" filter, and read the actual method and full URL of the products call; then relax the predicate to match it, e.g. `(r) => r.url().includes('/products') && r.request().method() === 'GET'`."
+    }
+  },
+  {
+    "test": {
+      "title": "Removing an item removes it from the list and updates the total",
+      "file": "tests/TOOL-8-TC-2.spec.ts",
+      "line": 17,
+      "tags": [
+        "@regression"
+      ],
+      "project": "chromium",
+      "status": "failed",
+      "retries": 2,
+      "error": "Error: expect(locator).toBeVisible() failed\nLocator: getByText('Product added to shopping cart.')\nExpected: visible",
+      "fullError": "Error: expect(locator).toBeVisible() failed\n\nLocator: getByText('Product added to shopping cart.')\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n  - Expect \"toBeVisible\" getByText('Product added to shopping cart.') with timeout 5000ms\n  - waiting for getByText('Product added to shopping cart.')\n\n\n  12 |   await page.getByRole('heading', { name: productName }).click();\n  13 |   await page.getByRole('button', { name: 'Add to cart' }).click();\n> 14 |   await expect(page.getByText('Product added to shopping cart.')).toBeVisible();\n     |                                                                   ^\n  15 | }\n  16 |\n  17 | test('Removing an item removes it from the list and updates the total', { tag: '@regression' }, async ({ page }) => {\n    at addToCart (tests\\TOOL-8-TC-2.spec.ts:14:67)\n    at tests\\TOOL-8-TC-2.spec.ts:20:3",
+      "errorAt": {
+        "file": "tests/TOOL-8-TC-2.spec.ts",
+        "line": 14
+      }
+    },
+    "triage": {
+      "category": "real bug",
+      "confidence": "medium",
+      "evidence": "\"Locator: getByText('Product added to shopping cart.') ... Error: element(s) not found\" at line 14 `await expect(page.getByText('Product added to shopping cart.')).toBeVisible();`, immediately after line 13 `await page.getByRole('button', { name: 'Add to cart' }).click();` succeeded.",
+      "reason": "Failure is in the addToCart precondition on its first call. The preceding steps succeeded: the product heading was clickable and the 'Add to cart' button was found and clicked, so the page structure is intact and has not changed. Only the post-click confirmation toast is missing, never found during the full 5s poll on 3/3 attempts, so not flaky (no timeout or network signature). The click landed yet the app showed no confirmation, which points to add-to-cart failing. A reworded toast string (broken script) is a possible alternative but less likely, since only that one string would have changed while heading and button markup stayed identical; I could not verify the current copy because file tools were disabled, hence medium confidence.",
+      "next_step": "Open the 'Combination Pliers' product page manually, click 'Add to cart', and watch the DevTools Network tab and rendered toast: if the add-to-cart request returns a non-2xx/error it is a real bug; if it succeeds with different wording, update the expected string on line 14."
+    }
+  }
+]

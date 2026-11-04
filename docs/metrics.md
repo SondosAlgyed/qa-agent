@@ -331,3 +331,37 @@ tests, 3 browsers in its config).
 | 2026-10-31 | `qa run --regression` (repo's settings: 3 browsers, parallel) | 21 of 21 passed | 24s | exit 0; the demo server held up this time |
 | 2026-10-31 | `qa run --tag qa-sample --project chromium` with CI=1 (retries on) | 1 failed, 1 flaky | 4s | a temporary sample test, deleted after; both groups listed with file:line and error; exit 1 |
 | 2026-10-31 | `qa run --tag nosuchtag` | "No tests ran: Error: No tests found" | – | exit 1, instead of "0 tests, all fine" |
+
+## Triage (qa triage)
+
+Eval: `evals/test_triage.py`. Goldens: `evals/goldens/triage.json`, 8 failures of toolshop-tests on
+Toolshop's buggy version (3 real bug, 5 broken script; login ×2 and search also accept "unclear").
+Labels proposed by Claude at my request, each built on facts probed in the buggy vs the normal app,
+then confirmed by me (triage runs on Claude too, so the labels rest on checked facts, not opinion).
+Check: category == my label (or an accepted alternative), and evidence is quoted.
+
+### Prompt v1, 2026-11-04, claude-code (subscription, Opus 5), 3 runs
+
+The run folder is named `c6dffce`, the last commit to `src/triage/triage.ts`; the prompt text is v1
+(`d061cf9`), unchanged. Counted from the saved verdicts (`docs/triage-runs/2026-11-04-c6dffce/`),
+one complete triage per run file.
+
+| Case | Label | Run 1 | Run 2 | Run 3 |
+|------|-------|-------|-------|-------|
+| cart | real bug | broken script | broken script | real bug |
+| TOOL-8 TC-2 (same Add to cart step) | real bug | broken script | real bug | broken script |
+| search | real bug (or unclear) | broken script | broken script | unclear |
+| login ×2 | broken script (or unclear) | ✓ ✓ | ✓ ✓ | ✓ ✓ |
+| products-mock | broken script | ✓ | ✓ | ✓ |
+| TOOL-4 TC-1, TC-3 | broken script | ✓ ✓ | ✓ ✓ | ✓ ✓ |
+| **Per run** | | **5 of 8** | **6 of 8** | **7 of 8** |
+
+**18 of 24.** All 15 broken-script verdicts right; real bugs found 2 of 9 times. Every miss called a
+real bug a broken script, with the same reasoning: "a locator that matches nothing" and "nothing in
+the log shows the app failed" (rule 4). True to the evidence it had: the error says only that the
+success message never appeared. The proof (the app shows "Oeps, something went wrong.", the search
+box lost its label) is on the page, and the page isn't in the evidence. Playwright already saves it:
+`test-results/<test>/error-context.md`, an accessibility snapshot of the page at the failure.
+Also: pytest reported 2 of the 3 runs' first call as a RuntimeError (qa triage failed and was called
+again by the next case); the message was cut from the log, so the cause is unknown. The eval took 23
+minutes. Next: add the page snapshot to the evidence, prompt unchanged, and measure again.
