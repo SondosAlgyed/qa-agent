@@ -235,6 +235,9 @@ the same way as TypeScript (new concepts explained the first time they appear).
   v1 + page snapshot eval (b38b2e5): real bugs 9/9 (were 2/9), but login 0/6 (the model calls the
   Not Found page a real bug). Label kept; whether "real bug" should be accepted for login is an
   open question, to decide on the facts, not on the model's answer.
+  v2 eval (2026-11-04): 21/27; environment 3/3, real bugs 9/9, broken scripts 9/9 except login
+  0/6. It took 9h27m: claude stopped answering for hours (a 10-minute timeout fired), most likely
+  the subscription's usage limit after a day of evals. Spread heavy eval runs out.
 - Categories: real bug / flaky / broken script / unclear. "unclear" is allowed on purpose,
   like "not specified in the story" in cases. Each failure gets: category, confidence, reason,
   the evidence it used, a next step.

@@ -395,3 +395,24 @@ when labelling. I am NOT changing the label after seeing the model's answer; whe
 "real bug" there is a question to decide on the facts, separately. All 9: 19 of 27.
 The flaky case (423, failed on every attempt) was found once; the other two said broken script.
 That case is an environment failure, and the next prompt (v2) gets an environment category.
+
+### Prompt v2 (environment category, `0ec0f8a`), 2026-11-04, claude-code, 3 runs
+
+v1 + one change: an environment category (and flaky narrowed to timing and test isolation).
+api.spec.ts:3 relabelled environment before this run (`7f21bd7`). Raw: `docs/triage-runs/2026-11-04-0ec0f8a/`.
+
+| Case | Label | Run 1 | Run 2 | Run 3 | v1 + page |
+|------|-------|-------|-------|-------|-----------|
+| api (423 Locked, shared account) | environment | ✓ | ✓ | ✓ | 1 of 3 (as flaky) |
+| cart, TOOL-8, search | real bug | ✓ ✓ ✓ | ✓ ✓ ✓ | ✓ ✓ ✓ | 9 of 9 |
+| products-mock, TOOL-4 ×2 | broken script | ✓ ✓ ✓ | ✓ ✓ ✓ | ✓ ✓ ✓ | 9 of 9 |
+| login ×2 | broken script (or unclear) | real bug ×2 | real bug ×2 | real bug ×2 | 0 of 6 |
+
+**21 of 27.** The change did what it was for (the environment case 3 of 3) and moved nothing else.
+The only misses are still the 6 login verdicts (the "Not Found" page read as a real bug).
+**Time: 9h 27m**, not ~11 minutes: run 1 finished at 13:30, runs 2 and 3 only at 22:49–22:52.
+One qa triage call failed with "claude didn't answer within 10 minutes" and was retried by the
+next case. The log doesn't say why claude stopped answering; the most likely cause is the
+subscription's usage limit after a day of eval runs (the limit resets in windows of a few hours),
+or the computer sleeping. Either way: heavy eval days don't fit "ordinary, individual usage";
+spread them out.
