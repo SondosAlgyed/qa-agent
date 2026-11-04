@@ -1,6 +1,19 @@
 {
-  "about": "8 failures from toolshop-tests run against the buggy Toolshop (with-bugs.practicesoftwaretesting.com), chromium, CI=1, first run 2026-10-31; re-run 2026-11-04 with the parser that keeps a timeout's hanging action (same 8 failures). Labels: proposed by Claude at my request (2026-11-04), each built on facts checked by probing the buggy and the normal app with Playwright, then confirmed by me. Because triage also runs on Claude, the labels rest on those checked facts, not on the model's opinion. code_sha256: the test file at labelling time (CRLF as LF); if it changed, the label may no longer hold.",
+  "about": "8 failures from toolshop-tests run against the buggy Toolshop (with-bugs.practicesoftwaretesting.com), chromium, CI=1, first run 2026-10-31; re-run 2026-11-04 with the parser that keeps a timeout's hanging action (same 8 failures). Re-run again 2026-11-04 to copy each failure's page snapshot into the run: 9 failures; the 9th (api.spec.ts:3, 423 Locked on a shared demo account) was added as the first flaky case, label confirmed by me. Labels: proposed by Claude at my request (2026-11-04), each built on facts checked by probing the buggy and the normal app with Playwright, then confirmed by me. Because triage also runs on Claude, the labels rest on those checked facts, not on the model's opinion. code_sha256: the test file at labelling time (CRLF as LF); if it changed, the label may no longer hold.",
   "cases": [
+    {
+      "id": "tests/api.spec.ts:3",
+      "title": "login API returns a token",
+      "input": {
+        "run_file": "evals/goldens/triage/with-bugs-run.json",
+        "code_sha256": "6516a02bdab2c6dbab7d71ebe53b10b34e7d8f15519e85f2ba7258bbf465feca"
+      },
+      "expected": {
+        "category": "flaky",
+        "also_accepted": []
+      },
+      "notes": "The login API answered 423 (Locked) on all 3 attempts, for customer3, a demo account shared by everyone who uses Toolshop. Run alone a few minutes later, the test passed. The code and the app are fine: the failure came from shared state (a temporarily locked account), which is flaky by the prompt's definition."
+    },
     {
       "id": "tests/cart.spec.ts:3",
       "title": "guest can add a product to the cart",

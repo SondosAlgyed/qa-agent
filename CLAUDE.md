@@ -373,7 +373,11 @@ the same way as TypeScript (new concepts explained the first time they appear).
    Done (2026-11-04): TestOutcome.pageSnapshot = the yaml block of Playwright's error-context.md for
    the failed attempt, copied into the run (test-results/ is overwritten each run), capped at 6000
    chars; parseReport reads it through a readSnapshot function (stays testable). buildPrompt adds it
-   after the code. System prompt unchanged (still v1 text). 33 unit tests. 2 qa triage calls crashed (cause cut from the log). Details in metrics.
+   after the code. System prompt unchanged (still v1 text). 33 unit tests.
+   Run file re-made with snapshots: the 8 failures again (search shows the unnamed textbox, login the
+   Not Found page) + a 9th: api.spec.ts:3 got 423 Locked on all 3 attempts (customer3, a shared demo
+   account), passed when re-run alone → added as the first flaky golden (confirmed by me). 9 cases:
+   3 real bug, 5 broken script, 1 flaky. 2 qa triage calls crashed (cause cut from the log). Details in metrics.
 4. Better evaluation: synthetic goldens → Prompt Alignment → review prompt v4.
    After Part 2, so the Synthesizer serves all three prompts (review, cases, automate).
 5. Safety evals (PII + prompt injection). Before any command that writes AI output to Jira
