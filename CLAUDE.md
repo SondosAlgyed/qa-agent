@@ -362,6 +362,7 @@ the same way as TypeScript (new concepts explained the first time they appear).
    evals/test_triage.py written: one qa triage --json call per run covers all 8 cases; per case it
    checks the test file's hash, then category == my label (or an accepted alternative), and that
    evidence is quoted. Outputs saved to docs/triage-runs/. Not run yet (waits for the new run file).
+   Unit tests for buildPrompt and formatTriage (31 unit tests in all).
 4. Better evaluation: synthetic goldens → Prompt Alignment → review prompt v4.
    After Part 2, so the Synthesizer serves all three prompts (review, cases, automate).
 5. Safety evals (PII + prompt injection). Before any command that writes AI output to Jira
