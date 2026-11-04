@@ -142,17 +142,21 @@ program
   .command("run")
   .description("Run the project's tests by tag and summarise the results (no AI)")
   .option("--smoke", "tests tagged @smoke")
-  .option("--regression", "tests tagged @regression")
+  .option("--regression", "the full suite: tests tagged @regression or @smoke")
   .option("--tag <tag...>", "tests with any of these tags, e.g. --tag @checkout")
   .option("--project <name>", "only this project from the Playwright config, e.g. chromium")
   .option("--workers <n>", "how many tests run at once (the repo's config by default)")
   .option("--json", "print the result as JSON (for scripts and CI)")
   .action(
     async (options: { smoke?: boolean; regression?: boolean; tag?: string[]; project?: string; workers?: string; json?: boolean }) => {
+      // A regression run includes the smoke tests: they're the most important part of it.
+      // A Set drops the duplicate when both flags are given.
       const tags = [
-        ...(options.smoke ? ["@smoke"] : []),
-        ...(options.regression ? ["@regression"] : []),
-        ...(options.tag ?? []).map((tag) => (tag.startsWith("@") ? tag : `@${tag}`)),
+        ...new Set([
+          ...(options.smoke || options.regression ? ["@smoke"] : []),
+          ...(options.regression ? ["@regression"] : []),
+          ...(options.tag ?? []).map((tag) => (tag.startsWith("@") ? tag : `@${tag}`)),
+        ]),
       ];
       if (tags.length === 0) {
         throw new QaError("Choose what to run: --smoke, --regression, or --tag <tag>.");

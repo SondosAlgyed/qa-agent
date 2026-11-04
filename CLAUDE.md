@@ -206,7 +206,8 @@ the same way as TypeScript (new concepts explained the first time they appear).
 
 ## `qa run` design (agreed 2026-10-31)
 - Command: `qa run --smoke | --regression | --tag <tag>`, optional `--project`, `--workers`,
-  `--json`. Exit code 1 if any test failed (for CI).
+  `--json`. Exit code 1 if any test failed (for CI). `--regression` = @regression + @smoke
+  (decided 2026-11-04; real run of the change still to do).
 - `TestRunner` contract (src/runners/types.ts) + Playwright adapter (src/runners/playwright.ts),
   like trackers/. The command's logic in src/run/ (one folder per command).
 - Playwright adapter: fixed command, no shell: `playwright test --grep <tag> --reporter=json`,
@@ -278,7 +279,7 @@ the same way as TypeScript (new concepts explained the first time they appear).
 - Smoke/regression: chosen per case at Approve cases (the AI suggests); becomes the script's tag.
   Source per team: tags in the code (default) or Zephyr/Xray folders (a TestCaseStore adapter).
 - Test runs page: suite + feature, shows the equivalent command, results, flaky → `qa triage`.
-  Open: should `--regression` also run @smoke tests? (today it doesn't).
+  Decided 2026-11-04: `--regression` also runs @smoke (the full suite); `--smoke` alone stays smoke only.
 - Design language (colors, fonts, components) is not agreed yet; the mockups' look is a placeholder.
   Workspace mockup v9 (example data): https://claude.ai/artifact/UNzvmzUNBLkaccwpjQbcks
 - Approve shows everything in full, never "open the file": cases with Covers, Before, Steps and
