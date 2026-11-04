@@ -1,0 +1,115 @@
+{
+  "about": "8 failures from toolshop-tests run against the buggy Toolshop (with-bugs.practicesoftwaretesting.com), chromium, CI=1, 2026-10-31. Labels: proposed by Claude at my request (2026-11-04), each built on facts checked by probing the buggy and the normal app with Playwright, then confirmed by me. Because triage also runs on Claude, the labels rest on those checked facts, not on the model's opinion. code_sha256: the test file at labelling time (CRLF as LF); if it changed, the label may no longer hold.",
+  "cases": [
+    {
+      "id": "tests/cart.spec.ts:3",
+      "title": "guest can add a product to the cart",
+      "input": {
+        "run_file": "evals/goldens/triage/with-bugs-run.json",
+        "code_sha256": "8900a1c21027fb017617176f810e69e49d83554c7e974cf265084e8e0f6e4369"
+      },
+      "expected": {
+        "category": "real bug",
+        "also_accepted": []
+      },
+      "notes": "After Add to cart the buggy app shows the toast \"Oeps, something went wrong.\"; the normal app shows \"Product added to shopping cart.\""
+    },
+    {
+      "id": "tests/login.spec.ts:3",
+      "title": "customer can log in with valid credentials",
+      "input": {
+        "run_file": "evals/goldens/triage/with-bugs-run.json",
+        "code_sha256": "ed85508f54020ab7e0b1c734340f1e8880da93c2e88f3d74924552097db6eda6"
+      },
+      "expected": {
+        "category": "broken script",
+        "also_accepted": [
+          "unclear"
+        ]
+      },
+      "notes": "The test opens /auth/login directly; this version serves the login page at /#/auth/login and /auth/login is a server 404. Even there, the inputs have no 'Email address' accessible name. Borderline: a broken deep link could also be called an app bug."
+    },
+    {
+      "id": "tests/login.spec.ts:12",
+      "title": "login fails with a wrong password",
+      "input": {
+        "run_file": "evals/goldens/triage/with-bugs-run.json",
+        "code_sha256": "ed85508f54020ab7e0b1c734340f1e8880da93c2e88f3d74924552097db6eda6"
+      },
+      "expected": {
+        "category": "broken script",
+        "also_accepted": [
+          "unclear"
+        ]
+      },
+      "notes": "The test opens /auth/login directly; this version serves the login page at /#/auth/login and /auth/login is a server 404. Even there, the inputs have no 'Email address' accessible name. Borderline: a broken deep link could also be called an app bug."
+    },
+    {
+      "id": "tests/products-mock.spec.ts:3",
+      "title": "home page shows a message when there are no products",
+      "input": {
+        "run_file": "evals/goldens/triage/with-bugs-run.json",
+        "code_sha256": "31ed121c3a1877f9d3b4aeb12ef9b499e762ddab56eb4b9cb6d30bc319cfd530"
+      },
+      "expected": {
+        "category": "broken script",
+        "also_accepted": []
+      },
+      "notes": "The mock route '**/products' doesn't match this version's request GET /products?between=..., so the mock never applies and real products are shown."
+    },
+    {
+      "id": "tests/search.spec.ts:3",
+      "title": "search shows only matching products",
+      "input": {
+        "run_file": "evals/goldens/triage/with-bugs-run.json",
+        "code_sha256": "9f833c7870934e2e7b157ef622fbf9f8c20828594e3812c4ab66351320b77e37"
+      },
+      "expected": {
+        "category": "real bug",
+        "also_accepted": [
+          "unclear"
+        ]
+      },
+      "notes": "The search input has no accessible name in the buggy app (only data-test=search-query); the normal app names it 'Search'. The test uses role + name, as recommended, so the app lost its label: an accessibility bug. Borderline."
+    },
+    {
+      "id": "tests/TOOL-4-TC-1.spec.ts:6",
+      "title": "Filtering by a single category shows only that category's products",
+      "input": {
+        "run_file": "evals/goldens/triage/with-bugs-run.json",
+        "code_sha256": "85101b42d659747a4b3ca86ee508ee053ddccaa72a8095b5eb1e5e2ed710fa25"
+      },
+      "expected": {
+        "category": "broken script",
+        "also_accepted": []
+      },
+      "notes": "The filter works (same products as the normal app), but this app version sends GET /products?..., and the test waits for a QUERY /products request that never comes."
+    },
+    {
+      "id": "tests/TOOL-4-TC-3.spec.ts:11",
+      "title": "Combining a category and a brand shows only products matching both",
+      "input": {
+        "run_file": "evals/goldens/triage/with-bugs-run.json",
+        "code_sha256": "b27cb35bc45ceab8d19c99a1dc797dac5f426c53a6515f9c4bd0fe8e95ac6359"
+      },
+      "expected": {
+        "category": "broken script",
+        "also_accepted": []
+      },
+      "notes": "Same as TOOL-4 TC-1: the test waits for a QUERY /products request; this version sends GET /products?..."
+    },
+    {
+      "id": "tests/TOOL-8-TC-2.spec.ts:17",
+      "title": "Removing an item removes it from the list and updates the total",
+      "input": {
+        "run_file": "evals/goldens/triage/with-bugs-run.json",
+        "code_sha256": "69f1894e8b52b3c1f0988e8e0d36d0116c8494eedffbfa63bc715a5dbccf3b70"
+      },
+      "expected": {
+        "category": "real bug",
+        "also_accepted": []
+      },
+      "notes": "Fails at the same Add to cart step: the buggy app shows \"Oeps, something went wrong.\" instead of the success toast."
+    }
+  ]
+}

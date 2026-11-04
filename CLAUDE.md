@@ -352,7 +352,9 @@ the same way as TypeScript (new concepts explained the first time they appear).
    normal); products-mock → route '**/products' doesn't match GET /products?between=..., so the
    mock never applies; search → the input has no accessible name (data-test search-query only);
    login → /auth/login is an Apache 404 there (it uses /#/auth/login) and the inputs have no
-   'Email address' name. Not confirmed by me yet.
+   'Email address' name. Confirmed by me 2026-11-04 → evals/goldens/triage.json: 3 real bug
+   (cart, TOOL-8, search), 5 broken script (TOOL-4 ×2, products-mock, login ×2); login and search
+   also accept "unclear" (borderline). Each case keeps a sha256 of its test file.
    Found: for test timeouts the run keeps only "Test timeout of 30000ms exceeded" with no line;
    Playwright's other errors (the action that hung) are dropped. Fix before the eval.
    Then evals/test_triage.py.
