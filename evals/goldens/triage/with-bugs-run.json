@@ -8,7 +8,7 @@
   "failed": 8,
   "flaky": 0,
   "skipped": 0,
-  "seconds": 554,
+  "seconds": 545,
   "tests": [
     {
       "title": "login API returns a token",
@@ -70,8 +70,12 @@
       "project": "chromium",
       "status": "failed",
       "retries": 2,
-      "error": "Test timeout of 30000ms exceeded.",
-      "fullError": "Test timeout of 30000ms exceeded."
+      "error": "Test timeout of 30000ms exceeded.\nError: locator.fill: Test timeout of 30000ms exceeded.\nCall log:",
+      "fullError": "Test timeout of 30000ms exceeded.\n\nError: locator.fill: Test timeout of 30000ms exceeded.\nCall log:\n  - waiting for getByRole('textbox', { name: 'Email address' })\n\n\n   at ..\\pages\\login-page.ts:21\n\n  19 |\n  20 |   async login(email: string, password: string) {\n> 21 |     await this.emailInput.fill(email);\n     |                           ^\n  22 |     await this.passwordInput.fill(password);\n  23 |     await this.loginButton.click();\n  24 |   }\n    at LoginPage.login (pages\\login-page.ts:21:27)\n    at tests\\login.spec.ts:4:19",
+      "errorAt": {
+        "file": "pages/login-page.ts",
+        "line": 21
+      }
     },
     {
       "title": "login fails with a wrong password",
@@ -83,8 +87,12 @@
       "project": "chromium",
       "status": "failed",
       "retries": 2,
-      "error": "Test timeout of 30000ms exceeded.",
-      "fullError": "Test timeout of 30000ms exceeded."
+      "error": "Test timeout of 30000ms exceeded.\nError: locator.fill: Test timeout of 30000ms exceeded.\nCall log:",
+      "fullError": "Test timeout of 30000ms exceeded.\n\nError: locator.fill: Test timeout of 30000ms exceeded.\nCall log:\n  - waiting for getByRole('textbox', { name: 'Email address' })\n\n\n   at ..\\pages\\login-page.ts:21\n\n  19 |\n  20 |   async login(email: string, password: string) {\n> 21 |     await this.emailInput.fill(email);\n     |                           ^\n  22 |     await this.passwordInput.fill(password);\n  23 |     await this.loginButton.click();\n  24 |   }\n    at LoginPage.login (pages\\login-page.ts:21:27)\n    at tests\\login.spec.ts:13:19",
+      "errorAt": {
+        "file": "pages/login-page.ts",
+        "line": 21
+      }
     },
     {
       "title": "home page shows a message when there are no products",
@@ -113,8 +121,12 @@
       "project": "chromium",
       "status": "failed",
       "retries": 2,
-      "error": "Test timeout of 30000ms exceeded.",
-      "fullError": "Test timeout of 30000ms exceeded."
+      "error": "Test timeout of 30000ms exceeded.\nError: locator.fill: Test timeout of 30000ms exceeded.\nCall log:",
+      "fullError": "Test timeout of 30000ms exceeded.\n\nError: locator.fill: Test timeout of 30000ms exceeded.\nCall log:\n  - waiting for getByRole('textbox', { name: 'Search' })\n\n\n  4 |   await page.goto('/');\n  5 |\n> 6 |   await page.getByRole('textbox', { name: 'Search' }).fill('Pliers');\n    |                                                       ^\n  7 |   const searchResponse = page.waitForResponse('**/products/search**');\n  8 |   await page.getByRole('button', { name: 'Search' }).click();\n  9 |   await searchResponse;\n    at tests\\search.spec.ts:6:55",
+      "errorAt": {
+        "file": "tests/search.spec.ts",
+        "line": 6
+      }
     },
     {
       "title": "Filtering by a single category shows only that category's products",
@@ -126,8 +138,12 @@
       "project": "chromium",
       "status": "failed",
       "retries": 2,
-      "error": "Test timeout of 30000ms exceeded.",
-      "fullError": "Test timeout of 30000ms exceeded."
+      "error": "Test timeout of 30000ms exceeded.\nError: page.waitForResponse: Test timeout of 30000ms exceeded.\n  13 |",
+      "fullError": "Test timeout of 30000ms exceeded.\n\nError: page.waitForResponse: Test timeout of 30000ms exceeded.\n\n  13 |\n  14 |   // Step 2: select the category filter. The shop sends the filter as a QUERY request to /products.\n> 15 |   const filterResponse = page.waitForResponse(\n     |                               ^\n  16 |     (response) => response.request().method() === 'QUERY' && response.url().endsWith('/products'),\n  17 |   );\n  18 |   await homePage.filter(CATEGORY).check();\n    at tests\\TOOL-4-TC-1.spec.ts:15:31",
+      "errorAt": {
+        "file": "tests/TOOL-4-TC-1.spec.ts",
+        "line": 15
+      }
     },
     {
       "title": "Combining a category and a brand shows only products matching both",
@@ -139,8 +155,12 @@
       "project": "chromium",
       "status": "failed",
       "retries": 2,
-      "error": "Test timeout of 30000ms exceeded.",
-      "fullError": "Test timeout of 30000ms exceeded."
+      "error": "Test timeout of 30000ms exceeded.\nError: page.waitForResponse: Test timeout of 30000ms exceeded.\n  15 |",
+      "fullError": "Test timeout of 30000ms exceeded.\n\nError: page.waitForResponse: Test timeout of 30000ms exceeded.\n\n  15 |\n  16 |   // Step 1: select the category filter.\n> 17 |   const categoryResponse = page.waitForResponse(isProductsQuery);\n     |                                 ^\n  18 |   await homePage.filter(CATEGORY).check();\n  19 |   const categoryBody = await (await categoryResponse).json();\n  20 |   const categoryOnlyNames: string[] = categoryBody.data.map((product: { name: string }) => product.name);\n    at tests\\TOOL-4-TC-3.spec.ts:17:33",
+      "errorAt": {
+        "file": "tests/TOOL-4-TC-3.spec.ts",
+        "line": 17
+      }
     },
     {
       "title": "Removing an item removes it from the list and updates the total",

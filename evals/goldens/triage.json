@@ -1,5 +1,5 @@
 {
-  "about": "8 failures from toolshop-tests run against the buggy Toolshop (with-bugs.practicesoftwaretesting.com), chromium, CI=1, 2026-10-31. Labels: proposed by Claude at my request (2026-11-04), each built on facts checked by probing the buggy and the normal app with Playwright, then confirmed by me. Because triage also runs on Claude, the labels rest on those checked facts, not on the model's opinion. code_sha256: the test file at labelling time (CRLF as LF); if it changed, the label may no longer hold.",
+  "about": "8 failures from toolshop-tests run against the buggy Toolshop (with-bugs.practicesoftwaretesting.com), chromium, CI=1, first run 2026-10-31; re-run 2026-11-04 with the parser that keeps a timeout's hanging action (same 8 failures). Labels: proposed by Claude at my request (2026-11-04), each built on facts checked by probing the buggy and the normal app with Playwright, then confirmed by me. Because triage also runs on Claude, the labels rest on those checked facts, not on the model's opinion. code_sha256: the test file at labelling time (CRLF as LF); if it changed, the label may no longer hold.",
   "cases": [
     {
       "id": "tests/cart.spec.ts:3",
