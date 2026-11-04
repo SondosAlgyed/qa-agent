@@ -9,10 +9,10 @@
         "code_sha256": "6516a02bdab2c6dbab7d71ebe53b10b34e7d8f15519e85f2ba7258bbf465feca"
       },
       "expected": {
-        "category": "flaky",
+        "category": "environment",
         "also_accepted": []
       },
-      "notes": "The login API answered 423 (Locked) on all 3 attempts, for customer3, a demo account shared by everyone who uses Toolshop. Run alone a few minutes later, the test passed. The code and the app are fine: the failure came from shared state (a temporarily locked account), which is flaky by the prompt's definition."
+      "notes": "The login API answered 423 (Locked) on all 3 attempts, for customer3, a demo account shared by everyone who uses Toolshop. Run alone a few minutes later, the test passed. The code and the app are fine: the failure came from shared state (a temporarily locked account), which is flaky by the prompt's definition. Relabelled flaky → environment on 2026-11-04 because triage got an environment category (decided before any run of the new prompt); the facts are unchanged. Done by Claude at my request."
     },
     {
       "id": "tests/cart.spec.ts:3",
