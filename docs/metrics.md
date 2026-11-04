@@ -359,9 +359,11 @@ one complete triage per run file.
 **18 of 24.** All 15 broken-script verdicts right; real bugs found 2 of 9 times. Every miss called a
 real bug a broken script, with the same reasoning: "a locator that matches nothing" and "nothing in
 the log shows the app failed" (rule 4). True to the evidence it had: the error says only that the
-success message never appeared. The proof (the app shows "Oeps, something went wrong.", the search
-box lost its label) is on the page, and the page isn't in the evidence. Playwright already saves it:
-`test-results/<test>/error-context.md`, an accessibility snapshot of the page at the failure.
+success message never appeared, and the page isn't in the evidence. Playwright already saves it:
+`test-results/<test>/error-context.md`, an accessibility snapshot of the page at the failure. Checked:
+for search it shows the box as `textbox` with no name under a "Search" heading; for login, the
+"Not Found" page. For cart it does NOT help: the "Oeps, something went wrong." message is already
+gone when the snapshot is taken (5s later). Cart would need the network (the add-to-cart response).
 Also: pytest reported 2 of the 3 runs' first call as a RuntimeError (qa triage failed and was called
 again by the next case); the message was cut from the log, so the cause is unknown. The eval took 23
 minutes. Next: add the page snapshot to the evidence, prompt unchanged, and measure again.
